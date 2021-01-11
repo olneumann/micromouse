@@ -8,10 +8,6 @@
 #ifndef TASKS_H
 #define	TASKS_H
 
-#include "../scheduler/scheduler.h"
 
-void tasksInit(void);
-task_t *getTask(unsigned taskId);
 
 #endif	/* TASKS_H */
-

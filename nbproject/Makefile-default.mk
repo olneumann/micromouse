@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c common/maths.c common/bitops.c common/ring_buffer.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c
+SOURCEFILES_QUOTED_IF_SPACED=common/maths.c common/bitops.c common/ring_buffer.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c main.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/common/maths.o.d ${OBJECTDIR}/common/bitops.o.d ${OBJECTDIR}/common/ring_buffer.o.d ${OBJECTDIR}/control/pathplanning.o.d ${OBJECTDIR}/control/pid.o.d ${OBJECTDIR}/drivers/timer.o.d ${OBJECTDIR}/drivers/dma.o.d ${OBJECTDIR}/drivers/adc.o.d ${OBJECTDIR}/drivers/serial_uart.o.d ${OBJECTDIR}/drivers/encoder.o.d ${OBJECTDIR}/drivers/motor.o.d ${OBJECTDIR}/dspic/init.o.d ${OBJECTDIR}/dspic/core.o.d ${OBJECTDIR}/dspic/tasks.o.d ${OBJECTDIR}/dspic/board.o.d ${OBJECTDIR}/io/serial.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/main.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/common/maths.o.d ${OBJECTDIR}/common/bitops.o.d ${OBJECTDIR}/common/ring_buffer.o.d ${OBJECTDIR}/control/pathplanning.o.d ${OBJECTDIR}/control/pid.o.d ${OBJECTDIR}/drivers/timer.o.d ${OBJECTDIR}/drivers/dma.o.d ${OBJECTDIR}/drivers/adc.o.d ${OBJECTDIR}/drivers/serial_uart.o.d ${OBJECTDIR}/drivers/encoder.o.d ${OBJECTDIR}/drivers/motor.o.d ${OBJECTDIR}/dspic/init.o.d ${OBJECTDIR}/dspic/core.o.d ${OBJECTDIR}/dspic/tasks.o.d ${OBJECTDIR}/dspic/board.o.d ${OBJECTDIR}/io/serial.o.d ${OBJECTDIR}/main.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o
+OBJECTFILES=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/main.o
 
 # Source Files
-SOURCEFILES=main.c common/maths.c common/bitops.c common/ring_buffer.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c
+SOURCEFILES=common/maths.c common/bitops.c common/ring_buffer.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c main.c
 
 
 
@@ -95,210 +95,210 @@ MP_LINKER_FILE_OPTION=,--script=p33FJ128MC802.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/main.o: main.c  .generated_files/ab25677cf00346ce94d279872f108969c6a07400.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/main.o.d 
-	@${RM} ${OBJECTDIR}/main.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
-	
-${OBJECTDIR}/common/maths.o: common/maths.c  .generated_files/fe77cbc8f6746113a68087de9c79921818756da9.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/common/maths.o: common/maths.c  .generated_files/fe77cbc8f6746113a68087de9c79921818756da9.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/common" 
 	@${RM} ${OBJECTDIR}/common/maths.o.d 
 	@${RM} ${OBJECTDIR}/common/maths.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  common/maths.c  -o ${OBJECTDIR}/common/maths.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/common/maths.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/common/bitops.o: common/bitops.c  .generated_files/2182cd79e774e533badc2f8e834f879834928b62.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/common/bitops.o: common/bitops.c  .generated_files/2182cd79e774e533badc2f8e834f879834928b62.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/common" 
 	@${RM} ${OBJECTDIR}/common/bitops.o.d 
 	@${RM} ${OBJECTDIR}/common/bitops.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  common/bitops.c  -o ${OBJECTDIR}/common/bitops.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/common/bitops.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/common/ring_buffer.o: common/ring_buffer.c  .generated_files/a832e193e64713cc00040e10b626014df8b0828a.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/common/ring_buffer.o: common/ring_buffer.c  .generated_files/a832e193e64713cc00040e10b626014df8b0828a.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/common" 
 	@${RM} ${OBJECTDIR}/common/ring_buffer.o.d 
 	@${RM} ${OBJECTDIR}/common/ring_buffer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  common/ring_buffer.c  -o ${OBJECTDIR}/common/ring_buffer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/common/ring_buffer.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/control/pathplanning.o: control/pathplanning.c  .generated_files/664d46a88e5f733f3629c900725af9926cb8a3f8.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/control/pathplanning.o: control/pathplanning.c  .generated_files/664d46a88e5f733f3629c900725af9926cb8a3f8.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/control" 
 	@${RM} ${OBJECTDIR}/control/pathplanning.o.d 
 	@${RM} ${OBJECTDIR}/control/pathplanning.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  control/pathplanning.c  -o ${OBJECTDIR}/control/pathplanning.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/control/pathplanning.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/control/pid.o: control/pid.c  .generated_files/1a61413e813c41958d5f5dde4d60edc009b4f779.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/control/pid.o: control/pid.c  .generated_files/1a61413e813c41958d5f5dde4d60edc009b4f779.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/control" 
 	@${RM} ${OBJECTDIR}/control/pid.o.d 
 	@${RM} ${OBJECTDIR}/control/pid.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  control/pid.c  -o ${OBJECTDIR}/control/pid.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/control/pid.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/timer.o: drivers/timer.c  .generated_files/9cfdf8eec2871a1152ce1227eb5ccb91749fa0aa.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/timer.o: drivers/timer.c  .generated_files/9cfdf8eec2871a1152ce1227eb5ccb91749fa0aa.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/timer.o.d 
 	@${RM} ${OBJECTDIR}/drivers/timer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/timer.c  -o ${OBJECTDIR}/drivers/timer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/timer.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/dma.o: drivers/dma.c  .generated_files/6b0b4e7d3bc52c43cdbc17b58db448a0462a9e66.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/dma.o: drivers/dma.c  .generated_files/6b0b4e7d3bc52c43cdbc17b58db448a0462a9e66.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/dma.o.d 
 	@${RM} ${OBJECTDIR}/drivers/dma.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/dma.c  -o ${OBJECTDIR}/drivers/dma.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/dma.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/adc.o: drivers/adc.c  .generated_files/5fa3eba84da9edffd63bdc4195c959c37e8dbca5.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/adc.o: drivers/adc.c  .generated_files/5fa3eba84da9edffd63bdc4195c959c37e8dbca5.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/adc.o.d 
 	@${RM} ${OBJECTDIR}/drivers/adc.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/adc.c  -o ${OBJECTDIR}/drivers/adc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/adc.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/serial_uart.o: drivers/serial_uart.c  .generated_files/11d741677b574d996cfea2782ccc3fcf0c274e24.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/serial_uart.o: drivers/serial_uart.c  .generated_files/11d741677b574d996cfea2782ccc3fcf0c274e24.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/serial_uart.o.d 
 	@${RM} ${OBJECTDIR}/drivers/serial_uart.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_uart.c  -o ${OBJECTDIR}/drivers/serial_uart.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_uart.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/encoder.o: drivers/encoder.c  .generated_files/f41f8586aae8985ff679b18f2047292e983d43fa.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/encoder.o: drivers/encoder.c  .generated_files/f41f8586aae8985ff679b18f2047292e983d43fa.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/encoder.o.d 
 	@${RM} ${OBJECTDIR}/drivers/encoder.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/encoder.c  -o ${OBJECTDIR}/drivers/encoder.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/encoder.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/motor.o: drivers/motor.c  .generated_files/415b030d74f56411cf8f29675649789156df55da.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/motor.o: drivers/motor.c  .generated_files/415b030d74f56411cf8f29675649789156df55da.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/motor.o.d 
 	@${RM} ${OBJECTDIR}/drivers/motor.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/motor.c  -o ${OBJECTDIR}/drivers/motor.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/motor.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/init.o: dspic/init.c  .generated_files/38ca1516569887a55f4bd86dff37b7342702bfb5.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/init.o: dspic/init.c  .generated_files/38ca1516569887a55f4bd86dff37b7342702bfb5.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/init.o.d 
 	@${RM} ${OBJECTDIR}/dspic/init.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/init.c  -o ${OBJECTDIR}/dspic/init.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/init.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/core.o: dspic/core.c  .generated_files/78aca57eb51f0c76b6b6560658562c9d6a7606c5.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/core.o: dspic/core.c  .generated_files/78aca57eb51f0c76b6b6560658562c9d6a7606c5.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/core.o.d 
 	@${RM} ${OBJECTDIR}/dspic/core.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/core.c  -o ${OBJECTDIR}/dspic/core.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/core.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/tasks.o: dspic/tasks.c  .generated_files/12bdad40ec67a0c3e723340d0cede17c828401d2.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/tasks.o: dspic/tasks.c  .generated_files/12bdad40ec67a0c3e723340d0cede17c828401d2.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/tasks.o.d 
 	@${RM} ${OBJECTDIR}/dspic/tasks.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/tasks.c  -o ${OBJECTDIR}/dspic/tasks.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/tasks.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/board.o: dspic/board.c  .generated_files/1ae7452a9bef612dc22bca6803ecdd7d95204f6b.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/board.o: dspic/board.c  .generated_files/1ae7452a9bef612dc22bca6803ecdd7d95204f6b.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/board.o.d 
 	@${RM} ${OBJECTDIR}/dspic/board.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/board.c  -o ${OBJECTDIR}/dspic/board.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/board.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/a88966da8d665b94d60add83516702eed3ca87eb.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/a88966da8d665b94d60add83516702eed3ca87eb.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/io" 
 	@${RM} ${OBJECTDIR}/io/serial.o.d 
 	@${RM} ${OBJECTDIR}/io/serial.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  io/serial.c  -o ${OBJECTDIR}/io/serial.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io/serial.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-else
-${OBJECTDIR}/main.o: main.c  .generated_files/bc4d5b7a43f3c7946c9e08d84b3b5b260c17075a.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/main.o: main.c  .generated_files/ab25677cf00346ce94d279872f108969c6a07400.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o.d 
 	@${RM} ${OBJECTDIR}/main.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/common/maths.o: common/maths.c  .generated_files/82b819434af5389147f76671acc7ddd586a44694.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+else
+${OBJECTDIR}/common/maths.o: common/maths.c  .generated_files/82b819434af5389147f76671acc7ddd586a44694.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/common" 
 	@${RM} ${OBJECTDIR}/common/maths.o.d 
 	@${RM} ${OBJECTDIR}/common/maths.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  common/maths.c  -o ${OBJECTDIR}/common/maths.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/common/maths.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/common/bitops.o: common/bitops.c  .generated_files/655cf9386b4aeca4f9b95b91719080f5e7955ef6.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/common/bitops.o: common/bitops.c  .generated_files/655cf9386b4aeca4f9b95b91719080f5e7955ef6.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/common" 
 	@${RM} ${OBJECTDIR}/common/bitops.o.d 
 	@${RM} ${OBJECTDIR}/common/bitops.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  common/bitops.c  -o ${OBJECTDIR}/common/bitops.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/common/bitops.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/common/ring_buffer.o: common/ring_buffer.c  .generated_files/bd79d145790b729671eb86b42470bfa033d5d2b2.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/common/ring_buffer.o: common/ring_buffer.c  .generated_files/bd79d145790b729671eb86b42470bfa033d5d2b2.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/common" 
 	@${RM} ${OBJECTDIR}/common/ring_buffer.o.d 
 	@${RM} ${OBJECTDIR}/common/ring_buffer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  common/ring_buffer.c  -o ${OBJECTDIR}/common/ring_buffer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/common/ring_buffer.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/control/pathplanning.o: control/pathplanning.c  .generated_files/ce9ab228cf73415d1e6982730421781e31f03706.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/control/pathplanning.o: control/pathplanning.c  .generated_files/ce9ab228cf73415d1e6982730421781e31f03706.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/control" 
 	@${RM} ${OBJECTDIR}/control/pathplanning.o.d 
 	@${RM} ${OBJECTDIR}/control/pathplanning.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  control/pathplanning.c  -o ${OBJECTDIR}/control/pathplanning.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/control/pathplanning.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/control/pid.o: control/pid.c  .generated_files/59fa25defdf9925b096d3571e999b0ef55ea899b.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/control/pid.o: control/pid.c  .generated_files/59fa25defdf9925b096d3571e999b0ef55ea899b.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/control" 
 	@${RM} ${OBJECTDIR}/control/pid.o.d 
 	@${RM} ${OBJECTDIR}/control/pid.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  control/pid.c  -o ${OBJECTDIR}/control/pid.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/control/pid.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/timer.o: drivers/timer.c  .generated_files/db77403fc0a758f6f8d15300448641502a7196e0.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/timer.o: drivers/timer.c  .generated_files/db77403fc0a758f6f8d15300448641502a7196e0.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/timer.o.d 
 	@${RM} ${OBJECTDIR}/drivers/timer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/timer.c  -o ${OBJECTDIR}/drivers/timer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/timer.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/dma.o: drivers/dma.c  .generated_files/cb1b47b5100af4a1c17928adb78d18cfde219fa9.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/dma.o: drivers/dma.c  .generated_files/cb1b47b5100af4a1c17928adb78d18cfde219fa9.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/dma.o.d 
 	@${RM} ${OBJECTDIR}/drivers/dma.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/dma.c  -o ${OBJECTDIR}/drivers/dma.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/dma.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/adc.o: drivers/adc.c  .generated_files/21291f90d2be77562600c1d5f03f96a4f0b26c42.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/adc.o: drivers/adc.c  .generated_files/21291f90d2be77562600c1d5f03f96a4f0b26c42.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/adc.o.d 
 	@${RM} ${OBJECTDIR}/drivers/adc.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/adc.c  -o ${OBJECTDIR}/drivers/adc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/adc.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/serial_uart.o: drivers/serial_uart.c  .generated_files/1f2eac8fea624d3296223eb0d94a58380b4f6c53.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/serial_uart.o: drivers/serial_uart.c  .generated_files/1f2eac8fea624d3296223eb0d94a58380b4f6c53.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/serial_uart.o.d 
 	@${RM} ${OBJECTDIR}/drivers/serial_uart.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_uart.c  -o ${OBJECTDIR}/drivers/serial_uart.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_uart.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/encoder.o: drivers/encoder.c  .generated_files/de4de6ad558482039fea2f32de4391cd6cdf2126.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/encoder.o: drivers/encoder.c  .generated_files/de4de6ad558482039fea2f32de4391cd6cdf2126.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/encoder.o.d 
 	@${RM} ${OBJECTDIR}/drivers/encoder.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/encoder.c  -o ${OBJECTDIR}/drivers/encoder.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/encoder.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/motor.o: drivers/motor.c  .generated_files/b2761e6dfaea5f9a259836ff324c5a940e93d2d9.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/drivers/motor.o: drivers/motor.c  .generated_files/b2761e6dfaea5f9a259836ff324c5a940e93d2d9.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/drivers" 
 	@${RM} ${OBJECTDIR}/drivers/motor.o.d 
 	@${RM} ${OBJECTDIR}/drivers/motor.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/motor.c  -o ${OBJECTDIR}/drivers/motor.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/motor.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/init.o: dspic/init.c  .generated_files/bf04d431d2e2455af60ff4aad0e7f3840bdd69d6.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/init.o: dspic/init.c  .generated_files/bf04d431d2e2455af60ff4aad0e7f3840bdd69d6.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/init.o.d 
 	@${RM} ${OBJECTDIR}/dspic/init.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/init.c  -o ${OBJECTDIR}/dspic/init.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/init.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/core.o: dspic/core.c  .generated_files/13278ec51a305e7ad79809a37be6d8f6769d821b.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/core.o: dspic/core.c  .generated_files/13278ec51a305e7ad79809a37be6d8f6769d821b.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/core.o.d 
 	@${RM} ${OBJECTDIR}/dspic/core.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/core.c  -o ${OBJECTDIR}/dspic/core.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/core.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/tasks.o: dspic/tasks.c  .generated_files/f0ff84965e2698eb070d3df20f9b360c0d5c791e.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/tasks.o: dspic/tasks.c  .generated_files/f0ff84965e2698eb070d3df20f9b360c0d5c791e.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/tasks.o.d 
 	@${RM} ${OBJECTDIR}/dspic/tasks.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/tasks.c  -o ${OBJECTDIR}/dspic/tasks.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/tasks.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/dspic/board.o: dspic/board.c  .generated_files/a52dcfd8bcfe645491003c1f1b4ef42ff36771f7.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/dspic/board.o: dspic/board.c  .generated_files/a52dcfd8bcfe645491003c1f1b4ef42ff36771f7.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/board.o.d 
 	@${RM} ${OBJECTDIR}/dspic/board.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  dspic/board.c  -o ${OBJECTDIR}/dspic/board.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dspic/board.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/939e4cacb64a4abbcc3af96a56a1d49846acacd3.flag .generated_files/cbaf7b07d590de7ab2b41cffdb3edb4e0c1d39d9.flag
+${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/939e4cacb64a4abbcc3af96a56a1d49846acacd3.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/io" 
 	@${RM} ${OBJECTDIR}/io/serial.o.d 
 	@${RM} ${OBJECTDIR}/io/serial.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  io/serial.c  -o ${OBJECTDIR}/io/serial.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io/serial.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/main.o: main.c  .generated_files/bc4d5b7a43f3c7946c9e08d84b3b5b260c17075a.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/main.o.d 
+	@${RM} ${OBJECTDIR}/main.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

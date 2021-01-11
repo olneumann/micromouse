@@ -54,3 +54,5 @@ dkms.conf
 dist/
 
 nbproject/private/
+
+.generated_files/

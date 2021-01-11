@@ -7,8 +7,8 @@
       <logicalFolder name="common" displayName="common" projectFiles="true">
         <itemPath>common/maths.h</itemPath>
         <itemPath>common/bitops.h</itemPath>
-        <itemPath>common/ring_buffer.h</itemPath>
         <itemPath>common/defines.h</itemPath>
+        <itemPath>common/ring_buffer.h</itemPath>
       </logicalFolder>
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pathplanning.h</itemPath>
@@ -31,9 +31,6 @@
       </logicalFolder>
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="scheduler" displayName="scheduler" projectFiles="true">
-        <itemPath>scheduler/scheduler.h</itemPath>
       </logicalFolder>
       <itemPath>platform.h</itemPath>
     </logicalFolder>
@@ -70,9 +67,6 @@
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.c</itemPath>
       </logicalFolder>
-      <logicalFolder name="scheduler" displayName="scheduler" projectFiles="true">
-        <itemPath>scheduler/scheduler.c</itemPath>
-      </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -99,7 +93,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.60</languageToolchainVersion>
+        <languageToolchainVersion>1.61</languageToolchainVersion>
         <platform>2</platform>
       </toolsSet>
       <packs>
@@ -726,10 +720,6 @@
                   value=""/>
         <property key="warningmessagebreakoptions.warningmessages" value="holdstate"/>
       </Simulator>
-      <item path="scheduler/scheduler.c" ex="true" overriding="false">
-      </item>
-      <item path="scheduler/scheduler.h" ex="true" overriding="false">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>

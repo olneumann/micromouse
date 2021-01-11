@@ -10,7 +10,6 @@
 
 #include "platform.h"
 #include "dspic/init.h"
-#include "scheduler/scheduler.h"
 
 void run(void);
 
@@ -25,9 +24,7 @@ int main(void)
 void run(void)
 {
     while (true) {
-        // scheduler();
-        // processLoopback();)
+        // explore() and then fast_run()
     }
 }
-
 

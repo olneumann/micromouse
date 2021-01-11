@@ -10,11 +10,8 @@
 
 #include "../common/defines.h"
 
-void taskGyroSample(timeUs_t currentTimeUs);
-bool gyroFilterReady(void);
-
-void taskMainPidLoop(timeUs_t currentTimeUs);
-bool pidLoopReady(void);
+void taskEncoder(void);
+void taskPIDLoop(timeUs_t currentTimeUs);
 
 #endif	/* CORE_H */
 

@@ -9,7 +9,7 @@
 #define	BOARD_H
 
 /* FREQUENCIES */
-#define FOSC        (53333333ULL)
+#define FOSC        (80000000ULL)
 #define FCY         (FOSC/2)  
 
 /* LED */

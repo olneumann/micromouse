@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "../common/defines.h"
+
 void enableTimer(void);
 void disableTimer(void);
 void timerInit(void);      

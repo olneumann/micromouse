@@ -62,20 +62,32 @@ void ioInit(void)
     DELAY_150uS;
 }
 
+//#define TEST_OSZ 
+
 void boardInit(void)
 {
     /* OSCILLATOR setup
-     * The external oscillator runs at 7.3728 MHz
-     * PLL is used to generate 53.3 MHz clock (FOSC)
+     * The external oscillator runs at 20 MHz
+     * PLL is used to generate 80 MHz clock (FOSC)
      * The relationship between oscillator and cycle frequency: FCY = FOSC/2
      * Have a look at "PLL Configuration" paragraph in the mcu manual
-    
-     * Result: FCY = 0.5 * (7.3728 MHz*20/(2*2)) = 26.73 MIPS, which is 
-          * not exactly Tcycle=37.5nsec, but close enough for our purposes
      */
-    PLLFBDbits.PLLDIV = 27;                     // M  = PLLDIV + 2
-    CLKDIVbits.PLLPRE = 0;                      // N1 = PLLPRE + 2
+    
+#ifdef TEST_OSZ
+    /* Result: FCY = 0.5 * (20 MHz*32/(4*2)) = 40.0 MIPS, which is 
+     * not exactly Tcycle=25nsec, but close enough for our purposes
+     */
+    PLLFBDbits.PLLDIV = 30;                     // M  = PLLDIV + 2
+    CLKDIVbits.PLLPRE = 2;                      // N1 = PLLPRE + 2
     CLKDIVbits.PLLPOST = 0;                     // N2 = 2(PLLPOST + 1)
+#else
+     /* Result: FCY = 0.5 * (7.3728 MHz*20/(2*2)) = 26.73 MIPS, which is 
+      * not exactly Tcycle=37.5nsec, but close enough for our purposes
+      */
+    PLLFBDbits.PLLDIV = 128;                    // M  = PLLDIV + 2
+    CLKDIVbits.PLLPRE = 4;                      // N1 = PLLPRE + 2
+    CLKDIVbits.PLLPOST = 0;                     // N2 = 2(PLLPOST + 1)
+#endif
     
     // Initiate Clock Switch to Primary Oscillator with PLL (NOSC=0b011)
     __builtin_write_OSCCONH(0x03);

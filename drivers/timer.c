@@ -12,6 +12,7 @@
 
 #include "../dspic/board.h"
 #include "../common/defines.h"
+#include "../common/defines.h"
 
 #include "serial_uart.h"
 #include "dma.h"
@@ -68,18 +69,18 @@ void disableTimer(void)
 void timerInit(void)
 {
     // timer params
-    timerParams(250, &T1CON, &TMR1, &PR1); // in ms
-    timerParams(10, &T2CON, &TMR2, &PR2); // in ms
+    timerParams(2, &T1CON, &TMR1, &PR1);    // 2ms | 500Hz
+    timerParams(10, &T2CON, &TMR2, &PR2);   // in ms
     
     // interrupt params
-    IPC0bits.T1IP = 2;
-    IPC1bits.T2IP = 5;      // timer2 gets a higher prio then timer1
+    IPC0bits.T1IP = 4;
+    IPC1bits.T2IP = 4;      // timer2 gets a higher prio then timer1
     
     IFS0bits.T1IF = 0;      // reset both flags
     IFS0bits.T2IF = 0;
     
     IEC0bits.T1IE = 1;      // enable both
-    IEC0bits.T2IE = 1;
+    IEC0bits.T2IE = 0;
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)

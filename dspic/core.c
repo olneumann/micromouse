@@ -7,5 +7,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-// task functions are defined in here
+#include "../control/pid.h"
+#include "core.h"
+
+void taskEncoder(void)
+{
+    // getEncoderData();
+}
+
+void taskPIDLoop(timeUs_t currentTimeUs)
+{
+    pidController(currentTimeUs);
+    // writeMotors();
+}

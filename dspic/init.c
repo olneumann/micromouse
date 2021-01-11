@@ -15,11 +15,6 @@
 #include "../drivers/dma.h"
 #include "../drivers/adc.h"
 
-void processLoopback(void)
-{
-    // waiting for pathplanning cmds
-}
-
 void init(void)
 {
     boardInit();
@@ -31,7 +26,7 @@ void init(void)
     
     timerInit();
     enableTimer();
-    
+        
     //motor_init();
     //qei1_init(0);
 }
