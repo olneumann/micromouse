@@ -12,7 +12,7 @@
 
 #include "../dspic/board.h"
 #include "../common/defines.h"
-#include "../common/defines.h"
+#include "../common/logger.h"
 
 #include "serial_uart.h"
 #include "dma.h"
@@ -92,7 +92,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
     
     char str[30];
     sprintf(str, "SENSOR_1 = %d\n", adc_buf);
-    uartWrite(str);
+    logger.info(str);
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _T2Interrupt(void)

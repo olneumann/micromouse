@@ -14,19 +14,24 @@
 #include "../drivers/timer.h"
 #include "../drivers/dma.h"
 #include "../drivers/adc.h"
+#include "../common/logger.h"
 
 void init(void)
 {
+    
     boardInit();
     serialInit();
-    
-
+    loggerInit();
+    logger.info("Board, SerialUart, Logger initialized\n");
     dmaInit();
+    logger.info("DMA initialized\n");
     adcInit();
-    
-    timerInit();
+    logger.info("ADC initialized\n");
+    timerInit(); 
+    logger.info("Timer initialized\n");
     enableTimer();
-        
+    logger.info("Timer enabled\n");
+
     //motor_init();
     //qei1_init(0);
 }
