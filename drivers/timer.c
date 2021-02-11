@@ -1,5 +1,5 @@
 /*
- * File:   TIMERconfig.c
+ * File:   timer.c
  * Author: oliver
  *
  * Created on 11. November 2020, 17:39
@@ -88,11 +88,6 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
     /* Clear Timer1 interrupt flag */
     IFS0bits.T1IF = 0;
     
-    unsigned int adc_buf = SENSOR_1;
-    
-    char str[30];
-    sprintf(str, "SENSOR_1 = %d\n", adc_buf);
-    logger.info(str);
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _T2Interrupt(void)

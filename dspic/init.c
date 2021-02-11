@@ -18,21 +18,25 @@
 
 void init(void)
 {
+    //loggerInit();
     
     boardInit();
-    serialInit();
-    loggerInit();
-    logger.info("Board, SerialUart, Logger initialized\n");
-    dmaInit();
-    logger.info("DMA initialized\n");
-    adcInit();
-    logger.info("ADC initialized\n");
-    timerInit(); 
-    logger.info("Timer initialized\n");
-    enableTimer();
-    logger.info("Timer enabled\n");
+    //serialInit();
+    
+    /* TODO: mapping of sensor value streams (qei/i2c) into dma */
+    //dmaInit();
+    
+    /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
+    //adcInit();
+    
+    //motorInit();
+    /* TODO: setup qei (pulses per rev, position/angle measurement, etc.) */
+    //qeiInit();
+    
+    /* TODO: start main timer - setup pid control loop */
+    //timerInit(); 
+    //enableTimer();
 
-    //motor_init();
     //qei1_init(0);
 }
     

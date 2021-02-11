@@ -1,5 +1,5 @@
 /* 
- * File:   UART.h
+ * File:   serial_uart.h
  * Author: oliver
  *
  * Created on 9. Dezember 2020, 13:29

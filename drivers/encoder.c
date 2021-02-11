@@ -11,7 +11,7 @@
 #include "encoder.h"
 #include "xc.h"
 
-#define PULSES_PER_REV      1 // ToDo!
+#define PULSES_PER_REV      1 // TODO!
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (PULSES_PER_REV*CNT_INC_PER_REV-1)
 
@@ -46,27 +46,22 @@ direction getDir1(void)
 void qeiInit(uint16_t init_poscnt)
 {         
     QEI1CONbits.QEISIDL = 0;        // Discontinue module operation when device enters Idle mode
+    QEI2CONbits.QEISIDL = 0; 
     QEI1CONbits.QEIM = 0b111;       // Quadrature Encoder Interface enabled (x4 mode) with position counter reset by match (MAXxCNT)
+    QEI2CONbits.QEIM = 0b111;
     QEI2CONbits.SWPAB = 0;          // Phase A and Phase B inputs not swapped
+    QEI2CONbits.SWPAB = 1;
     
-    MAX1CNT = 0xffff; //0xffff;
+    MAX1CNT = 0xffff;
+    MAX2CNT = 0xffff;
     POS1CNT = init_poscnt;
+    POS2CNT = init_poscnt;
     rotCnt1 = 0;
+    rotCnt2 = 0;
     
     IFS3bits.QEI1IF = 0;
     IEC3bits.QEI1IE = 1;            // Enable QEI1 interrupt
     IPC14bits.QEI1IP = 5;
-}
-
-void qei2_init(uint16_t init_poscnt)
-{
-    QEI2CONbits.QEISIDL = 1;        // Discontinue module operation when device enters Idle mode
-    QEI2CONbits.QEIM = 0b111;       // Quadrature Encoder Interface enabled (x4 mode) with position counter reset by match (MAXxCNT)
-    QEI2CONbits.SWPAB = 1;          // Phase A and Phase B inputs swapped
-    
-    MAX2CNT = 0xffff;
-    POS2CNT = init_poscnt;
-    rotCnt2 = 0;
     
     IFS4bits.QEI2IF = 0;
     IEC4bits.QEI2IE = 1;            // Enable QEI2 interrupt

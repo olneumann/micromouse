@@ -1,5 +1,5 @@
 /*
- * File:   motor_cmd.c
+ * File:   motor.c
  * Author: oliver
  *
  * Created on 5. Dezember 2020, 15:47
@@ -44,25 +44,23 @@ void motorInit(void)
      Setup of main (PWM1L|Hx) motor pwm generator, each motor uses one (duty cycle) channel
      */
     P1TCONbits.PTEN = 0;                        // PWM Time Base Timer Disable 
-    pwmParams(1000, &P1TCON, &P1TPER);       // Freq. 20kHz; Possible Range: [15Hz; 26.6MHz]
+    pwmParams(1000, &P1TCON, &P1TPER);          // [Hz] Possible Range: [15Hz; 26.6MHz]
     PWM1CON1bits.PMOD1 = 1;                     // PWM I/O pin pair is in Independent Output mode
+    PWM1CON1bits.PMOD2 = 1;
     
-    PWM1CON1bits.PEN1H = 1;                     // Motor 1 (IN/IN and PH/PWM mode)
-    PWM1CON1bits.PEN2H = 0;                   
-    PWM1CON1bits.PEN3H = 0;
-    PWM1CON1bits.PEN1L = 1;                     // Motor 1 (IN/IN mode)
-    PWM1CON1bits.PEN2L = 0;
-    PWM1CON1bits.PEN3L = 0;
+    PWM1CON1bits.PEN1H = 1;                     // PWMxHy I/O Enable bits
+    PWM1CON1bits.PEN2H = 1;                   
+    PWM1CON1bits.PEN1L = 1;                     
+    PWM1CON1bits.PEN2L = 1;
     
     P1TCONbits.PTEN = 1;                        // PWM Time Base Timer Enable 
     P1DC1 = 0;                                  // PWM Duty Cycle 1 Value
     P1DC2 = 0;                                  // PWM Duty Cycle 2 Value
-    P1DC3 = 0;                                  // PWM Duty Cycle 3 Value
 }
 
 /* -- Motor 1 --
  * PH/PWM mode
- PH -| (0|1) -> PIN: PWM1L1 (any IO-PIN)
+ PH -| (0|1) -> PIN: PWM1L1 
  PWM-| (PWM) -> PIN: PWM1H1 
  */
 void driveM1(double percent)
@@ -106,49 +104,48 @@ void driveM1(double percent)
     } 
 }
 
-/* -- Motor 1 --
- * IN/IN mode
- IN1-| (0|1|PWM) -> PIN: PWM1L1
- IN2-| (0|1|PWM) -> PIN: PWM1H1 
- * Note: Usage of PxOVDCON (Override Control Register) for switching to 0|1 value
+/* -- Motor 2 --
+ * PH/PWM mode
+ PH -| (0|1) -> PIN: PWM1L2
+ PWM-| (PWM) -> PIN: PWM1H2 
  */
-//void driveM1(double percent)
-//{
-//    if (percent > 0) 
-//    {
-//        /* -- Forward --
-//         * IN1: 1 (PWM)
-//         * IN2: 0 (Override)
-//         */  
-//        P1OVDCONbits.POVD1H = 0;                
-//        P1OVDCONbits.POUT1H = 0;                // IN2 -> static (low)
-//        P1OVDCONbits.POVD1L = 1;                // IN1 -> PWM
-//        set_dc(fabs(percent), &P1DC1, P1TPER);// P1DC1!!
-//    }
-//    else if (percent < 0)
-//    {
-//        /* -- Backward --
-//         * IN1: 0 (Override)
-//         * IN2: 1 (PWM)
-//         */  
-//        P1OVDCONbits.POVD1L = 0;                
-//        P1OVDCONbits.POUT1L = 0;                // IN1 -> static (low)
-//        P1OVDCONbits.POVD1H = 1;                // IN2 -> PWM
-//        set_dc(fabs(percent), &P1DC1, P1TPER);
-//    }
-//    else if (percent == 0)
-//    {
-//        /* -- Brake (slow decay) --
-//         * IN1: 1 (Override)
-//         * IN2: 1 (Override)
-//         */  
-//        P1OVDCONbits.POVD1H = 0;                
-//        P1OVDCONbits.POUT1H = 1;                // IN1 -> static (high)
-//        P1OVDCONbits.POVD1L = 0;                
-//        P1OVDCONbits.POUT1L = 1;                // IN2 -> static (high) 
-//    }
-//    else
-//    {
-//        // n.def.
-//    }
-//}
+void driveM2(double percent)
+{
+    if (percent > 0) 
+    {
+        /* -- Forward --
+         * PH:  1 (static)
+         * PWM: 1
+         */  
+        P1OVDCONbits.POVD2L = 0;                
+        P1OVDCONbits.POUT2L = 1;                // PH -> static (high)
+        P1OVDCONbits.POVD2H = 1;                // PWM -> PWM
+        setDC(fabs(percent), &P1DC2, P1TPER);
+    }
+    else if (percent < 0)
+    {
+        /* -- Backward --
+         * PH:  0 (static)
+         * PWM: 1
+         */  
+        P1OVDCONbits.POVD2L = 0;                
+        P1OVDCONbits.POUT2L = 0;                // PH -> static (low)
+        P1OVDCONbits.POVD2H = 1;                // PWM -> PWM
+        setDC(fabs(percent), &P1DC2, P1TPER);
+    }
+    else if (percent == 0)
+    {
+        /* -- Brake (slow decay) --
+         * PH:  0|1 (static)
+         * PWM: 0
+         */  
+        P1OVDCONbits.POVD2L = 0;                
+        P1OVDCONbits.POUT2L = 0;                // PH -> static (low)
+        P1OVDCONbits.POVD2H = 0;                
+        P1OVDCONbits.POUT2H = 0;                // PWM -> static (low)
+    }
+    else
+    {
+        // n.def.
+    } 
+}

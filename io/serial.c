@@ -30,7 +30,7 @@ void serialInit(void)
     
     /* Bluetooth Module setup 
      */
-    IO7 = 1;            // SW_BTN high
-    DELAY_600uS;        // (ref 450ms) wait for sending first cmd (alternative via P0_4 pin)
+    //IO7 = 1;            // SW_BTN high
+    //DELAY_600uS;        // (ref 450ms) wait for sending first cmd (alternative via P0_4 pin)
 }
 

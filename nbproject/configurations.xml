@@ -9,6 +9,7 @@
         <itemPath>common/bitops.h</itemPath>
         <itemPath>common/defines.h</itemPath>
         <itemPath>common/ring_buffer.h</itemPath>
+        <itemPath>common/logger.h</itemPath>
       </logicalFolder>
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pathplanning.h</itemPath>
@@ -45,6 +46,7 @@
         <itemPath>common/maths.c</itemPath>
         <itemPath>common/bitops.c</itemPath>
         <itemPath>common/ring_buffer.c</itemPath>
+        <itemPath>common/logger.c</itemPath>
       </logicalFolder>
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pathplanning.c</itemPath>
@@ -88,7 +90,7 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>dsPIC33FJ128MC802</targetDevice>
+        <targetDevice>dsPIC33FJ128MC804</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
@@ -259,7 +261,7 @@
         <property key="codecoverage.outputfile" value=""/>
         <property key="oscillator.auxfrequency" value="120"/>
         <property key="oscillator.auxfrequencyunit" value="Mega"/>
-        <property key="oscillator.frequency" value="1"/>
+        <property key="oscillator.frequency" value="40"/>
         <property key="oscillator.frequencyunit" value="Mega"/>
         <property key="oscillator.rcfrequency" value="250"/>
         <property key="oscillator.rcfrequencyunit" value="Kilo"/>

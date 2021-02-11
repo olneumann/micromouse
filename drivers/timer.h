@@ -1,5 +1,5 @@
 /* 
- * File:   TIMERconfig.h
+ * File:   timer.h
  * Author: oliver
  *
  * Created on 20. November 2020, 16:45

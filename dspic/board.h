@@ -8,27 +8,31 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
-/* FREQUENCIES */
+/* Frequencies */
 #define FOSC        (80000000ULL)
 #define FCY         (FOSC/2)  
 
 /* LED */
-#define LED4        LATBbits.LATB15
-#define LED5        LATBbits.LATB14
-#define LED6        LATBbits.LATB13
-#define LED7        LATBbits.LATB12
+#define LED_W       LATBbits.LATB11
+#define LED_IND1    LATCbits.LATC1
+#define LED_IND2    LATCbits.LATC2
+
 #define LEDON       0
 #define LEDOFF      1
 
-/* IOx Pins */
-#define IO5         PORTBbits.RB2
-#define IO6         PORTBbits.RB3
-#define IO7         PORTBbits.RB6
-#define IO8         PORTBbits.RB7
-#define IO10        PORTBbits.RB11
+/* Module control pins */
 
-/* Switches */
-#define SW1         !PORTBbits.RB5 // (active low)
+#define XSHUT_R     LATBbits.LATB2 // (active low)
+#define XSHUT_F     LATBbits.LATB3 // (active low)
+#define XSHUT_L     LATCbits.LATC0 // (active low)
+#define UART_RX_IND LATCbits.LATC3 // (active low)
+
+/* GPIO pins */
+#define RP10        PORTBbits.RB10
+#define AN1         PORTAbits.RA1
+
+/* Button */
+#define BTN         !PORTBbits.RB4 // (active low)
 
 /**
  * \brief Initialize all board dependant functionality

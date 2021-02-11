@@ -22,7 +22,7 @@ typedef enum {
 direction getDir1(void);
 
 /**
- * \brief Initilizes the quadrature encoder interface 1
+ * \brief Initilizes the quadrature encoder interface
  * \param[in] init_poscnt - initial offset
  */
 void qeiInit(uint16_t init_poscnt);

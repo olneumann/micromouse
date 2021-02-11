@@ -7,9 +7,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <p33FJ128MC802.h>
 
+#include "xc.h"
 #include "dma.h"
+
 
 unsigned int dma_bufA[32]__attribute__((space(dma)));
 

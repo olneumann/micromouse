@@ -19,12 +19,20 @@ void ioInit(void)
 {    
     /*
      * Change I/O State of Pins 
+     * All port pins are defined as inputs after a reset.
+     * Pheripheral Module Enable can trigger output state automatically.
      */
-    TRISBbits.TRISB15 = 0;
-    TRISBbits.TRISB14 = 0;
-    TRISBbits.TRISB13 = 0;
-    TRISBbits.TRISB12 = 0;
-    TRISBbits.TRISB6 = 0;
+    
+    TRISBbits.TRISB11 = 0;          // [OUT] WATCHDOG LED
+    
+    TRISBbits.TRISB2 = 0;           // [OUT] SHUT_R
+    TRISBbits.TRISB3 = 0;           // [OUT] SHUT_F
+    TRISCbits.TRISC0 = 0;           // [OUT] SHUT_L
+    
+    TRISCbits.TRISC1 = 0;           // [OUT] LED_IND1
+    TRISCbits.TRISC2 = 0;           // [OUT] LED_IND2
+    
+    TRISCbits.TRISC3 = 0;           // [OUT] UART_RX_IND
     
     /*
      * Remapping
@@ -37,17 +45,28 @@ void ioInit(void)
      */
     
     // QEI
-    //RPINR14bits.QEA1R = 6;          // QEI1 A -> RP6
-    //RPINR14bits.QEB1R = 7;          // QEI1 B -> RP7
-    //RPINR16bits.QEA2R = 6;          // QEI2 A -> RPx
-    //RPINR16bits.QEB2R = 7;          // QEI2 B -> RPx
+    RPINR14bits.QEA1R = 22;         // [IN] M1_A (<- RP22) 
+    RPINR14bits.QEB1R = 23;         // [IN] M1_B (<- RP23)
+    RPINR16bits.QEA2R = 24;         // [IN] M2_A (<- RP24)
+    RPINR16bits.QEB2R = 25;         // [IN] M2_B (<- RP25)
     
     // UART
-    RPINR18bits.U1RXR = 10;         // U1RX -> RP10 (IO9)
+    RPINR18bits.U1RXR = 20;         // [IN] UART_RX (<- RP20)
     
-    // AD Switch
-    //AD1PCFGLbits.PCFG4 = 1;
-    //AD1PCFGLbits.PCFG5 = 1;
+    // INT
+    // INT0 hard-coded on RP7 - INT_L
+    RPINR0bits.INT1R = 6;           // [IN] INT_F (<- RP6)
+    RPINR1bits.INT2R = 5;           // [IN] INT_R (<- RP5)
+    
+    /*
+     * Analog Port Pins
+     * The AD1PCFGL register has a default value of 0x0000; 
+     * therefore, all pins that share ANx functions are analog
+     * (not digital) by default.
+     */
+    
+    AD1PCFGL = 0xFFFF;              // all analog pins now digital
+    AD1PCFGLbits.PCFG0 = 0;         // [IN] BAT_SENSE
    
     /*
      * Output Mapping
@@ -55,49 +74,42 @@ void ioInit(void)
      */   
     
     // UART
-    RPOR5bits.RP11R = 0b00011;       // RP11 <- U1TX (IO10)
+    RPOR10bits.RP21R = 0b00011;       // [OUT] UART_TX (-> RP21)
     
     __builtin_write_OSCCONL(OSCCON | 0x40);
-        
+    
     DELAY_150uS;
 }
-
-//#define TEST_OSZ 
 
 void boardInit(void)
 {
     /* OSCILLATOR setup
-     * The external oscillator runs at 20 MHz
-     * PLL is used to generate 80 MHz clock (FOSC)
-     * The relationship between oscillator and cycle frequency: FCY = FOSC/2
-     * Have a look at "PLL Configuration" paragraph in the mcu manual
+     * [FIN]    20 MHz 
+     * [N1]     4       -> [FPLLI]  5   MHz
+     * [M]      64      -> [FVCO]   320 MHz
+     * [N2]     4       -> [FOSC]   80  MHz
+     * 
+     * [FCY]    40 MHz  -> [TCYC]   25 ns
      */
-    
-#ifdef TEST_OSZ
-    /* Result: FCY = 0.5 * (20 MHz*32/(4*2)) = 40.0 MIPS, which is 
-     * not exactly Tcycle=25nsec, but close enough for our purposes
-     */
-    PLLFBDbits.PLLDIV = 30;                     // M  = PLLDIV + 2
-    CLKDIVbits.PLLPRE = 2;                      // N1 = PLLPRE + 2
-    CLKDIVbits.PLLPOST = 0;                     // N2 = 2(PLLPOST + 1)
-#else
-     /* Result: FCY = 0.5 * (7.3728 MHz*20/(2*2)) = 26.73 MIPS, which is 
-      * not exactly Tcycle=37.5nsec, but close enough for our purposes
-      */
-    PLLFBDbits.PLLDIV = 128;                    // M  = PLLDIV + 2
-    CLKDIVbits.PLLPRE = 4;                      // N1 = PLLPRE + 2
-    CLKDIVbits.PLLPOST = 0;                     // N2 = 2(PLLPOST + 1)
-#endif
-    
-    // Initiate Clock Switch to Primary Oscillator with PLL (NOSC=0b011)
+    PLLFBDbits.PLLDIV = 62;             // M  = PLLDIV + 2
+    CLKDIVbits.PLLPRE = 2;              // N1 = PLLPRE + 2
+    CLKDIVbits.PLLPOST = 1;             // N2 = 2(PLLPOST + 1)
+        
     __builtin_write_OSCCONH(0x03);
     __builtin_write_OSCCONL(OSCCON | 0x01);
-    // Wait for Clock switch to occur
     while (OSCCONbits.COSC != 0b011);
-    // Wait for PLL to lock
     while (OSCCONbits.LOCK != 1);
     
-    /* IO setup
-     */
     ioInit();
+    
+    // board setup (avoid floating tristates)
+    LED_IND1 = LEDOFF;
+    LED_IND2 = LEDOFF;
+    LED_W = LEDOFF;
+    
+    XSHUT_R = 1;
+    XSHUT_F = 1;
+    XSHUT_L = 1; 
+    
+    UART_RX_IND = 0;
 }

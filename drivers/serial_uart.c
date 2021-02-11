@@ -1,5 +1,5 @@
 /* 
- * File:   UARTconfig.c
+ * File:   serial_uart.c
  * Author: oliver
  *
  * Created on 9. Dezember 2020, 13:29
@@ -125,12 +125,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
     {
         const char c = U1RXREG;
         ring_buffer_put(rbd, &c);  
-        
-        if (c == 'o')
-        {
-            LED5 = !LED5;
-        }
-        
+                
         // Format of commands: !<val> 
         if (CMD && c == '!') 
         {
