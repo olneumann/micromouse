@@ -14,4 +14,6 @@
 
 #include "ranging.h"
 
+// TODO: Bootstrap - remapping of i2c addresses for multiple sensors
+
 // TODO: Continuous Ranging - functions for PID loop
