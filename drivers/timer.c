@@ -17,7 +17,6 @@
 #include "serial_uart.h"
 #include "dma.h"
 
-#include "xc.h"
 #include "timer.h"
 
 /**
