@@ -16,6 +16,21 @@
         <itemPath>control/pid.h</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
+        <logicalFolder name="ranging" displayName="ranging" projectFiles="true">
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_core.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_tuning.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_ranging.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_interrupt_threshold_settings.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_def.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_strings.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_calibration.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_device.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_i2c_platform.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_types.h</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform_log.h</itemPath>
+        </logicalFolder>
         <itemPath>drivers/dma.h</itemPath>
         <itemPath>drivers/timer.h</itemPath>
         <itemPath>drivers/adc.h</itemPath>
@@ -32,6 +47,9 @@
       </logicalFolder>
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="sensors" displayName="sensors" projectFiles="true">
+        <itemPath>/home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.h</itemPath>
       </logicalFolder>
       <itemPath>platform.h</itemPath>
     </logicalFolder>
@@ -53,6 +71,16 @@
         <itemPath>control/pid.c</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
+        <logicalFolder name="ranging" displayName="ranging" projectFiles="true">
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_ranging.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_core.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform_log.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_i2c_win_serial_comms.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_calibration.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform.c</itemPath>
+          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_strings.c</itemPath>
+        </logicalFolder>
         <itemPath>drivers/timer.c</itemPath>
         <itemPath>drivers/dma.c</itemPath>
         <itemPath>drivers/adc.c</itemPath>
@@ -69,6 +97,9 @@
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.c</itemPath>
       </logicalFolder>
+      <logicalFolder name="sensors" displayName="sensors" projectFiles="true">
+        <itemPath>/home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c</itemPath>
+      </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -84,6 +115,7 @@
     <Elem>dspic</Elem>
     <Elem>io</Elem>
     <Elem>scheduler</Elem>
+    <Elem>/home/oliver/Documents/Workspace/C/micromouse/sensors</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
