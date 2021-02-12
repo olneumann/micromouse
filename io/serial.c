@@ -11,8 +11,8 @@
 #include "../dspic/board.h"
 #include "../common/defines.h"
 #include "../drivers/serial_uart.h"
+#include "../drivers/serial_uart_rn4871.h"
 
-#include "xc.h"
 #include "serial.h"
 
 void serialInit(void) 
@@ -28,9 +28,10 @@ void serialInit(void)
         while (1);
     }
     
-    /* Bluetooth Module setup 
+    /* Bluetooth setup 
      */
-    //IO7 = 1;            // SW_BTN high
-    //DELAY_600uS;        // (ref 450ms) wait for sending first cmd (alternative via P0_4 pin)
+    if (bluetoothInit() != 0) {
+        while (1);
+    }
 }
 

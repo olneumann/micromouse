@@ -10,7 +10,7 @@
 #include <math.h>
 
 #include "../dspic/board.h"
-#include "xc.h"
+
 #include "motor.h"
 
 void pwmParams(int pwm_freq_hz, volatile uint16_t* pTCON, volatile uint16_t* pPiTPER)
