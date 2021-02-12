@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c main.c
+SOURCEFILES_QUOTED_IF_SPACED=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c main.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/common/maths.o.d ${OBJECTDIR}/common/bitops.o.d ${OBJECTDIR}/common/ring_buffer.o.d ${OBJECTDIR}/common/logger.o.d ${OBJECTDIR}/control/pathplanning.o.d ${OBJECTDIR}/control/pid.o.d ${OBJECTDIR}/drivers/timer.o.d ${OBJECTDIR}/drivers/dma.o.d ${OBJECTDIR}/drivers/adc.o.d ${OBJECTDIR}/drivers/serial_uart.o.d ${OBJECTDIR}/drivers/encoder.o.d ${OBJECTDIR}/drivers/motor.o.d ${OBJECTDIR}/dspic/init.o.d ${OBJECTDIR}/dspic/core.o.d ${OBJECTDIR}/dspic/tasks.o.d ${OBJECTDIR}/dspic/board.o.d ${OBJECTDIR}/io/serial.o.d ${OBJECTDIR}/main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/_ext/331430879/ranging.o ${OBJECTDIR}/main.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/common/maths.o.d ${OBJECTDIR}/common/bitops.o.d ${OBJECTDIR}/common/ring_buffer.o.d ${OBJECTDIR}/common/logger.o.d ${OBJECTDIR}/control/pathplanning.o.d ${OBJECTDIR}/control/pid.o.d ${OBJECTDIR}/drivers/timer.o.d ${OBJECTDIR}/drivers/dma.o.d ${OBJECTDIR}/drivers/adc.o.d ${OBJECTDIR}/drivers/serial_uart.o.d ${OBJECTDIR}/drivers/encoder.o.d ${OBJECTDIR}/drivers/motor.o.d ${OBJECTDIR}/dspic/init.o.d ${OBJECTDIR}/dspic/core.o.d ${OBJECTDIR}/dspic/tasks.o.d ${OBJECTDIR}/dspic/board.o.d ${OBJECTDIR}/io/serial.o.d ${OBJECTDIR}/_ext/331430879/ranging.o.d ${OBJECTDIR}/main.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/main.o
+OBJECTFILES=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/_ext/331430879/ranging.o ${OBJECTDIR}/main.o
 
 # Source Files
-SOURCEFILES=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c main.c
+SOURCEFILES=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c main.c
 
 
 
@@ -197,6 +197,12 @@ ${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/a88966da8d665b94d60add83
 	@${RM} ${OBJECTDIR}/io/serial.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  io/serial.c  -o ${OBJECTDIR}/io/serial.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io/serial.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/_ext/331430879/ranging.o: /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  .generated_files/c94d712a096908c8dcbaf70843997a786dbea581.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/_ext/331430879" 
+	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o.d 
+	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  -o ${OBJECTDIR}/_ext/331430879/ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/331430879/ranging.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 ${OBJECTDIR}/main.o: main.c  .generated_files/ab25677cf00346ce94d279872f108969c6a07400.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o.d 
@@ -305,6 +311,12 @@ ${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/939e4cacb64a4abbcc3af96a
 	@${RM} ${OBJECTDIR}/io/serial.o.d 
 	@${RM} ${OBJECTDIR}/io/serial.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  io/serial.c  -o ${OBJECTDIR}/io/serial.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io/serial.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/_ext/331430879/ranging.o: /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  .generated_files/f7dc1d46c43c6af479ea9d4de76feb43d988a52d.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/_ext/331430879" 
+	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o.d 
+	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  -o ${OBJECTDIR}/_ext/331430879/ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/331430879/ranging.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 ${OBJECTDIR}/main.o: main.c  .generated_files/bc4d5b7a43f3c7946c9e08d84b3b5b260c17075a.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}" 
