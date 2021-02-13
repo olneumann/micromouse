@@ -18,8 +18,6 @@
                 <sourceRootElem>drivers</sourceRootElem>
                 <sourceRootElem>dspic</sourceRootElem>
                 <sourceRootElem>io</sourceRootElem>
-                <sourceRootElem>scheduler</sourceRootElem>
-                <sourceRootElem>/home/oliver/Documents/Workspace/C/micromouse/sensors</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
