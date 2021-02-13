@@ -38,6 +38,7 @@
         <itemPath>drivers/encoder.h</itemPath>
         <itemPath>drivers/motor.h</itemPath>
         <itemPath>drivers/serial_uart_rn4871.h</itemPath>
+        <itemPath>drivers/serial_i2c.h</itemPath>
       </logicalFolder>
       <logicalFolder name="dspic" displayName="dspic" projectFiles="true">
         <itemPath>dspic/config.h</itemPath>
@@ -89,6 +90,7 @@
         <itemPath>drivers/encoder.c</itemPath>
         <itemPath>drivers/motor.c</itemPath>
         <itemPath>drivers/serial_uart_rn4871.c</itemPath>
+        <itemPath>drivers/serial_i2c.c</itemPath>
       </logicalFolder>
       <logicalFolder name="dspic" displayName="dspic" projectFiles="true">
         <itemPath>dspic/init.c</itemPath>

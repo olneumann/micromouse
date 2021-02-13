@@ -12,7 +12,7 @@
 
 typedef struct
 {
-    uint64_t fcy; 
+    uint32_t fcy; 
     uint32_t baud;
 } uart_config_t;
 
