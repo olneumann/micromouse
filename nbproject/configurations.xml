@@ -17,19 +17,18 @@
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="ranging" displayName="ranging" projectFiles="true">
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_core.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_tuning.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_ranging.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_interrupt_threshold_settings.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_def.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_strings.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_calibration.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_device.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_i2c_platform.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_types.h</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform_log.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_core.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_platform.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_tuning.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_ranging.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_interrupt_threshold_settings.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_def.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_strings.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_calibration.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_device.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_i2c_platform.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_types.h</itemPath>
         </logicalFolder>
         <itemPath>drivers/dma.h</itemPath>
         <itemPath>drivers/timer.h</itemPath>
@@ -51,7 +50,7 @@
         <itemPath>io/serial.h</itemPath>
       </logicalFolder>
       <logicalFolder name="sensors" displayName="sensors" projectFiles="true">
-        <itemPath>/home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.h</itemPath>
+        <itemPath>sensors/ranging.h</itemPath>
       </logicalFolder>
       <itemPath>platform.h</itemPath>
     </logicalFolder>
@@ -74,14 +73,13 @@
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="ranging" displayName="ranging" projectFiles="true">
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_ranging.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_core.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform_log.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_i2c_win_serial_comms.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_calibration.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform.c</itemPath>
-          <itemPath>/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_strings.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_ranging.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_core.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_i2c_platform.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_calibration.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_platform.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_api_strings.c</itemPath>
         </logicalFolder>
         <itemPath>drivers/timer.c</itemPath>
         <itemPath>drivers/dma.c</itemPath>
@@ -102,7 +100,7 @@
         <itemPath>io/serial.c</itemPath>
       </logicalFolder>
       <logicalFolder name="sensors" displayName="sensors" projectFiles="true">
-        <itemPath>/home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c</itemPath>
+        <itemPath>sensors/ranging.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
@@ -118,8 +116,7 @@
     <Elem>drivers</Elem>
     <Elem>dspic</Elem>
     <Elem>io</Elem>
-    <Elem>scheduler</Elem>
-    <Elem>/home/oliver/Documents/Workspace/C/micromouse/sensors</Elem>
+    <Elem>sensors</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -164,342 +161,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_calibration.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_calibration.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_core.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_core.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_ranging.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_ranging.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_strings.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_api_strings.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_def.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_device.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_i2c_platform.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_i2c_win_serial_comms.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_interrupt_threshold_settings.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform_log.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_platform_log.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_tuning.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="/home/oliver/Documents/Workspace/C/micromouse/drivers/ranging/vl53l0x_types.h"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <C30>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>

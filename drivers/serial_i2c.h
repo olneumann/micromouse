@@ -8,6 +8,8 @@
 #ifndef SERIAL_I2C_H
 #define	SERIAL_I2C_H
 
+#include <stdint.h>
+
 typedef struct
 {
     uint32_t fcy; 

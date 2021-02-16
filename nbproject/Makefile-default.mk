@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c drivers/serial_uart_rn4871.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c main.c drivers/serial_i2c.c
+SOURCEFILES_QUOTED_IF_SPACED=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c drivers/serial_uart_rn4871.c drivers/serial_i2c.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c sensors/ranging.c main.c drivers/ranging/vl53l0x_api.c drivers/ranging/vl53l0x_api_ranging.c drivers/ranging/vl53l0x_api_core.c drivers/ranging/vl53l0x_i2c_platform.c drivers/ranging/vl53l0x_api_calibration.c drivers/ranging/vl53l0x_platform.c drivers/ranging/vl53l0x_api_strings.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/drivers/serial_uart_rn4871.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/_ext/331430879/ranging.o ${OBJECTDIR}/main.o ${OBJECTDIR}/drivers/serial_i2c.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/common/maths.o.d ${OBJECTDIR}/common/bitops.o.d ${OBJECTDIR}/common/ring_buffer.o.d ${OBJECTDIR}/common/logger.o.d ${OBJECTDIR}/control/pathplanning.o.d ${OBJECTDIR}/control/pid.o.d ${OBJECTDIR}/drivers/timer.o.d ${OBJECTDIR}/drivers/dma.o.d ${OBJECTDIR}/drivers/adc.o.d ${OBJECTDIR}/drivers/serial_uart.o.d ${OBJECTDIR}/drivers/encoder.o.d ${OBJECTDIR}/drivers/motor.o.d ${OBJECTDIR}/drivers/serial_uart_rn4871.o.d ${OBJECTDIR}/dspic/init.o.d ${OBJECTDIR}/dspic/core.o.d ${OBJECTDIR}/dspic/tasks.o.d ${OBJECTDIR}/dspic/board.o.d ${OBJECTDIR}/io/serial.o.d ${OBJECTDIR}/_ext/331430879/ranging.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/drivers/serial_i2c.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/drivers/serial_uart_rn4871.o ${OBJECTDIR}/drivers/serial_i2c.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/sensors/ranging.o ${OBJECTDIR}/main.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/common/maths.o.d ${OBJECTDIR}/common/bitops.o.d ${OBJECTDIR}/common/ring_buffer.o.d ${OBJECTDIR}/common/logger.o.d ${OBJECTDIR}/control/pathplanning.o.d ${OBJECTDIR}/control/pid.o.d ${OBJECTDIR}/drivers/timer.o.d ${OBJECTDIR}/drivers/dma.o.d ${OBJECTDIR}/drivers/adc.o.d ${OBJECTDIR}/drivers/serial_uart.o.d ${OBJECTDIR}/drivers/encoder.o.d ${OBJECTDIR}/drivers/motor.o.d ${OBJECTDIR}/drivers/serial_uart_rn4871.o.d ${OBJECTDIR}/drivers/serial_i2c.o.d ${OBJECTDIR}/dspic/init.o.d ${OBJECTDIR}/dspic/core.o.d ${OBJECTDIR}/dspic/tasks.o.d ${OBJECTDIR}/dspic/board.o.d ${OBJECTDIR}/io/serial.o.d ${OBJECTDIR}/sensors/ranging.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o.d ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/drivers/serial_uart_rn4871.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/_ext/331430879/ranging.o ${OBJECTDIR}/main.o ${OBJECTDIR}/drivers/serial_i2c.o
+OBJECTFILES=${OBJECTDIR}/common/maths.o ${OBJECTDIR}/common/bitops.o ${OBJECTDIR}/common/ring_buffer.o ${OBJECTDIR}/common/logger.o ${OBJECTDIR}/control/pathplanning.o ${OBJECTDIR}/control/pid.o ${OBJECTDIR}/drivers/timer.o ${OBJECTDIR}/drivers/dma.o ${OBJECTDIR}/drivers/adc.o ${OBJECTDIR}/drivers/serial_uart.o ${OBJECTDIR}/drivers/encoder.o ${OBJECTDIR}/drivers/motor.o ${OBJECTDIR}/drivers/serial_uart_rn4871.o ${OBJECTDIR}/drivers/serial_i2c.o ${OBJECTDIR}/dspic/init.o ${OBJECTDIR}/dspic/core.o ${OBJECTDIR}/dspic/tasks.o ${OBJECTDIR}/dspic/board.o ${OBJECTDIR}/io/serial.o ${OBJECTDIR}/sensors/ranging.o ${OBJECTDIR}/main.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o
 
 # Source Files
-SOURCEFILES=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c drivers/serial_uart_rn4871.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c main.c drivers/serial_i2c.c
+SOURCEFILES=common/maths.c common/bitops.c common/ring_buffer.c common/logger.c control/pathplanning.c control/pid.c drivers/timer.c drivers/dma.c drivers/adc.c drivers/serial_uart.c drivers/encoder.c drivers/motor.c drivers/serial_uart_rn4871.c drivers/serial_i2c.c dspic/init.c dspic/core.c dspic/tasks.c dspic/board.c io/serial.c sensors/ranging.c main.c drivers/ranging/vl53l0x_api.c drivers/ranging/vl53l0x_api_ranging.c drivers/ranging/vl53l0x_api_core.c drivers/ranging/vl53l0x_i2c_platform.c drivers/ranging/vl53l0x_api_calibration.c drivers/ranging/vl53l0x_platform.c drivers/ranging/vl53l0x_api_strings.c
 
 
 
@@ -173,6 +173,12 @@ ${OBJECTDIR}/drivers/serial_uart_rn4871.o: drivers/serial_uart_rn4871.c  .genera
 	@${RM} ${OBJECTDIR}/drivers/serial_uart_rn4871.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_uart_rn4871.c  -o ${OBJECTDIR}/drivers/serial_uart_rn4871.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_uart_rn4871.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/drivers/serial_i2c.o: drivers/serial_i2c.c  .generated_files/3071bd5f95406365f01471188179bdc64a82a066.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers" 
+	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o.d 
+	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_i2c.c  -o ${OBJECTDIR}/drivers/serial_i2c.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_i2c.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 ${OBJECTDIR}/dspic/init.o: dspic/init.c  .generated_files/38ca1516569887a55f4bd86dff37b7342702bfb5.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/init.o.d 
@@ -203,11 +209,11 @@ ${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/a88966da8d665b94d60add83
 	@${RM} ${OBJECTDIR}/io/serial.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  io/serial.c  -o ${OBJECTDIR}/io/serial.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io/serial.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/_ext/331430879/ranging.o: /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  .generated_files/c94d712a096908c8dcbaf70843997a786dbea581.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
-	@${MKDIR} "${OBJECTDIR}/_ext/331430879" 
-	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o.d 
-	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  -o ${OBJECTDIR}/_ext/331430879/ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/331430879/ranging.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+${OBJECTDIR}/sensors/ranging.o: sensors/ranging.c  .generated_files/e239ea20e594190507e39becb1fa55533968e806.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/sensors" 
+	@${RM} ${OBJECTDIR}/sensors/ranging.o.d 
+	@${RM} ${OBJECTDIR}/sensors/ranging.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  sensors/ranging.c  -o ${OBJECTDIR}/sensors/ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/sensors/ranging.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 ${OBJECTDIR}/main.o: main.c  .generated_files/ab25677cf00346ce94d279872f108969c6a07400.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}" 
@@ -215,11 +221,47 @@ ${OBJECTDIR}/main.o: main.c  .generated_files/ab25677cf00346ce94d279872f108969c6
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/serial_i2c.o: drivers/serial_i2c.c  .generated_files/3071bd5f95406365f01471188179bdc64a82a066.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
-	@${MKDIR} "${OBJECTDIR}/drivers" 
-	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o.d 
-	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_i2c.c  -o ${OBJECTDIR}/drivers/serial_i2c.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_i2c.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+${OBJECTDIR}/drivers/ranging/vl53l0x_api.o: drivers/ranging/vl53l0x_api.c  .generated_files/dec1821cd1fb42f3551109d37bd524f9684ce3ce.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o: drivers/ranging/vl53l0x_api_ranging.c  .generated_files/3bed80284a7bf84a731e42194119b3b78703530b.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_ranging.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o: drivers/ranging/vl53l0x_api_core.c  .generated_files/5610f1c4f99a04e0e723841f244249305518af46.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_core.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o: drivers/ranging/vl53l0x_i2c_platform.c  .generated_files/5d6691a6388c8fa5d22f2638c724c2e0aa1b5020.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_i2c_platform.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o: drivers/ranging/vl53l0x_api_calibration.c  .generated_files/3191ea8be5c402c5d6b5ab91470f99a92c09684d.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_calibration.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o: drivers/ranging/vl53l0x_platform.c  .generated_files/3ae99cd3e127a9398e14f9e459845ed478d67c4b.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_platform.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o: drivers/ranging/vl53l0x_api_strings.c  .generated_files/16b0a2fd1740222020a882f9c24810d46c7aeec2.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_strings.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 else
 ${OBJECTDIR}/common/maths.o: common/maths.c  .generated_files/82b819434af5389147f76671acc7ddd586a44694.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
@@ -300,6 +342,12 @@ ${OBJECTDIR}/drivers/serial_uart_rn4871.o: drivers/serial_uart_rn4871.c  .genera
 	@${RM} ${OBJECTDIR}/drivers/serial_uart_rn4871.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_uart_rn4871.c  -o ${OBJECTDIR}/drivers/serial_uart_rn4871.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_uart_rn4871.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/drivers/serial_i2c.o: drivers/serial_i2c.c  .generated_files/c5fd33be647d26b28757366e6da9def670f61692.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers" 
+	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o.d 
+	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_i2c.c  -o ${OBJECTDIR}/drivers/serial_i2c.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_i2c.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 ${OBJECTDIR}/dspic/init.o: dspic/init.c  .generated_files/bf04d431d2e2455af60ff4aad0e7f3840bdd69d6.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}/dspic" 
 	@${RM} ${OBJECTDIR}/dspic/init.o.d 
@@ -330,11 +378,11 @@ ${OBJECTDIR}/io/serial.o: io/serial.c  .generated_files/939e4cacb64a4abbcc3af96a
 	@${RM} ${OBJECTDIR}/io/serial.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  io/serial.c  -o ${OBJECTDIR}/io/serial.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io/serial.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/_ext/331430879/ranging.o: /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  .generated_files/f7dc1d46c43c6af479ea9d4de76feb43d988a52d.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
-	@${MKDIR} "${OBJECTDIR}/_ext/331430879" 
-	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o.d 
-	@${RM} ${OBJECTDIR}/_ext/331430879/ranging.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  /home/oliver/Documents/Workspace/C/micromouse/sensors/ranging.c  -o ${OBJECTDIR}/_ext/331430879/ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/331430879/ranging.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+${OBJECTDIR}/sensors/ranging.o: sensors/ranging.c  .generated_files/136f9a198c0f792de1e0e2ab82a6f9fb8019843f.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/sensors" 
+	@${RM} ${OBJECTDIR}/sensors/ranging.o.d 
+	@${RM} ${OBJECTDIR}/sensors/ranging.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  sensors/ranging.c  -o ${OBJECTDIR}/sensors/ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/sensors/ranging.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 ${OBJECTDIR}/main.o: main.c  .generated_files/bc4d5b7a43f3c7946c9e08d84b3b5b260c17075a.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
 	@${MKDIR} "${OBJECTDIR}" 
@@ -342,11 +390,47 @@ ${OBJECTDIR}/main.o: main.c  .generated_files/bc4d5b7a43f3c7946c9e08d84b3b5b260c
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/drivers/serial_i2c.o: drivers/serial_i2c.c  .generated_files/c5fd33be647d26b28757366e6da9def670f61692.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
-	@${MKDIR} "${OBJECTDIR}/drivers" 
-	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o.d 
-	@${RM} ${OBJECTDIR}/drivers/serial_i2c.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/serial_i2c.c  -o ${OBJECTDIR}/drivers/serial_i2c.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/serial_i2c.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+${OBJECTDIR}/drivers/ranging/vl53l0x_api.o: drivers/ranging/vl53l0x_api.c  .generated_files/38e705c9f00713e9063f1f6ae2d931ec54832dee.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o: drivers/ranging/vl53l0x_api_ranging.c  .generated_files/60a947f7239c7e5dd71be2c041213536898ef2c5.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_ranging.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_ranging.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o: drivers/ranging/vl53l0x_api_core.c  .generated_files/ed72b45fcdb07f9f2fac44d79d950c1ea49a2ad1.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_core.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_core.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o: drivers/ranging/vl53l0x_i2c_platform.c  .generated_files/ada1eba6d6f41376e1a0aa24d6138e5bbc8e89e.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_i2c_platform.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_i2c_platform.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o: drivers/ranging/vl53l0x_api_calibration.c  .generated_files/49b56cd71bb5458ea11687ba41662d562451aaf2.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_calibration.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_calibration.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o: drivers/ranging/vl53l0x_platform.c  .generated_files/1543f6f9b691c242dad5cb9ce184029def98b1e7.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_platform.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_platform.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o: drivers/ranging/vl53l0x_api_strings.c  .generated_files/eac1444ba7a0ad9d0d9f7719301d828f1530863b.flag .generated_files/84a00fe3fec8648bb2130ba09c26adb59497f229.flag
+	@${MKDIR} "${OBJECTDIR}/drivers/ranging" 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o.d 
+	@${RM} ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  drivers/ranging/vl53l0x_api_strings.c  -o ${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/drivers/ranging/vl53l0x_api_strings.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=gnu99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 
