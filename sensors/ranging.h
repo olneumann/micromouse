@@ -14,6 +14,8 @@ extern uint16_t RANGE_SENSOR_L[4];
 extern uint16_t RANGE_SENSOR_F[4];
 extern uint16_t RANGE_SENSOR_R[4];
 
-VL53L0X_Error rangingInit(void);
+VL53L0X_Error rangingInit(uint16_t kfscl);
+VL53L0X_Error enableRanging(void);
+VL53L0X_Error disableRanging(void);
 
 #endif /* RANGING_H */

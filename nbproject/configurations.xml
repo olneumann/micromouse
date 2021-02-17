@@ -29,6 +29,7 @@
           <itemPath>drivers/ranging/vl53l0x_device.h</itemPath>
           <itemPath>drivers/ranging/vl53l0x_i2c_platform.h</itemPath>
           <itemPath>drivers/ranging/vl53l0x_types.h</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_platform_log.h</itemPath>
         </logicalFolder>
         <itemPath>drivers/dma.h</itemPath>
         <itemPath>drivers/timer.h</itemPath>
@@ -80,6 +81,7 @@
           <itemPath>drivers/ranging/vl53l0x_api_calibration.c</itemPath>
           <itemPath>drivers/ranging/vl53l0x_platform.c</itemPath>
           <itemPath>drivers/ranging/vl53l0x_api_strings.c</itemPath>
+          <itemPath>drivers/ranging/vl53l0x_platform_log.c</itemPath>
         </logicalFolder>
         <itemPath>drivers/timer.c</itemPath>
         <itemPath>drivers/dma.c</itemPath>

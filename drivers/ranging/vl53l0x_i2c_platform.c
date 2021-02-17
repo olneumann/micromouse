@@ -15,7 +15,7 @@
 #include "vl53l0x_def.h"
 #include "vl53l0x_i2c_platform.h"
 
-char  debug_string[VL53L0X_MAX_STRING_LENGTH_PLT];
+char debug_string[VL53L0X_MAX_STRING_LENGTH_PLT];
 
 uint8_t cached_page = 0;
 
