@@ -54,106 +54,18 @@ int32_t VL53L0X_comms_close(void)
 int32_t VL53L0X_write_multi(uint8_t address, uint8_t reg, uint8_t *pdata, int32_t count)
 {
     int32_t status = STATUS_OK;
-
-//    unsigned int retries = 3;
-//    uint8_t *pWriteData    = pdata;
-//    uint8_t writeDataCount = count;
-//    uint8_t writeReg       = reg;
-//    DWORD dwWaitResult;
-//
-//    /* For multi writes, the serial comms dll requires multiples 4 bytes or
-//     * anything less than 4 bytes. So if an irregular size is required, the
-//     * message is broken up into two writes.
-//     */
-//    if((count > 4) && (count % 4 != 0))
-//    {
-//        writeDataCount = 4*(count/4);
-//        status = VL53L0X_write_multi(address, writeReg, pWriteData, writeDataCount);
-//
-//        if(status != STATUS_OK)
-//        {
-//            SERIAL_COMMS_Get_Error_Text(debug_string);
-//        }
-//        writeReg = reg + writeDataCount;
-//        pWriteData += writeDataCount;
-//        writeDataCount = count - writeDataCount;
-//    }
-//
-//    if(status == STATUS_OK)
-//    {
-//        dwWaitResult = WaitForSingleObject(ghMutex, INFINITE);
-//        if(dwWaitResult == WAIT_OBJECT_0)
-//        {
-//            do
-//            {
-//                status = SERIAL_COMMS_Write_UBOOT(address, 0, writeReg, pWriteData, writeDataCount);
-//                // note : the field dwIndexHi is ignored. dwIndexLo will
-//                // contain the entire index (bits 0..15).
-//                if(status != STATUS_OK)
-//                {
-//                    SERIAL_COMMS_Get_Error_Text(debug_string);
-//                }
-//            } while ((status != 0) && (retries-- > 0));
-//            ReleaseMutex(ghMutex);
-//        }
-//
-//        if(status != STATUS_OK)
-//        {
-//            SERIAL_COMMS_Get_Error_Text(debug_string);
-//        }
-//    }
-
+    
+    status = i2cWrite(address, reg, pdata, count);
+    
     return status;
 }
 
 int32_t VL53L0X_read_multi(uint8_t address, uint8_t index, uint8_t *pdata, int32_t count)
 {
     int32_t status = STATUS_OK;
-    
-//    int32_t readDataCount = count;
-//
-//    unsigned int retries = 3;
-//    DWORD dwWaitResult;
-//
-//    dwWaitResult = WaitForSingleObject(ghMutex, INFINITE);
-//    if(dwWaitResult == WAIT_OBJECT_0)
-//    {
-//        /* The serial comms interface requires multiples of 4 bytes so we
-//         * must apply padding if required.
-//         */
-//        if((count % 4) != 0)
-//        {
-//            readDataCount = (4*(count/4)) + 4;
-//        }
-//
-//        if(readDataCount > MAX_MSG_SIZE)
-//        {
-//            status = STATUS_FAIL;
-//        }
-//
-//        if(status == STATUS_OK)
-//        {
-//            do
-//            {
-//                status = SERIAL_COMMS_Read_UBOOT(address, 0, index, _dataBytes, readDataCount);
-//                if(status == STATUS_OK)
-//                {
-//                    memcpy(pdata, &_dataBytes, count);
-//                }
-//                else
-//                {
-//                    SERIAL_COMMS_Get_Error_Text(debug_string);
-//                }
-//                    
-//            } while ((status != 0) && (retries-- > 0));
-//        }
-//        ReleaseMutex(ghMutex);
-//    }
-//
-//    if(status != STATUS_OK)
-//    {
-//        SERIAL_COMMS_Get_Error_Text(debug_string);
-//    }
+
+    status = i2cRead(address, index, _dataBytes, count);
+    memcpy(pdata, &_dataBytes, count);
 
     return status;
 }
@@ -243,13 +155,9 @@ int32_t VL53L0X_platform_wait_us(int32_t wait_us)
 {
     int32_t status = STATUS_OK;
     
-//    float wait_ms = (float)wait_us/1000.0f;
-//
-//    /*
-//     * Use windows event handling to perform non-blocking wait.
-//     */
-//    HANDLE hEvent = CreateEvent(0, TRUE, FALSE, 0);
-//    WaitForSingleObject(hEvent, (int)(wait_ms + 0.5f));
+    /*
+     * perform non-blocking wait.
+     */
 
     return status;
 }
@@ -258,11 +166,9 @@ int32_t VL53L0X_wait_ms(int32_t wait_ms)
 {
     int32_t status = STATUS_OK;
 
-//    /*
-//     * Use windows event handling to perform non-blocking wait.
-//     */
-//    HANDLE hEvent = CreateEvent(0, TRUE, FALSE, 0);
-//    WaitForSingleObject(hEvent, wait_ms);
+    /*
+     * perform non-blocking wait.
+     */
 
     return status;
 }

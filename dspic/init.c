@@ -23,7 +23,7 @@ void init(void)
     boardInit();
     //serialInit();
     
-    /* TODO: mapping of sensor value streams (qei/i2c) into dma */
+    /* TODO: mapping of sensor value stream (qei) into dma */
     //dmaInit();
     
     /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
