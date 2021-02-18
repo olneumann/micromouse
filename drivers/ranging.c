@@ -11,8 +11,8 @@
 #include <stdio.h>
 
 #include "../dspic/board.h"
-#include "../drivers/ranging/vl53l0x_api.h"
-#include "../drivers/ranging/vl53l0x_platform.h"
+#include "vl53l0x/vl53l0x_api.h"
+#include "vl53l0x/vl53l0x_platform.h"
 
 #include "xc.h"
 #include "ranging.h"
@@ -43,7 +43,7 @@ uint16_t RANGE_SENSOR_R[4];
 void remapSensors(void)
 {   
     /*
-     * Remapping: Set all sensors in reset, incrementally reset (n-1) sensors 
+     * Remapping: Set all sensors in reset, incrementally reprogram (n-1) sensors 
      *            to desired i2c address.     
      */
     
@@ -133,7 +133,6 @@ VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, uint16_t *pData)
     *pData = pRangingData->RangeMilliMeter;
     
     VL53L0X_ClearInterruptMask(pDev, VL53L0X_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY);
-    VL53L0X_PollingDelay(pDev);  
     
     return Status;
 }
