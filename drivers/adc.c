@@ -5,12 +5,11 @@
  * Created on 17. Dezember 2020, 10:31
  */
 
-#include "xc.h"
-
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 
+#include "xc.h"
 #include "adc.h"
 
 void adcInit(void)

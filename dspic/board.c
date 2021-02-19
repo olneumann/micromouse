@@ -12,7 +12,6 @@
 #include "../common/defines.h"
 #include "../drivers/serial_uart.h"
 
-#include "xc.h"
 #include "board.h"
 
 void ioInit(void)

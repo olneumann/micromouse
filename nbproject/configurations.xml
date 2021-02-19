@@ -37,6 +37,7 @@
         <itemPath>drivers/serial_uart.h</itemPath>
         <itemPath>drivers/encoder.h</itemPath>
         <itemPath>drivers/motor.h</itemPath>
+        <itemPath>drivers/serial_uart_rn4871.h</itemPath>
         <itemPath>drivers/ranging.h</itemPath>
       </logicalFolder>
       <logicalFolder name="dspic" displayName="dspic" projectFiles="true">
@@ -85,6 +86,7 @@
         <itemPath>drivers/serial_uart.c</itemPath>
         <itemPath>drivers/encoder.c</itemPath>
         <itemPath>drivers/motor.c</itemPath>
+        <itemPath>drivers/serial_uart_rn4871.c</itemPath>
         <itemPath>drivers/ranging.c</itemPath>
       </logicalFolder>
       <logicalFolder name="dspic" displayName="dspic" projectFiles="true">
@@ -748,6 +750,62 @@
                   value=""/>
         <property key="warningmessagebreakoptions.warningmessages" value="holdstate"/>
       </Simulator>
+      <item path="drivers/vl53l0x/vl53l0x_api.c" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_calibration.c"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_calibration.h"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_core.c" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_core.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_ranging.c" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_ranging.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_strings.c" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_api_strings.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_def.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_device.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_i2c_platform.h"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_i2c_win_serial_comms.c"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_interrupt_threshold_settings.h"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_platform.c" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_platform.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_platform_log.c"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_platform_log.h"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_tuning.h" ex="true" overriding="false">
+      </item>
+      <item path="drivers/vl53l0x/vl53l0x_types.h" ex="true" overriding="false">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

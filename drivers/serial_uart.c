@@ -13,7 +13,6 @@
 #include "../common/ring_buffer.h"
 #include "../dspic/board.h"
 
-#include "xc.h"
 #include "serial_uart.h"
 
 #define CMD 0   // read commands via uart

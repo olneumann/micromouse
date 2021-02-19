@@ -8,8 +8,8 @@
 #include <stdint.h>
 #include <math.h>
 
-#include "encoder.h"
 #include "xc.h"
+#include "encoder.h"
 
 #define PULSES_PER_REV      1 // TODO!
 #define CNT_INC_PER_REV     4

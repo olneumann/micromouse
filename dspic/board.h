@@ -8,6 +8,8 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
+#include "xc.h"
+
 /* Frequencies */
 #define FOSC        (80000000ULL)
 #define FCY         (FOSC/2)  
