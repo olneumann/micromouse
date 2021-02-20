@@ -11,7 +11,7 @@
 #include "xc.h"
 #include "encoder.h"
 
-#define PULSES_PER_REV      1 // TODO!
+#define PULSES_PER_REV      16 
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (PULSES_PER_REV*CNT_INC_PER_REV-1)
 
