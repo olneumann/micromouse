@@ -44,7 +44,7 @@ void motorInit(void)
      Setup of main (PWM1L|Hx) motor pwm generator, each motor uses one (duty cycle) channel
      */
     P1TCONbits.PTEN = 0;                        // PWM Time Base Timer Disable 
-    pwmParams(1000, &P1TCON, &P1TPER);          // [Hz] Possible Range: [15Hz; 26.6MHz]
+    pwmParams(20000, &P1TCON, &P1TPER);         // [Hz] Possible Range: [15Hz; 26.6MHz]
     PWM1CON1bits.PMOD1 = 1;                     // PWM I/O pin pair is in Independent Output mode
     PWM1CON1bits.PMOD2 = 1;
     
@@ -65,6 +65,7 @@ void motorInit(void)
  */
 void driveM1(double percent)
 {
+    percent = M1_dir * percent;
     if (percent > 0) 
     {
         /* -- Forward --
@@ -111,6 +112,7 @@ void driveM1(double percent)
  */
 void driveM2(double percent)
 {
+    percent = M2_dir * percent;
     if (percent > 0) 
     {
         /* -- Forward --

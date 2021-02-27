@@ -40,7 +40,7 @@ int uartWriteC(int c);
  * \brief Write a string to UART
  * \return 0 on sucesss, -1 otherwise
  */
-int uartWrite(const char *str);
+int uartWrite(const char *str, int delay_ms);
 
 /**
  * \brief Parses ring buffer for commands

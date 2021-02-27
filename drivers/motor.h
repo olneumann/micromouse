@@ -8,6 +8,9 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
  
+#define M1_dir -1
+#define M2_dir  1
+
 /**
  * \brief Initilizes motor pwm signal generation
  */

@@ -22,6 +22,24 @@ typedef enum {
 direction getDir1(void);
 
 /**
+ * \brief Determine the rotation of the motor 2
+ * \param[out] direction - the rotation of the motor 2
+ */
+direction getDir2(void);
+
+/**
+ * \brief Determine the angle of the motor 1
+ * \param[out] angle - float value [0.0-360.0]
+ */
+double getAngle1(void);
+
+/**
+ * \brief Determine the angle of the motor 2
+ * \param[out] angle - float value [0.0-360.0]
+ */
+double getAngle2(void);
+
+/**
  * \brief Initilizes the quadrature encoder interface
  * \param[in] init_poscnt - initial offset
  */

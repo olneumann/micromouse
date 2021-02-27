@@ -21,7 +21,7 @@
 #define VL53L0X_ADDRESS_DEFAULT     0x52
 
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
-VL53L0X_Dev_t *pDev = &dev;
+VL53L0X_Dev_t *pDev = dev;          // &dev ?
 
 uint16_t RANGE_SENSOR_L[4];
 uint16_t RANGE_SENSOR_F[4];

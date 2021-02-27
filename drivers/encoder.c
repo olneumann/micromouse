@@ -8,10 +8,12 @@
 #include <stdint.h>
 #include <math.h>
 
+#include "motor.h"
+
 #include "xc.h"
 #include "encoder.h"
 
-#define PULSES_PER_REV      16 
+#define PULSES_PER_REV      16*33 
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (PULSES_PER_REV*CNT_INC_PER_REV-1)
 
@@ -23,7 +25,18 @@ double getAngle1(void)
     static long hist_poscnt[2] = {0,0};
     hist_poscnt[1] = hist_poscnt[0];
     hist_poscnt[0] = POS1CNT + rotCnt1;
-    // ToDo!
+
+    double dAng = (double)(hist_poscnt[0] % MAX_CNT_PER_REV) / MAX_CNT_PER_REV;
+    
+    return dAng;
+}
+
+double getAngle2(void)
+{
+    static long hist_poscnt[2] = {0,0};
+    hist_poscnt[1] = hist_poscnt[0];
+    hist_poscnt[0] = POS2CNT + rotCnt2;
+
     double dAng = (double)(hist_poscnt[0] % MAX_CNT_PER_REV) / MAX_CNT_PER_REV;
     
     return dAng;
@@ -40,7 +53,21 @@ direction getDir1(void)
     {
         dir = NEG;
     }
-    return dir;
+    return M1_dir*dir;
+}
+
+direction getDir2(void)
+{
+    direction dir = POS;
+    if (QEI2CONbits.UPDN == 1)
+    {
+        dir = POS;
+    }
+    else if (QEI2CONbits.UPDN == 0)
+    {
+        dir = NEG;
+    }
+    return M2_dir*dir;
 }
 
 void qeiInit(uint16_t init_poscnt)
@@ -49,11 +76,11 @@ void qeiInit(uint16_t init_poscnt)
     QEI2CONbits.QEISIDL = 0; 
     QEI1CONbits.QEIM = 0b111;       // Quadrature Encoder Interface enabled (x4 mode) with position counter reset by match (MAXxCNT)
     QEI2CONbits.QEIM = 0b111;
-    QEI2CONbits.SWPAB = 0;          // Phase A and Phase B inputs not swapped
-    QEI2CONbits.SWPAB = 1;
+    QEI1CONbits.SWPAB = 0;          // Phase A and Phase B inputs not swapped
+    QEI2CONbits.SWPAB = 0;
     
-    MAX1CNT = 0xffff;
-    MAX2CNT = 0xffff;
+    MAX1CNT = MAX_CNT_PER_REV;
+    MAX2CNT = MAX_CNT_PER_REV;
     POS1CNT = init_poscnt;
     POS2CNT = init_poscnt;
     rotCnt1 = 0;

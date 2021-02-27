@@ -29,17 +29,20 @@ int bluetoothInit()
      * [P1_3] STATUS2
      */
     
-    // TODO: Check <cr> == \n?
+    /*
+     * To enter Command mode from Data mode, type the $$$ character sequence after a
+     * 100 ms delay before the first $. 
+     */
     
-    uartWrite("$$$\n");
-    DELAY_600uS;
-    uartWrite("SW,0A,07\n");
-    DELAY_600uS;
-    uartWrite("SW,0B,08\n");
-    DELAY_600uS;
-    uartWrite("---\n");
+    uartWrite("$$$\r",5);
+
+    /*
+     * Remapping
+     */
     
-    // TODO: Response check? ERR/AOK?
+    uartWrite("SW,0A,07\r",5);
+    uartWrite("SW,0B,08\r",5);
+    uartWrite("---\r",5);
     
     status = 0;
     return status;
@@ -70,12 +73,8 @@ void setBTmode(bt_mode_t mode)
          * [FC] Disabled
          */
         
-        // TODO: Check <cr> == \n?
-        
-        uartWrite("$$$\n");
-        DELAY_600uS;
-        uartWrite("SO,1\n");
-        DELAY_600uS;
-        uartWrite("---\n");
+        uartWrite("$$$\r",5);
+        uartWrite("SO,1\r",5);
+        uartWrite("---\r",5);
     }
 }

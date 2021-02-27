@@ -14,14 +14,16 @@
 #include "../drivers/timer.h"
 #include "../drivers/dma.h"
 #include "../drivers/adc.h"
+#include "../drivers/motor.h"
+#include "../drivers/encoder.h"
 #include "../common/logger.h"
+
+#include "init.h"
 
 void init(void)
 {
-    //loggerInit();
-    
     boardInit();
-    //serialInit();
+    serialInit();
     
     /* TODO: mapping of sensor value stream (qei) into dma */
     //dmaInit();
@@ -29,15 +31,13 @@ void init(void)
     /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
     //adcInit();
     
-    //motorInit();
+    motorInit();
     /* TODO: setup qei (pulses per rev, position/angle measurement, etc.) */
-    //qeiInit();
+    qeiInit(0);
     
     /* TODO: start main timer - setup pid control loop */
-    //timerInit(); 
-    //enableTimer();
-
-    //qei1_init(0);
+    timerInit(); 
+    enableTimer();
 }
     
   

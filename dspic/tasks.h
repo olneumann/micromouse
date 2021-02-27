@@ -8,6 +8,6 @@
 #ifndef TASKS_H
 #define	TASKS_H
 
-
+void unitTest(void);
 
 #endif	/* TASKS_H */
