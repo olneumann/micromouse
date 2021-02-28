@@ -28,5 +28,5 @@ typedef struct {
     __warning__ warning;
 }logger_t;
 
-#endif	/* __LOGGER___H */
+#endif
 

@@ -20,7 +20,7 @@ logger_t logger;
  */
 int debug_func(const char *str){
         
-    int l = strlen(str) + 8;
+    int l = (int) strlen(str) + 8;
     char log[l];
     sprintf(log, "DEBUG : %s",str);
     
@@ -33,7 +33,7 @@ int debug_func(const char *str){
  * @return 1 if success
  */
 int error_func(const char *str){
-    int l = strlen(str) + 8;
+    int l = (int) strlen(str) + 8;
     char log[l];
     sprintf(log, "ERROR : %s", str);
     return uartWrite(log);
@@ -45,7 +45,7 @@ int error_func(const char *str){
  */
 int info_func(const char *str){
        
-    int l = strlen(str) + 8;
+    int l = (int) strlen(str) + 8;
     char log[l];
     sprintf(log, "INFO : %s",str);
     
@@ -57,7 +57,7 @@ int info_func(const char *str){
  * @return 1 if success
  */
 int warning_func(const char *str){
-    int l = strlen(str) + 10;
+    int l = (int) strlen(str) + 10;
     char log[l];
     sprintf(log, "WARNING : %s",str);
     return uartWrite(log);

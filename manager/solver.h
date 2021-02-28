@@ -5,3 +5,6 @@
 
 void init_solver(void);
 void decide_target_cell(void)
+
+
+#endif

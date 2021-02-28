@@ -15,10 +15,11 @@
 #include "../drivers/dma.h"
 #include "../drivers/adc.h"
 #include "../common/logger.h"
+#include "../manager/manager.h"
 
 void init(void)
 {
-    //loggerInit();
+    loggerInit();
     
     boardInit();
     //serialInit();
@@ -38,6 +39,8 @@ void init(void)
     //enableTimer();
 
     //qei1_init(0);
+    init_manager()
+
 }
     
   
