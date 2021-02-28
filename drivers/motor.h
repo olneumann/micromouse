@@ -8,8 +8,8 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
  
-#define M1_dir -1
-#define M2_dir  1
+#define motorLeftDir      1
+#define motorRightDir    -1
 
 /**
  * \brief Initilizes motor pwm signal generation
@@ -18,17 +18,17 @@ void motorInit(void);
 
 /**
  * \brief Sets the duty cycle following the h-bridge setup
- * \param[in] percent - double value between -1 and 1 determines the duty cycle
+ * \param[in] percent - float value between -1 and 1 determines the duty cycle
  * \return 0 on success, -1 otherwise
  */
-void driveM1(double percent);
+void driveLeft(float percent);
 
 /**
  * \brief Sets the duty cycle following the h-bridge setup
- * \param[in] percent - double value between -1 and 1 determines the duty cycle
+ * \param[in] percent - float value between -1 and 1 determines the duty cycle
  * \return 0 on success, -1 otherwise
  */
-void driveM2(double percent);
+void driveRight(float percent);
 
 #endif	/* MOTOR_H */
 

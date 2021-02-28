@@ -32,7 +32,7 @@ void pwmParams(int pwm_freq_hz, volatile uint16_t* pTCON, volatile uint16_t* pPi
     } while(i < 4); 
 }
 
-void setDC(double DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
+void setDC(float DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
 {
     double dPxDCy = DC * (double)(PxTPER<<1); // times 2, 'cause shift in register   
     *pPxDCy = (uint16_t)dPxDCy;
@@ -58,14 +58,14 @@ void motorInit(void)
     P1DC2 = 0;                                  // PWM Duty Cycle 2 Value
 }
 
-/* -- Motor 1 --
+/* -- Motor Right --
  * PH/PWM mode
  PH -| (0|1) -> PIN: PWM1L1 
  PWM-| (PWM) -> PIN: PWM1H1 
  */
-void driveM1(double percent)
+void driveRight(float percent)
 {
-    percent = M1_dir * percent;
+    percent = (float)motorRightDir * percent;
     if (percent > 0) 
     {
         /* -- Forward --
@@ -105,14 +105,14 @@ void driveM1(double percent)
     } 
 }
 
-/* -- Motor 2 --
+/* -- Motor Left --
  * PH/PWM mode
  PH -| (0|1) -> PIN: PWM1L2
  PWM-| (PWM) -> PIN: PWM1H2 
  */
-void driveM2(double percent)
+void driveLeft(float percent)
 {
-    percent = M2_dir * percent;
+    percent = (float)motorLeftDir * percent;
     if (percent > 0) 
     {
         /* -- Forward --

@@ -10,8 +10,8 @@
 
 #include "../common/defines.h"
 #include "../dspic/board.h"
+#include "../drivers/serial_uart.h"
 
-#include "serial_uart.h"
 #include "serial_uart_rn4871.h"
 
 int bluetoothInit()

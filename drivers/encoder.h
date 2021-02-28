@@ -10,40 +10,52 @@
  
 #include <stdint.h>
 
-typedef enum {
-    POS = 1,
-    NEG = -1
-} direction;
-
 /**
- * \brief Determine the rotation of the motor 1
- * \param[out] direction - the rotation of the motor 1
- */
-direction getDir1(void);
-
-/**
- * \brief Determine the rotation of the motor 2
- * \param[out] direction - the rotation of the motor 2
- */
-direction getDir2(void);
-
-/**
- * \brief Determine the angle of the motor 1
+ * \brief Determine the angle of the motor left motor
  * \param[out] angle - float value [0.0-360.0]
  */
-double getAngle1(void);
+float getAngleLeft(void);
 
 /**
- * \brief Determine the angle of the motor 2
+ * \brief Determine the angle of the motor right motor
  * \param[out] angle - float value [0.0-360.0]
  */
-double getAngle2(void);
+float getAngleRight(void);
+
+/**
+ * \brief Determine the velocity in m/s of the left motor
+ * \param[out] velocity - float value
+ */
+float getVelocityLeft(void);
+
+/**
+ * \brief Determine the velocity in m/s of the right motor
+ * \param[out] velocity - float value
+ */
+float getVelocityRight(void);
+
+/**
+ * \brief Determine the distance in µm of the left motor
+ * \param[out] velocity - float value
+ */
+int32_t getDistanceLeft(void);
+
+/**
+ * \brief Determine the distance in µm of the right motor
+ * \param[out] velocity - float value
+ */
+int32_t getDistanceRight(void);
+
+/**
+ * \brief Update the encoder readings (counter, velocity)
+ */
+void updateEncoderReadings(uint16_t freq);
 
 /**
  * \brief Initilizes the quadrature encoder interface
  * \param[in] init_poscnt - initial offset
  */
-void qeiInit(uint16_t init_poscnt);
+void qeiInit(void);
 
 #endif	/* ENCODER_H */
 

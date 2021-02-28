@@ -14,7 +14,6 @@
 #include "vl53l0x/vl53l0x_api.h"
 #include "vl53l0x/vl53l0x_platform.h"
 
-#include "xc.h"
 #include "ranging.h"
 
 #define SENSOR_COUNT                3    
@@ -23,9 +22,9 @@
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
 VL53L0X_Dev_t *pDev = dev;          // &dev ?
 
-uint16_t RANGE_SENSOR_L[4];
-uint16_t RANGE_SENSOR_F[4];
-uint16_t RANGE_SENSOR_R[4];
+static volatile uint16_t RANGE_L[4];
+static volatile uint16_t RANGE_F[4];
+static volatile uint16_t RANGE_R[4];
 
 /*
  * Description: see appl. note
@@ -123,7 +122,31 @@ VL53L0X_Error disableRanging(void)
  * 
  */
 
-VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, uint16_t *pData)
+float filter(volatile uint16_t *Data)
+{
+    // TODO: more sophisticated approach maybe?
+    float mean = 0;
+    mean = Data[0] + Data[1] + Data[2] + Data[3];
+    mean /= 4;
+    return mean;
+}
+
+float getRangeLeft(void)
+{
+    return filter(&RANGE_L[0]);
+}
+
+float getRangeFront(void)
+{
+    return filter(&RANGE_F[0]);
+}
+
+float getRangeRight(void)
+{
+    return filter(&RANGE_R[0]);
+}
+
+VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
 {
     VL53L0X_RangingMeasurementData_t RangingData;
     VL53L0X_RangingMeasurementData_t *pRangingData = &RangingData;
@@ -147,7 +170,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
     static int i = 0;
     VL53L0X_Dev_t *pDev = &dev[0];
     
-    Status = getRangingSample(pDev, &RANGE_SENSOR_L[i]);
+    Status = getRangingSample(pDev, &RANGE_L[i]);
     
     i++;
     if (i==3) i = 0;
@@ -163,7 +186,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT1Interrupt(void)
     static int i = 0;
     VL53L0X_Dev_t *pDev = &dev[1];
     
-    Status = getRangingSample(pDev, &RANGE_SENSOR_F[i]);
+    Status = getRangingSample(pDev, &RANGE_F[i]);
     
     i++;
     if (i==3) i = 0;
@@ -179,7 +202,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT2Interrupt(void)
     static int i = 0;
     VL53L0X_Dev_t *pDev = &dev[2];
     
-    Status = getRangingSample(pDev, &RANGE_SENSOR_R[i]);
+    Status = getRangingSample(pDev, &RANGE_R[i]);
     
     i++;
     if (i==3) i = 0;

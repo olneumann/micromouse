@@ -8,6 +8,12 @@
 #ifndef TASKS_H
 #define	TASKS_H
 
-void unitTest(void);
+#include <stdint.h>
+
+void taskTest(void);
+
+void taskEncoder(uint16_t freq);
+void taskRanging(uint16_t freq);
+void taskControl(uint16_t freq);
 
 #endif	/* TASKS_H */

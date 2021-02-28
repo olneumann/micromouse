@@ -9,7 +9,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "xc.h"
+#include "../dspic/board.h"
+
 #include "adc.h"
 
 void adcInit(void)

@@ -10,9 +10,9 @@
 
 #include "vl53l0x/vl53l0x_api.h"
 
-extern uint16_t RANGE_SENSOR_L[4];
-extern uint16_t RANGE_SENSOR_F[4];
-extern uint16_t RANGE_SENSOR_R[4];
+float getRangeLeft(void);
+float getRangeFront(void);
+float getRangeRight(void);
 
 VL53L0X_Error rangingInit(uint16_t kfscl);
 VL53L0X_Error enableRanging(void);

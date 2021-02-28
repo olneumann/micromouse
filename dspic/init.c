@@ -24,18 +24,28 @@ void init(void)
 {
     boardInit();
     serialInit();
-    
-    /* TODO: mapping of sensor value stream (qei) into dma */
-    //dmaInit();
-    
+      
     /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
     //adcInit();
     
-    motorInit();
-    /* TODO: setup qei (pulses per rev, position/angle measurement, etc.) */
-    qeiInit(0);
+    /*
+     * Components Initialization:
+     * - motorInit()   -> PWM Generation (Freq.)
+     * - qeiInit()     -> Encoder Readings (Pulses, Unit Conversion)
+     * - rangingInit() -> VL53L0X Ranging Readings (Remapping, Measurement Freq.)
+     *      
+     */
     
-    /* TODO: start main timer - setup pid control loop */
+    motorInit();
+    qeiInit();
+    //rangingInit();
+    
+    /* 
+     * Main loop:
+     * Generates task calls for control (pid), sensing (range, encoder)
+     * 
+     */
+    
     timerInit(); 
     enableTimer();
 }

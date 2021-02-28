@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "xc.h"
-#include "dma.h"
+#include "../dspic/board.h"
 
+#include "dma.h"
 
 unsigned int dma_bufA[32]__attribute__((space(dma)));
 
