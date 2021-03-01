@@ -11,7 +11,7 @@
 #include "xc.h"
 
 /* Frequencies */
-#define FOSC        (80000000ULL)
+#define FOSC        (62500000UL)
 #define FCY         (FOSC/2)  
 
 /* LED */

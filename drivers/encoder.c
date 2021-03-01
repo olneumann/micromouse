@@ -8,63 +8,113 @@
 #include <stdint.h>
 #include <math.h>
 
-#include "xc.h"
+#include "../dspic/board.h"
+#include "../drivers/motor.h"
+
 #include "encoder.h"
 
-#define PULSES_PER_REV      1 // TODO!
+#define PULSES_PER_REV      16*33 
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (PULSES_PER_REV*CNT_INC_PER_REV-1)
+#define UM_PER_CNT          42              // TODO!
 
-long rotCnt1;
-long rotCnt2;
+static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
+static volatile int32_t DISTANCE_UM_R;
 
-double getAngle1(void)
+static volatile int16_t DIFF_CNT_L;
+static volatile int16_t DIFF_CNT_R;
+
+static volatile float VELOCITY_L;
+static volatile float VELOCITY_R;
+
+int32_t getDistanceLeft(void)
 {
-    static long hist_poscnt[2] = {0,0};
-    hist_poscnt[1] = hist_poscnt[0];
-    hist_poscnt[0] = POS1CNT + rotCnt1;
-    // ToDo!
-    double dAng = (double)(hist_poscnt[0] % MAX_CNT_PER_REV) / MAX_CNT_PER_REV;
+    return DISTANCE_UM_L;
+}
+
+int32_t getDistanceRight(void)
+{
+    return DISTANCE_UM_R;
+}
+
+float getVelocityLeft(void)
+{  
+    return VELOCITY_L;
+}
+
+float getVelocityRight(void)
+{
+    return VELOCITY_R;
+}
+
+float getAngleLeft(void)
+{
     
-    return dAng;
+    return 0;
 }
 
-direction getDir1(void)
+float getAngleRight(void)
 {
-    direction dir = POS;
-    if (QEI1CONbits.UPDN == 1)
-    {
-        dir = POS;
-    }
-    else if (QEI1CONbits.UPDN == 0)
-    {
-        dir = NEG;
-    }
-    return dir;
+
+    return 0;
 }
 
-void qeiInit(uint16_t init_poscnt)
+int16_t getCounterDiff(uint16_t now, uint16_t prev)
+{
+    uint16_t forward    = (uint16_t)(now - prev);
+    uint16_t backward   = (uint16_t)(prev - now);
+    
+    if (forward > backward)
+        return -(int16_t)backward;
+    return (int16_t)forward;    
+}
+
+void updateEncoderReadings(uint16_t freq)
+{
+    static uint16_t prev_cnt_l = 0;
+    static uint16_t prev_cnt_r = 0;
+    
+    uint16_t cnt_l = POS1CNT;
+    uint16_t cnt_r = POS2CNT;
+    
+    DIFF_CNT_L = getCounterDiff(cnt_l, prev_cnt_l);
+    DIFF_CNT_R = getCounterDiff(cnt_r, prev_cnt_r);
+    
+    DISTANCE_UM_L += DIFF_CNT_L * UM_PER_CNT;
+    DISTANCE_UM_R += DIFF_CNT_R * UM_PER_CNT;
+    
+    VELOCITY_L = DIFF_CNT_L * (UM_PER_CNT * 1e-6) * freq;
+    VELOCITY_R = DIFF_CNT_R * (UM_PER_CNT * 1e-6) * freq;
+    
+    prev_cnt_l = cnt_l;
+    prev_cnt_r = cnt_r;
+}
+
+void qeiInit(void)
 {         
     QEI1CONbits.QEISIDL = 0;        // Discontinue module operation when device enters Idle mode
     QEI2CONbits.QEISIDL = 0; 
     QEI1CONbits.QEIM = 0b111;       // Quadrature Encoder Interface enabled (x4 mode) with position counter reset by match (MAXxCNT)
     QEI2CONbits.QEIM = 0b111;
-    QEI2CONbits.SWPAB = 0;          // Phase A and Phase B inputs not swapped
-    QEI2CONbits.SWPAB = 1;
+    QEI1CONbits.SWPAB = 0;          // Phase A and Phase B inputs not swapped
+    QEI2CONbits.SWPAB = 0;
     
-    MAX1CNT = 0xffff;
-    MAX2CNT = 0xffff;
-    POS1CNT = init_poscnt;
-    POS2CNT = init_poscnt;
-    rotCnt1 = 0;
-    rotCnt2 = 0;
+    MAX1CNT = MAX_CNT_PER_REV;
+    MAX2CNT = MAX_CNT_PER_REV;
+    POS1CNT = 0;
+    POS2CNT = 0;
+    
+    /* 
+     * QEI ISR: 
+     * - Reset of counters?
+     */
     
     IFS3bits.QEI1IF = 0;
-    IEC3bits.QEI1IE = 1;            // Enable QEI1 interrupt
+    IEC3bits.QEI1IE = 0;           
     IPC14bits.QEI1IP = 5;
     
     IFS4bits.QEI2IF = 0;
-    IEC4bits.QEI2IE = 1;            // Enable QEI2 interrupt
+    IEC4bits.QEI2IE = 0;            
     IPC18bits.QEI2IP = 5;
 }
 
@@ -73,14 +123,6 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
     /* Clear QEI1IF interrupt flag */
     IFS3bits.QEI1IF = 0;
     
-    if (POS1CNT < MAX1CNT>>1)
-    {
-        rotCnt1 += (long) 0x10000;    // positive roll-over
-    }
-    else
-    {
-        rotCnt1 -= (long) 0x10000;    // negative roll-over
-    }
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _QEI2Interrupt(void)
@@ -88,12 +130,4 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI2Interrupt(void)
     /* Clear QEI2IF interrupt flag */
     IFS4bits.QEI2IF = 0;
     
-    if (POS2CNT < MAX2CNT>>1)
-    {
-        rotCnt2 += (long) 0x10000;    // positive roll-over
-    }
-    else
-    {
-        rotCnt2 -= (long) 0x10000;    // negative roll-over
-    }
 }

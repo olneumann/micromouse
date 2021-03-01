@@ -10,6 +10,7 @@
 
 #include "platform.h"
 #include "dspic/init.h"
+#include "dspic/core.h"
 
 void run(void);
 

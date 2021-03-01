@@ -12,10 +12,7 @@
 
 #include "../dspic/board.h"
 #include "../common/defines.h"
-#include "../common/logger.h"
-
-#include "serial_uart.h"
-#include "dma.h"
+#include "../dspic/core.h"
 
 #include "timer.h"
 
@@ -56,42 +53,56 @@ int timerParams(int _ms, volatile uint16_t* pTiCON, volatile uint16_t* pTMR, vol
 void enableTimer(void)
 {
     T1CONbits.TON = 1; 
-    T2CONbits.TON = 0;
+    T2CONbits.TON = 1;
+    T3CONbits.TON = 1;
 }
 
 void disableTimer(void)
 {
     T1CONbits.TON = 0; 
     T2CONbits.TON = 0;
+    T3CONbits.TON = 0;
 }
 
 void timerInit(void)
 {
     // timer params
-    timerParams(2, &T1CON, &TMR1, &PR1);    // 2ms | 500Hz
-    timerParams(10, &T2CON, &TMR2, &PR2);   // in ms
-    
+    timerParams(CONTROL_LOOP_PERIODE_MS, &T1CON, &TMR1, &PR1);  
+    timerParams(ENCODER_UPDATE_PERIODE_MS, &T2CON, &TMR2, &PR2);    
+    timerParams(RANGING_UPDATE_PERIODE_MS, &T3CON, &TMR3, &PR3);    
+        
     // interrupt params
-    IPC0bits.T1IP = 4;
-    IPC1bits.T2IP = 4;      // timer2 gets a higher prio then timer1
+    IPC0bits.T1IP = 4;      // prios
+    IPC1bits.T2IP = 4;      
+    IPC2bits.T3IP = 4;
     
     IFS0bits.T1IF = 0;      // reset both flags
     IFS0bits.T2IF = 0;
+    IFS0bits.T3IF = 0;
     
-    IEC0bits.T1IE = 1;      // enable both
-    IEC0bits.T2IE = 0;
+    IEC0bits.T1IE = 1;      // enable timer
+    IEC0bits.T2IE = 1;
+    IEC0bits.T3IE = 1;
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
 {
     /* Clear Timer1 interrupt flag */
     IFS0bits.T1IF = 0;
-    
+    debug();
+    //control_loop(CONTROL_LOOP_FREQ_HZ);
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _T2Interrupt(void)
 {
     /* Clear Timer2 interrupt flag */
     IFS0bits.T2IF = 0;
-    
+    encoder_loop(ENCODER_UPDATE_FREQ_HZ);
+}
+
+void __attribute__((__interrupt__,no_auto_psv)) _T3Interrupt(void)
+{
+    /* Clear Timer3 interrupt flag */
+    IFS0bits.T3IF = 0;
+    //ranging_loop(RANGING_UPDATE_FREQ_HZ);
 }

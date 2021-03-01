@@ -36,8 +36,8 @@
 // FPOR
 #pragma config FPWRT = PWR128           // POR Timer Value (128ms)
 #pragma config ALTI2C = ON              // Alternate I2C  pins (I2C mapped to SDA1/SCL1 pins)
-#pragma config LPOL = OFF               // Motor Control PWM Low Side Polarity bit (PWM module low side output pins have active-high output polarity)
-#pragma config HPOL = OFF               // Motor Control PWM High Side Polarity bit (PWM module high side output pins have active-high output polarity)
+#pragma config LPOL = ON                // Motor Control PWM Low Side Polarity bit (PWM module low side output pins have active-high output polarity)
+#pragma config HPOL = ON                // Motor Control PWM High Side Polarity bit (PWM module high side output pins have active-high output polarity)
 #pragma config PWMPIN = ON              // Motor Control PWM Module Pin Mode bit (PWM module pins controlled by PORT register at device Reset)
 
 // FICD
