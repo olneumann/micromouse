@@ -3,14 +3,13 @@
 
 #include "manager.h"
 #include "../sensors/ranging.h"
+#include "general_parameters.h"
 
-void init_map(void);
+void init_walls(void);
 void get_grid_location(void);
 void get_map(void);
 void update_map(void);
 
-typedef struct {
-
-}Map;
+extern uint8_t walls[MAZE_SIZE][MAZE_SIZE];
 
 #endif
