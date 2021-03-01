@@ -13,9 +13,9 @@
 
 #include "motor.h"
 
-void pwmParams(int pwm_freq_hz, volatile uint16_t* pTCON, volatile uint16_t* pPiTPER)
+void pwmParams(int pwm_freq_khz, volatile uint16_t* pTCON, volatile uint16_t* pPiTPER)
 {
-    long double ticks = FCY / pwm_freq_hz; 
+    long double ticks = FCY / (pwm_freq_khz * 1e3); 
     int iTCKPS[4] = {1,4,16,64};                    // (00 | 01 | 10 | 11)
     char maskTCKPS[4] = {0x00,0x4,0x8,0x12};        // mask for setting 2 bits (xxxx.xxxx xxxx.--xx)
     int i = 0;
@@ -38,13 +38,13 @@ void setDC(float DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
     *pPxDCy = (uint16_t)dPxDCy;
 }
 
-void motorInit(void) 
+void motorInit(uint16_t kfpwm) 
 {
     /*
      Setup of main (PWM1L|Hx) motor pwm generator, each motor uses one (duty cycle) channel
      */
     P1TCONbits.PTEN = 0;                        // PWM Time Base Timer Disable 
-    pwmParams(20000, &P1TCON, &P1TPER);         // [Hz] Possible Range: [15Hz; 26.6MHz]
+    pwmParams(kfpwm, &P1TCON, &P1TPER);         // [Hz] Possible Range: [15Hz; 26.6MHz]
     PWM1CON1bits.PMOD1 = 1;                     // PWM I/O pin pair is in Independent Output mode
     PWM1CON1bits.PMOD2 = 1;
     

@@ -21,24 +21,24 @@
 
 void taskTest(void)
 {
-    //char str[30];
-    //char str2[30];
+    char str[30];
+    char str2[30];
        
-    driveLeft(1);   
-    driveRight(0.05);
-            
-    //float test = getRangeLeft();
+    driveLeft(-1);   
+    driveRight(0);
     
-    //sprintf(str, "BTN %d\n", BTN);    
-    //sprintf(str2, "P2 %d\n", POS2CNT);
+    int32_t val = getDistanceLeft();
+    float val2 = getVelocityLeft();
+    
+    sprintf(str, "DIST %d\n", val);    
+    sprintf(str2, "VELO %f.4\n", val2);
         
-    //uartWrite(str);
-    //uartWrite(str2);
+    uartWrite(str,0);
+    uartWrite(str2,0);
     
     if (BTN == 1)
     {          
-        LED_W = LEDON;
-
+        LED_W = ~LED_W;
     }
 }
 
@@ -59,3 +59,4 @@ void taskControl(uint16_t freq)
     //pidController(currentTimeUs);
     //writeMotors();
 }
+

@@ -16,10 +16,10 @@
 #define PULSES_PER_REV      16*33 
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (PULSES_PER_REV*CNT_INC_PER_REV-1)
-#define UM_PER_CNT          42              // TODO!
+#define UM_PER_CNT          188495/MAX_CNT_PER_REV
 
 static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
-static volatile int32_t DISTANCE_UM_R;
+static volatile int32_t DISTANCE_UM_R;      // binary drift (loop closure?)
 
 static volatile int16_t DIFF_CNT_L;
 static volatile int16_t DIFF_CNT_R;
@@ -74,8 +74,8 @@ void updateEncoderReadings(uint16_t freq)
     static uint16_t prev_cnt_l = 0;
     static uint16_t prev_cnt_r = 0;
     
-    uint16_t cnt_l = POS1CNT;
-    uint16_t cnt_r = POS2CNT;
+    uint16_t cnt_l = POS2CNT;           // motor left
+    uint16_t cnt_r = POS1CNT;           // motor right
     
     DIFF_CNT_L = getCounterDiff(cnt_l, prev_cnt_l);
     DIFF_CNT_R = getCounterDiff(cnt_r, prev_cnt_r);

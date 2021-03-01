@@ -14,7 +14,7 @@
 /**
  * \brief Initilizes motor pwm signal generation
  */
-void motorInit(void); 
+void motorInit(uint16_t kfpwm);
 
 /**
  * \brief Sets the duty cycle following the h-bridge setup
