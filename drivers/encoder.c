@@ -15,8 +15,8 @@
 
 #define PULSES_PER_REV      16*33 
 #define CNT_INC_PER_REV     4
-#define MAX_CNT_PER_REV     (PULSES_PER_REV*CNT_INC_PER_REV-1)
-#define UM_PER_CNT          188495/MAX_CNT_PER_REV
+#define MAX_CNT_PER_REV     (uint16_t)(PULSES_PER_REV*CNT_INC_PER_REV-1)
+#define UM_PER_CNT          (float)188495/MAX_CNT_PER_REV
 
 static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
 static volatile int32_t DISTANCE_UM_R;      // binary drift (loop closure?)
@@ -61,12 +61,19 @@ float getAngleRight(void)
 
 int16_t getCounterDiff(uint16_t now, uint16_t prev)
 {
-    uint16_t forward    = (uint16_t)(now - prev);
-    uint16_t backward   = (uint16_t)(prev - now);
+    int16_t diff = now - prev;
     
-    if (forward > backward)
-        return -(int16_t)backward;
-    return (int16_t)forward;    
+    if (diff >= 0)
+    {
+        if (diff >= MAX_CNT_PER_REV/4)
+            diff -= MAX_CNT_PER_REV;
+    }
+    else
+    {
+        if (diff < -MAX_CNT_PER_REV/4)
+            diff += MAX_CNT_PER_REV;
+    }
+    return diff;
 }
 
 void updateEncoderReadings(uint16_t freq)
@@ -80,8 +87,8 @@ void updateEncoderReadings(uint16_t freq)
     DIFF_CNT_L = getCounterDiff(cnt_l, prev_cnt_l);
     DIFF_CNT_R = getCounterDiff(cnt_r, prev_cnt_r);
     
-    DISTANCE_UM_L += DIFF_CNT_L * UM_PER_CNT;
-    DISTANCE_UM_R += DIFF_CNT_R * UM_PER_CNT;
+    DISTANCE_UM_L += (int32_t)(DIFF_CNT_L * UM_PER_CNT);
+    DISTANCE_UM_R += (int32_t)(DIFF_CNT_R * UM_PER_CNT);
     
     VELOCITY_L = DIFF_CNT_L * (UM_PER_CNT * 1e-6) * freq;
     VELOCITY_R = DIFF_CNT_R * (UM_PER_CNT * 1e-6) * freq;
@@ -96,11 +103,11 @@ void qeiInit(void)
     QEI2CONbits.QEISIDL = 0; 
     QEI1CONbits.QEIM = 0b111;       // Quadrature Encoder Interface enabled (x4 mode) with position counter reset by match (MAXxCNT)
     QEI2CONbits.QEIM = 0b111;
-    QEI1CONbits.SWPAB = 0;          // Phase A and Phase B inputs not swapped
+    QEI1CONbits.SWPAB = 1;          // Phase A and Phase B inputs not swapped
     QEI2CONbits.SWPAB = 0;
     
-    MAX1CNT = MAX_CNT_PER_REV;
-    MAX2CNT = MAX_CNT_PER_REV;
+    MAX1CNT = MAX_CNT_PER_REV*20;   // times 20, reducing prob. of not sensing jump
+    MAX2CNT = MAX_CNT_PER_REV*20;
     POS1CNT = 0;
     POS2CNT = 0;
     

@@ -30,7 +30,7 @@ void init(void)
     
     /*
      * Components Initialization:
-     * - motorInit(uint16_t kfpwm)       -> PWM Generation (Freq.)
+     * - motorInit(uint16_t kfpwm)      -> PWM Generation (Freq.)
      * - qeiInit()                      -> Encoder Readings (Pulses, Unit Conversion)
      * - rangingInit(uint16_t kfscl)    -> VL53L0X Ranging Readings (Remapping, Measurement Freq.)
      *      

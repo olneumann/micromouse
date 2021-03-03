@@ -24,7 +24,7 @@
  * \param[out] pPR - Timer Period register
  * \return 0 on sucess, -1 otherwise
  */
-int timerParams(int _ms, volatile uint16_t* pTiCON, volatile uint16_t* pTMR, volatile uint16_t* pPR)
+int timerParams(uint16_t _ms, volatile uint16_t* pTiCON, volatile uint16_t* pTMR, volatile uint16_t* pPR)
 {
     int err = -1;
     
@@ -91,6 +91,14 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
     IFS0bits.T1IF = 0;
     debug();
     //control_loop(CONTROL_LOOP_FREQ_HZ);
+    
+    static int watchdog = 0;
+    watchdog += CONTROL_LOOP_PERIODE_MS;
+    if (watchdog >= 2000) // blinking event every 2 seconds;
+    {
+        LED_W = ~LED_W;
+        watchdog = 0;
+    }
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _T2Interrupt(void)

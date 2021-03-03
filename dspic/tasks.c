@@ -25,13 +25,13 @@ void taskTest(void)
     char str2[30];
        
     driveLeft(-1);   
-    driveRight(0);
+    driveRight(-1);
     
-    int32_t val = getDistanceLeft();
+    float val = getVelocityRight();
     float val2 = getVelocityLeft();
     
-    sprintf(str, "DIST %d\n", val);    
-    sprintf(str2, "VELO %f.4\n", val2);
+    sprintf(str, "VR %-.4f\n", val);
+    sprintf(str2, "VL %-.4f\n", val2);
         
     uartWrite(str,0);
     uartWrite(str2,0);
