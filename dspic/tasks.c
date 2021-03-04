@@ -28,11 +28,13 @@ void taskTest(void)
     driveLeft(0);   
     driveRight(0);
    
-    uint8_t data = 42;
-    uint8_t* pData = &data;
+    //uint8_t data = 0;
+    //uint8_t* pData = &data;
     
     //i2cWrite(0x29,0x42,pData, 1);
-    
+    //i2cRead(0x29,0x51,pData,2);
+    //i2cRead(0x29,0xC1,pData,1);
+            
     float val = getRangeLeft();
     //float val = getVelocityRight();
     //float val2 = getVelocityLeft();
@@ -53,7 +55,6 @@ void taskRanging(uint16_t freq)
 {
     // do we need it in the end?
 }
-
 
 void taskControl(uint16_t freq)
 {

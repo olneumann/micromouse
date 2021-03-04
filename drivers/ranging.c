@@ -86,6 +86,19 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
                 VL53L0X_DEVICEMODE_CONTINUOUS_RANGING);
     }
     
+    // interrupt params
+    IPC0bits.INT0IP = 4;    // prios
+    IPC5bits.INT1IP = 4;
+    IPC7bits.INT2IP = 4;
+    
+    IFS0bits.INT0IF = 0;    // reset both flags
+    IFS1bits.INT1IF = 0;
+    IFS1bits.INT2IF = 0;
+    
+    IEC0bits.INT0IE = 1;    // enable interrupts
+    IEC1bits.INT1IE = 1;
+    IEC1bits.INT2IE = 1;
+    
     return Status;
 }
 
@@ -96,7 +109,7 @@ VL53L0X_Error enableRanging(void)
     int i;
     for (i=0; i<SENSOR_COUNT; i++)
     {       
-        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_StartMeasurement(&pDev[i]); 
+        Status = VL53L0X_StartMeasurement(&pDev[i]); 
     }
     return Status;
 }
@@ -108,7 +121,7 @@ VL53L0X_Error disableRanging(void)
     int i;
     for (i=0; i<SENSOR_COUNT; i++)
     {       
-        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_StopMeasurement(&pDev[i]);  
+        Status = VL53L0X_StopMeasurement(&pDev[i]);  
     }
     return Status;
 }
@@ -165,6 +178,8 @@ VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
  */
 void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
 {
+    LED_IND1 = LEDON;
+    
     IFS0bits.INT0IF = 0;
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;

@@ -38,7 +38,7 @@ void init(void)
     
     motorInit(20);
     qeiInit();
-    rangingInit(100);
+    rangingInit(20);
     enableRanging();
     
     /* 

@@ -85,7 +85,7 @@ int i2cRead(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint32_t count)
     if(waitACK() == -1) return status;
     I2C1TRN = idx_addr;                     // Send idx_addr
     if(waitACK() == -1) return status;
-        
+       
     I2C1CONbits.RSEN = 1;                   // Assert repeated start condition
     while(I2C1CONbits.RSEN == 1);            
     
@@ -99,7 +99,7 @@ int i2cRead(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint32_t count)
         
         pData[i] = I2C1RCV;                 // Receive slave data
         
-        sendACK();                          
+        if (i != 0) sendACK();                          
     }
 
     I2C1CONbits.PEN = 1;                    // Send stop condition
