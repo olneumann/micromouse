@@ -94,7 +94,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
     
     static int watchdog = 0;
     watchdog += CONTROL_LOOP_PERIODE_MS;
-    if (watchdog >= 2000) // blinking event every 2 seconds;
+    if (watchdog >= 1000) // blinking event every 1 seconds;
     {
         LED_W = ~LED_W;
         watchdog = 0;

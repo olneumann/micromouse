@@ -16,8 +16,8 @@
 
 #include "ranging.h"
 
-#define SENSOR_COUNT                3    
-#define VL53L0X_ADDRESS_DEFAULT     0x52
+#define SENSOR_COUNT                1    
+#define VL53L0X_ADDRESS_DEFAULT     0x29
 
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
 VL53L0X_Dev_t *pDev = dev;          // &dev ?
@@ -73,7 +73,7 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
         pDev[i].comms_speed_khz = kfscl;
     }
     
-    remapSensors();
+    //remapSensors();
     
     for (i=0; i<SENSOR_COUNT; i++)
     {       

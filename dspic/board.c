@@ -13,6 +13,9 @@
 #include "../drivers/serial_uart.h"
 
 #include "board.h"
+#include "p33Fxxxx.h"
+
+#define I2C_DEBUG   0
 
 void ioInit(void)
 {    
@@ -32,6 +35,17 @@ void ioInit(void)
     TRISCbits.TRISC2 = 0;           // [OUT] LED_IND2
     
     TRISCbits.TRISC3 = 0;           // [OUT] UART_RX_IND
+    
+    /* 
+     * I2C Open-Drain 
+     */  
+    ODCBbits.ODCB8 = 1;
+    ODCBbits.ODCB9 = 1;
+    
+#if I2C_DEBUG
+    TRISBbits.TRISB8 = 0;           
+    TRISBbits.TRISB9 = 0;
+#endif  
     
     /*
      * Remapping
@@ -66,7 +80,7 @@ void ioInit(void)
     
     AD1PCFGL = 0xFFFF;              // all analog pins now digital
     AD1PCFGLbits.PCFG0 = 0;         // [IN] BAT_SENSE
-   
+    
     /*
      * Output Mapping
      * PIN <- PERIPHERAL (RPnR codes | table 11-2)

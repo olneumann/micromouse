@@ -14,6 +14,7 @@
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
+#include "../drivers/serial_i2c.h"
 #include "../drivers/motor.h"
 #include "../control/pid.h"
 
@@ -24,22 +25,23 @@ void taskTest(void)
     char str[30];
     char str2[30];
        
-    driveLeft(-1);   
-    driveRight(-1);
+    driveLeft(0);   
+    driveRight(0);
+   
+    uint8_t data = 42;
+    uint8_t* pData = &data;
     
-    float val = getVelocityRight();
-    float val2 = getVelocityLeft();
+    //i2cWrite(0x29,0x42,pData, 1);
     
-    sprintf(str, "VR %-.4f\n", val);
-    sprintf(str2, "VL %-.4f\n", val2);
+    float val = getRangeLeft();
+    //float val = getVelocityRight();
+    //float val2 = getVelocityLeft();
+   
+    sprintf(str, "RL %-.4f\n", val);
+    //sprintf(str2, "VL %-.4f\n", val2);
         
     uartWrite(str,0);
-    uartWrite(str2,0);
-    
-    if (BTN == 1)
-    {          
-        LED_W = ~LED_W;
-    }
+    //uartWrite(str2,0);
 }
 
 void taskEncoder(uint16_t freq)
