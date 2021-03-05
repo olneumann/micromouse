@@ -4,7 +4,7 @@
 #include "map_updater.h"
 
 void init_solver(void);
-void decide_target_cell(void)
+void decide_target_cell(void);
 
 
 #endif

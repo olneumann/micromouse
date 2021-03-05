@@ -1,9 +1,6 @@
 #ifndef ACTIONS_H
 #define	ACTIONS_H
-
-#include "general_parameters.h"
-#include "general_definitions.h"
-
+#include "../common/general_definitions.h"
 typedef enum {
     MOVE_NONE = -1,
     MOVE_FRONT = 0, // desired parameters should be given
@@ -22,8 +19,8 @@ typedef enum {
     TURN_RIGHT_180 = 16,
 } Action;
 
-void turn_left_n_radians(radians); // radians
-void turn_right_n_radians(radians); // radians
+void turn_left_n_radians(radians r); // radians
+void turn_right_n_radians(radians r) ; // radians
 
 void turn_left_45(void);
 void turn_right_45(void);

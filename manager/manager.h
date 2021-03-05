@@ -1,31 +1,33 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
+#include <stdbool.h>
+#include <stdint.h>
 #include "map_updater.h"
-#include "solver.h"
+//#include "solver.h"
 #include "actions.h"
-#include "pid.h"
-#include "logger.h"
+//#include "../common/logger.h"
 
-#include "general_parameters.h"
-#include "general_definitions.h"
+#include "../common/general_parameters.h"
+#include "../common/general_definitions.h"
 
-typedef enum {
-    West = 0, East = 1, South = 2, North = 3,
-    Southwest = 4, Southeast = 5, Northwest = 6, Northeast = 7
-} orientation;
+
 typedef struct {
     uint8_t x;
     uint8_t y;
-    orientation o;
 } position;
+
+typedef struct {
+    position p;
+    direction d;
+} state;
 
 typedef struct {
     bool front;
     bool left;
     bool right;
     bool back;
-} walls_around_t;
+} walls_around;
 
 typedef enum {
     Normal = 0, Fast = 1, BlindlyFast = 2
@@ -43,6 +45,14 @@ void start_discovery(void);
 
 Action *decide_next_action(void);
 
-void start_action(Action *);
+void start_action(Action*);
+
+state get_mouse_state(void);
+
+position get_start_cell();
+
+position what_is_the_position_after_moving_one_step_in_the_direction(position , direction );
+
+void move_to_one_cell_in_direction(direction);
 
 #endif //MANAGER_H
