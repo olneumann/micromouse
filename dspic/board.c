@@ -15,7 +15,7 @@
 #include "board.h"
 #include "p33Fxxxx.h"
 
-#define I2C_DEBUG   0
+//#define I2C_DEBUG
 
 void ioInit(void)
 {    
@@ -42,7 +42,7 @@ void ioInit(void)
     ODCBbits.ODCB8 = 1;
     ODCBbits.ODCB9 = 1;
     
-#if I2C_DEBUG
+#ifdef I2C_DEBUG
     TRISBbits.TRISB8 = 0;           
     TRISBbits.TRISB9 = 0;
 #endif  

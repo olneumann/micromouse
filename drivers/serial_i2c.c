@@ -92,14 +92,14 @@ int i2cRead(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint32_t count)
     I2C1TRN = r_addr;                       // Send r_addr with read indication
     if(waitACK() == -1) return status;
     
-    for(i=count-1; i>=0; i--)
+    for(i=0; i<count; i++)
     {
         I2C1CONbits.RCEN = 1;               // Enable master reception
         while(!I2C1STATbits.RBF);
         
         pData[i] = I2C1RCV;                 // Receive slave data
         
-        if (i != 0) sendACK();                          
+        if (i != count-1) sendACK();                          
     }
 
     I2C1CONbits.PEN = 1;                    // Send stop condition

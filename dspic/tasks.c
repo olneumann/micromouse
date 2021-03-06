@@ -22,19 +22,20 @@
 
 void taskTest(void)
 {
+    
+#ifdef VL53L0X_DEBUG
+    i2c_test();
+#endif
+       
     char str[30];
     char str2[30];
        
     driveLeft(0);   
     driveRight(0);
    
-    //uint8_t data = 0;
-    //uint8_t* pData = &data;
-    
-    //i2cWrite(0x29,0x42,pData, 1);
-    //i2cRead(0x29,0x51,pData,2);
-    //i2cRead(0x29,0xC1,pData,1);
-            
+    uint8_t data = 0;
+    uint8_t* pData = &data;
+                
     float val = getRangeLeft();
     //float val = getVelocityRight();
     //float val2 = getVelocityLeft();
