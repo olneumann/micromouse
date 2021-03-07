@@ -129,7 +129,7 @@ uint32_t VL53L0X_isqrt(uint32_t num)
 	 */
 
 	uint32_t  res = 0;
-	uint32_t  bit = 1 << 30;
+	uint32_t  bit = (uint32_t)1 << 30;
 	/* The second-to-top bit is set:
 	 *	1 << 14 for 16-bits, 1 << 30 for 32 bits */
 
@@ -1878,7 +1878,7 @@ VL53L0X_Error VL53L0X_calc_sigma_estimate(VL53L0X_DEV Dev,
 		xTalkCorrection <<= 8;
 
 		if(pRangingMeasurementData->RangeStatus != 0){
-			pwMult = 1 << 16;
+			pwMult = (uint32_t)1 << 16;
 		} else {
 			/* FixPoint1616/uint32 = FixPoint1616 */
 			pwMult = deltaT_ps/cVcselPulseWidth_ps; /* smaller than 1.0f */
@@ -1888,13 +1888,13 @@ VL53L0X_Error VL53L0X_calc_sigma_estimate(VL53L0X_DEV Dev,
 			 * values are small enough such that32 bits will not be
 			 * exceeded.
 			 */
-			pwMult *= ((1 << 16) - xTalkCorrection);
+			pwMult *= (((uint32_t)1 << 16) - xTalkCorrection);
 
 			/* (FixPoint3232 >> 16) = FixPoint1616 */
 			pwMult =  (pwMult + c16BitRoundingParam) >> 16;
 
 			/* FixPoint1616 + FixPoint1616 = FixPoint1616 */
-			pwMult += (1 << 16);
+			pwMult += ((uint32_t)1 << 16);
 
 			/*
 			 * At this point the value will be 1.xx, therefore if we square

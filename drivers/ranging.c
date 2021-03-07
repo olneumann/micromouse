@@ -20,11 +20,117 @@
 #define VL53L0X_ADDRESS_DEFAULT     (uint8_t)0x29
 
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
-VL53L0X_Dev_t *pDev = dev;          // &dev ?
+VL53L0X_Dev_t *pDev = dev;          
 
 static volatile uint16_t RANGE_L[4];
 static volatile uint16_t RANGE_F[4];
 static volatile uint16_t RANGE_R[4];
+
+#ifdef VL53L0X_DEBUG
+
+#include "../drivers/serial_uart.h"
+
+static volatile uint16_t RANGE;
+
+int rd_write_verification(VL53L0X_DEV Dev, uint8_t addr, uint32_t expected_value)
+{
+	uint8_t bytes[4],mbytes[4];
+	uint16_t words[2];
+	uint32_t dword;
+    int i=0;
+        
+	VL53L0X_ReadMulti(Dev, addr, mbytes, 4);
+	for (i=0; i<4; i++){VL53L0X_RdByte(Dev, addr+i, &bytes[i]); }
+	for (i=0; i<2; i++){VL53L0X_RdWord(Dev, addr+i*2, &words[i]); }
+	VL53L0X_RdDWord(Dev, addr, &dword);
+	
+    char str[42];
+	sprintf(str,"expected   = %8x,\n",expected_value);
+    uartWrite(str,0);
+	sprintf(str,"read_multi = %2x, %2x, %2x, %2x\n", mbytes[0],mbytes[1],mbytes[2],mbytes[3]);
+	uartWrite(str,0);
+    sprintf(str,"read_bytes = %2x, %2x, %2x, %2x\n", bytes[0],bytes[1],bytes[2],bytes[3]);
+	uartWrite(str,0);
+    sprintf(str,"read words = %4x, %4x\n",words[0],words[1]);
+	uartWrite(str,0);
+    sprintf(str,"read dword = %8x\n",dword);
+	uartWrite(str,0);
+        
+	if(((uint32_t)mbytes[0]<<24 | (uint32_t)mbytes[1]<<16 | (uint32_t)mbytes[2]<<8 | (uint32_t)mbytes[3]) != expected_value) return (-1);
+	if(((uint32_t)bytes[0]<<24 | (uint32_t)bytes[1]<<16 | (uint32_t)bytes[2]<<8 | (uint32_t)bytes[3]) != expected_value) return (-1);
+	if(((uint32_t)words[0]<<16 | (uint32_t)words[1]) != expected_value) return (-1);
+	if(dword != expected_value) return(-1);
+	
+    return(0);
+}
+
+void i2c_test(void)
+{
+    /*
+     * Test I2C primitives for byte, word, dword, and multi read & write
+     * access. Importance of ACK/NACK, ordering of packets (MSB/LSB).
+     * 
+     * [Dev] = &pDev[{0,1,2,...}] select sensor obj. 
+     */
+    VL53L0X_DEV Dev = &pDev[0];
+
+	int err_count = 0;
+	uint32_t expected_value = 0;
+
+	uint8_t buff[4] = {0x11,0x22,0x33,0x44};
+	uint8_t ChipID[4];
+	int i=0;
+
+	for (i=0; i<4; i++){VL53L0X_RdByte(Dev, 0xC0+i, &ChipID[i]); }
+	expected_value = (uint32_t)ChipID[0]<<24 | (uint32_t)ChipID[1]<<16 | (uint32_t)ChipID[2]<<8 | (uint32_t)ChipID[3];    
+    if(rd_write_verification(Dev, 0xc0, expected_value) <0) err_count++;	// check the chip ID
+
+	VL53L0X_WriteMulti(Dev, 0x4, buff, 4);				// check WriteMulti
+	if(rd_write_verification(Dev, 0x4, 0x11223344) <0) err_count++;
+
+	VL53L0X_WrDWord(Dev, 0x4, 0xffeeddcc);				// check WrDWord
+	if(rd_write_verification(Dev, 0x4, 0xffeeddcc) <0) err_count++;
+
+	VL53L0X_WrWord(Dev, 0x4, 0x5566);					// check WrWord
+	VL53L0X_WrWord(Dev, 0x6, 0x7788);
+	if(rd_write_verification(Dev, 0x4, 0x55667788) <0) err_count++;
+
+    for (i=0; i<4; i++){VL53L0X_WrByte(Dev, 0x04+i, buff[i]);}
+	if(rd_write_verification(Dev, 0x4,0x11223344) <0) err_count++;
+	
+    if(err_count>0)
+	{
+		char str[30];
+        sprintf(str,"i2c test failed - please check it\n");
+        uartWrite(str,0);
+    }
+}
+
+void print_pal_error(VL53L0X_Error Status){
+    char buf[VL53L0X_MAX_STRING_LENGTH];
+    char str[100];
+    VL53L0X_GetPalErrorString(Status, buf);
+    sprintf(str, "API Status: %i : %s\n", Status, buf);
+    uartWrite(str,0);
+}
+
+void print_range_status(VL53L0X_RangingMeasurementData_t* pRangingMeasurementData){
+    char buf[VL53L0X_MAX_STRING_LENGTH];
+    char str[100];
+    uint8_t RangeStatus;
+
+    /*
+     * New Range Status: data is valid when pRangingMeasurementData->RangeStatus = 0
+     */
+
+    RangeStatus = pRangingMeasurementData->RangeStatus;
+
+    VL53L0X_GetRangeStatusString(RangeStatus, buf);
+    sprintf(str,"Range Status: %i : %s\n", RangeStatus, buf);
+    uartWrite(str,0);
+}
+
+#endif
 
 /*
  * Description: see appl. note
@@ -73,20 +179,21 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
         pDev[i].comms_speed_khz = kfscl;
     }
     
+#ifndef VL53L0X_DEBUG
     //remapSensors();
+#endif
     
-//    for (i=0; i<SENSOR_COUNT; i++)
-//    {       
-//        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_DataInit(&pDev[i]);
-//        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_StaticInit(&pDev[i]);  
-//        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_PerformRefCalibration(&pDev[i],
-//        		&VhvSettings, &PhaseCal); 
-//        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_PerformRefSpadManagement(&pDev[i],
-//        		&refSpadCount, &isApertureSpads);        
-//        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetDeviceMode(&pDev[i], 
-//                VL53L0X_DEVICEMODE_CONTINUOUS_RANGING);
-//        if(Status == VL53L0X_ERROR_NONE) LED_IND2 = LEDON;
-//    }
+    for (i=0; i<SENSOR_COUNT; i++)
+    {       
+        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_DataInit(&pDev[i]);
+        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_StaticInit(&pDev[i]);  
+        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_PerformRefCalibration(&pDev[i],
+        		&VhvSettings, &PhaseCal); 
+        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_PerformRefSpadManagement(&pDev[i],
+        		&refSpadCount, &isApertureSpads);        
+        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetDeviceMode(&pDev[i], 
+                VL53L0X_DEVICEMODE_CONTINUOUS_RANGING);
+    }
     
     // interrupt params
     IPC0bits.INT0IP = 4;    // prios
@@ -100,7 +207,14 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     IEC0bits.INT0IE = 1;    // enable interrupts
     IEC1bits.INT1IE = 1;
     IEC1bits.INT2IE = 1;
+
+    INTCON2bits.INT0EP = 1; // interrupt on negative edge
+    INTCON2bits.INT1EP = 1;
+    INTCON2bits.INT2EP = 1;
     
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
     return Status;
 }
 
@@ -111,8 +225,13 @@ VL53L0X_Error enableRanging(void)
     int i;
     for (i=0; i<SENSOR_COUNT; i++)
     {       
-        Status = VL53L0X_StartMeasurement(&pDev[i]); 
+        Status = VL53L0X_StartMeasurement(&pDev[i]);
+        Status = VL53L0X_ClearInterruptMask(&pDev[i], VL53L0X_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY);
     }
+
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
     return Status;
 }
 
@@ -125,6 +244,9 @@ VL53L0X_Error disableRanging(void)
     {       
         Status = VL53L0X_StopMeasurement(&pDev[i]);  
     }
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
     return Status;
 }
 
@@ -172,25 +294,46 @@ VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
     
     VL53L0X_ClearInterruptMask(pDev, VL53L0X_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY);
     
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
     return Status;
 }
+
+#ifdef VL53L0X_DEBUG
+
+void doRanging(void)
+{
+    VL53L0X_Error Status = VL53L0X_ERROR_NONE;
+    Status = getRangingSample(&pDev[0], &RANGE);
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
+}
+
+uint16_t getRange(void)
+{
+    return RANGE;
+}
+
+#endif
 
 /*
  * INT0 = INT_L
  */
 void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
 {
-    LED_IND1 = LEDON;
-    
     IFS0bits.INT0IF = 0;
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
-    VL53L0X_Dev_t *pDev = &dev[0];
     
-    Status = getRangingSample(pDev, &RANGE_L[i]);
+    Status = getRangingSample(&dev[0], &RANGE_L[i]);
     
     i++;
     if (i==3) i = 0;
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
 }
 
 /*
@@ -201,12 +344,14 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT1Interrupt(void)
     IFS1bits.INT1IF = 0;
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
-    VL53L0X_Dev_t *pDev = &dev[1];
-    
-    Status = getRangingSample(pDev, &RANGE_F[i]);
+
+    Status = getRangingSample(&dev[1], &RANGE_F[i]);
     
     i++;
     if (i==3) i = 0;
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
 }
 
 /*
@@ -217,88 +362,12 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT2Interrupt(void)
     IFS1bits.INT2IF = 0;
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
-    VL53L0X_Dev_t *pDev = &dev[2];
     
-    Status = getRangingSample(pDev, &RANGE_R[i]);
+    Status = getRangingSample(&dev[2], &RANGE_R[i]);
     
     i++;
     if (i==3) i = 0;
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
 }
-
-#ifdef VL53L0X_DEBUG
-
-#include "../drivers/serial_uart.h"
-#include "vl53l0x/vl53l0x_api.h"
-#include "vl53l0x/vl53l0x_platform.h"
-
-int rd_write_verification(VL53L0X_DEV Dev, uint8_t addr, uint32_t expected_value)
-{
-	uint8_t bytes[4],mbytes[4];
-	uint16_t words[2];
-	uint32_t dword;
-    int i=0;
-        
-	VL53L0X_ReadMulti(Dev, addr, mbytes, 4);
-	for (i=0; i<4; i++){VL53L0X_RdByte(Dev, addr+i, &bytes[i]); }
-	for (i=0; i<2; i++){VL53L0X_RdWord(Dev, addr+i*2, &words[i]); }
-	VL53L0X_RdDWord(Dev, addr, &dword);
-	
-    char str[42];
-	sprintf(str,"expected   = %8x,\n",expected_value);
-    uartWrite(str,0);
-	sprintf(str,"read_multi = %2x, %2x, %2x, %2x\n", mbytes[0],mbytes[1],mbytes[2],mbytes[3]);
-	uartWrite(str,0);
-    sprintf(str,"read_bytes = %2x, %2x, %2x, %2x\n", bytes[0],bytes[1],bytes[2],bytes[3]);
-	uartWrite(str,0);
-    sprintf(str,"read words = %4x, %4x\n",words[0],words[1]);
-	uartWrite(str,0);
-    sprintf(str,"read dword = %8x\n",dword);
-	uartWrite(str,0);
-        
-	if(((uint32_t)mbytes[0]<<24 | (uint32_t)mbytes[1]<<16 | (uint32_t)mbytes[2]<<8 | (uint32_t)mbytes[3]) != expected_value) return (-1);
-	if(((uint32_t)bytes[0]<<24 | (uint32_t)bytes[1]<<16 | (uint32_t)bytes[2]<<8 | (uint32_t)bytes[3]) != expected_value) return (-1);
-	if(((uint32_t)words[0]<<16 | (uint32_t)words[1]) != expected_value) return (-1);
-	if(dword != expected_value) return(-1);
-	
-    return(0);
-}
-
-void i2c_test(void)
-{
-    /*
-     * Change for tested sensor 
-     */
-    VL53L0X_DEV Dev = &pDev[0];
-
-	int err_count = 0;
-	uint32_t expected_value = 0;
-
-	uint8_t buff[4] = {0x11,0x22,0x33,0x44};
-	uint8_t ChipID[4];
-	int i=0;
-
-	for (i=0; i<4; i++){VL53L0X_RdByte(Dev, 0xC0+i, &ChipID[i]); }
-	expected_value = (uint32_t)ChipID[0]<<24 | (uint32_t)ChipID[1]<<16 | (uint32_t)ChipID[2]<<8 | (uint32_t)ChipID[3];    
-    if(rd_write_verification(Dev, 0xc0, expected_value) <0) err_count++;	// check the chip ID
-
-	VL53L0X_WriteMulti(Dev, 0x4, buff, 4);				// check WriteMulti
-	if(rd_write_verification(Dev, 0x4, 0x11223344) <0) err_count++;
-
-	VL53L0X_WrDWord(Dev, 0x4, 0xffeeddcc);				// check WrDWord
-	if(rd_write_verification(Dev, 0x4, 0xffeeddcc) <0) err_count++;
-
-	VL53L0X_WrWord(Dev, 0x4, 0x5566);					// check WrWord
-	VL53L0X_WrWord(Dev, 0x6, 0x7788);
-	if(rd_write_verification(Dev, 0x4, 0x55667788) <0) err_count++;
-
-    for (i=0; i<4; i++){VL53L0X_WrByte(Dev, 0x04+i, &buff[i]);}
-	if(rd_write_verification(Dev, 0x4,0x11223344) <0) err_count++;
-	
-    if(err_count>0)
-	{
-		char str[30];
-        sprintf(str,"i2c test failed - please check it\n");
-        uartWrite(str,0);
-    }
-}
-#endif

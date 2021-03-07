@@ -117,9 +117,9 @@ VL53L0X_Error VL53L0X_perform_xtalk_calibration(VL53L0X_DEV Dev,
 		/* FixPoint1616_t / uint16_t = FixPoint1616_t */
 		xTalkStoredMeanSignalRate = sum_signalRate / total_count;
 		xTalkStoredMeanRange = (FixPoint1616_t)((uint32_t)(
-			sum_ranging << 16) / total_count);
+			(uint32_t)sum_ranging << 16) / total_count);
 		xTalkStoredMeanRtnSpads = (FixPoint1616_t)((uint32_t)(
-			sum_spads << 16) / total_count);
+			(uint32_t)sum_spads << 16) / total_count);
 
 		/* Round Mean Spads to Whole Number.
 		 * Typically the calculated mean SPAD count is a whole number
@@ -163,7 +163,7 @@ VL53L0X_Error VL53L0X_perform_xtalk_calibration(VL53L0X_DEV Dev,
 			 * Fixed1616 * (Fixed1616 - Fixed1616/int) :=
 			 * (2^16 * Fixed1616)
 			 */
-			signalXTalkTotalPerSpad *= ((1 << 16) -
+			signalXTalkTotalPerSpad *= (((uint32_t)1 << 16) -
 				(xTalkStoredMeanRange / xTalkCalDistanceAsInt));
 
 			/* Round from 2^16 * Fixed1616, to Fixed1616. */
@@ -252,7 +252,7 @@ VL53L0X_Error VL53L0X_perform_offset_calibration(VL53L0X_DEV Dev,
 
 	if (Status == VL53L0X_ERROR_NONE) {
 		/* FixPoint1616_t / uint16_t = FixPoint1616_t */
-		StoredMeanRange = (FixPoint1616_t)((uint32_t)(sum_ranging << 16)
+		StoredMeanRange = (FixPoint1616_t)((uint32_t)((uint32_t)sum_ranging << 16)
 			/ total_count);
 
 		StoredMeanRangeAsInt = (StoredMeanRange + 0x8000) >> 16;
