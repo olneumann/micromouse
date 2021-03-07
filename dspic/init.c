@@ -16,6 +16,7 @@
 #include "../drivers/adc.h"
 #include "../drivers/motor.h"
 #include "../drivers/encoder.h"
+#include "../drivers/ranging.h"
 #include "../common/logger.h"
 
 #include "init.h"
@@ -39,7 +40,7 @@ void init(void)
     motorInit(20);
     qeiInit();
     rangingInit(20);
-    //enableRanging();
+    enableRanging();
     
     /* 
      * Main loop:

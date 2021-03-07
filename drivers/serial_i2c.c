@@ -60,7 +60,7 @@ int i2cWrite(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint8_t count)
 
     for(i=0; i<count; i++)                  // Send data (sequential)
     {
-        I2C1TRN = pData[i];                 // [?] Order of data packages
+        I2C1TRN = pData[i];                 // Order of data packages
         if(waitACK() == -1) return status;
     }
     

@@ -22,29 +22,21 @@
 
 void taskTest(void)
 {
-    
 #ifdef VL53L0X_DEBUG
-    i2c_test();
-#endif
-       
     char str[30];
-    char str2[30];
+    
+    //i2c_test();
+    doRanging();
+    uint16_t val = getRange();
        
-    driveLeft(0);   
-    driveRight(0);
-   
-    uint8_t data = 0;
-    uint8_t* pData = &data;
-                
-    float val = getRangeLeft();
-    //float val = getVelocityRight();
-    //float val2 = getVelocityLeft();
-   
-    sprintf(str, "RL %-.4f\n", val);
-    //sprintf(str2, "VL %-.4f\n", val2);
-        
+    sprintf(str, "RL %d\n", val);   
     uartWrite(str,0);
-    //uartWrite(str2,0);
+#endif
+    
+//    char str[30];
+//    float val = getRangeLeft();
+//    sprintf(str, "RL %-.4f\n", val);   
+//    uartWrite(str,0);  
 }
 
 void taskEncoder(uint16_t freq)

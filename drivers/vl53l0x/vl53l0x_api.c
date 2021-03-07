@@ -2821,14 +2821,14 @@ VL53L0X_Error VL53L0X_GetInterruptThresholds(VL53L0X_DEV Dev,
 
 	Status = VL53L0X_RdWord(Dev, VL53L0X_REG_SYSTEM_THRESH_LOW, &Threshold16);
 	/* Need to multiply by 2 because the FW will apply a x2 */
-	*pThresholdLow = (FixPoint1616_t)((0x00fff & Threshold16) << 17);
+	*pThresholdLow = (FixPoint1616_t)((uint32_t)(0x00fff & Threshold16) << 17);
 
 	if (Status == VL53L0X_ERROR_NONE) {
 		Status = VL53L0X_RdWord(Dev, VL53L0X_REG_SYSTEM_THRESH_HIGH,
 			&Threshold16);
 		/* Need to multiply by 2 because the FW will apply a x2 */
 		*pThresholdHigh =
-			(FixPoint1616_t)((0x00fff & Threshold16) << 17);
+			(FixPoint1616_t)((uint32_t)(0x00fff & Threshold16) << 17);
 	}
 
 	LOG_FUNCTION_END(Status);
