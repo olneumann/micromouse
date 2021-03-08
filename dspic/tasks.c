@@ -27,16 +27,26 @@ void taskTest(void)
     
     //i2c_test();
     doRanging();
+    
     uint16_t val = getRange();
-       
-    sprintf(str, "RL %d\n", val);   
-    uartWrite(str,0);
+    
+    sprintf(str, "%d\n", val);   
+    uartWrite(str,0);  
 #endif
     
-    char str[30];
-    float val = getRangeLeft();
-    sprintf(str, "RL %-.4f\n", val);   
+    char str[100];
+    float range_l = getRangeLeft();
+    float range_f = getRangeFront();
+    float velo_l = getVelocityLeft();
+    float velo_r = getVelocityRight();
+    
+    sprintf(str, "R: [%-.1f][%-.1f][%-.1f]\nV: [%-.3f][%-.3f]\n", 
+            range_l,range_f,0.0f,
+            velo_l,velo_r);   
     uartWrite(str,0);  
+    
+    driveLeft(0.1);
+    driveRight(0.1);
 }
 
 void taskEncoder(uint16_t freq)
