@@ -26,6 +26,13 @@ static volatile uint16_t RANGE_L[4];
 static volatile uint16_t RANGE_F[4];
 static volatile uint16_t RANGE_R[4];
 
+/*
+ * Description:
+ *              - Testing of I2C interface
+ *              - Timer based minimal ranging function
+ * 
+ */
+
 #ifdef VL53L0X_DEBUG
 
 #include "../drivers/serial_uart.h"
@@ -180,7 +187,7 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     }
     
 #ifndef VL53L0X_DEBUG
-    remapSensors();
+    //remapSensors();
 #endif
     
     for (i=0; i<SENSOR_COUNT; i++)
@@ -208,6 +215,10 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     IEC1bits.INT1IE = 1;
     IEC1bits.INT2IE = 1;
 
+    INTCON2bits.INT0EP = 1; // interrupt on negative edge
+    INTCON2bits.INT1EP = 1;
+    INTCON2bits.INT2EP = 1;
+    
     #ifdef VL53L0X_DEBUG_LOG
         print_pal_error(Status);
     #endif
@@ -222,8 +233,9 @@ VL53L0X_Error enableRanging(void)
     for (i=0; i<SENSOR_COUNT; i++)
     {       
         Status = VL53L0X_StartMeasurement(&pDev[i]);
-
+        Status = VL53L0X_ClearInterruptMask(&pDev[i], VL53L0X_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY);
     }
+
     #ifdef VL53L0X_DEBUG_LOG
         print_pal_error(Status);
     #endif
@@ -318,8 +330,6 @@ uint16_t getRange(void)
  */
 void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
 {
-    LED_IND1 = ~LED_IND1;
-    
     IFS0bits.INT0IF = 0;
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
@@ -328,6 +338,9 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
     
     i++;
     if (i==3) i = 0;
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
 }
 
 /*
@@ -343,6 +356,9 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT1Interrupt(void)
     
     i++;
     if (i==3) i = 0;
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
 }
 
 /*
@@ -358,4 +374,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT2Interrupt(void)
     
     i++;
     if (i==3) i = 0;
+    #ifdef VL53L0X_DEBUG_LOG
+        print_pal_error(Status);
+    #endif
 }

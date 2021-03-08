@@ -33,10 +33,10 @@ void taskTest(void)
     uartWrite(str,0);
 #endif
     
-//    char str[30];
-//    float val = getRangeLeft();
-//    sprintf(str, "RL %-.4f\n", val);   
-//    uartWrite(str,0);  
+    char str[30];
+    float val = getRangeLeft();
+    sprintf(str, "RL %-.4f\n", val);   
+    uartWrite(str,0);  
 }
 
 void taskEncoder(uint16_t freq)
