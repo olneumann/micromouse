@@ -3,6 +3,7 @@
 //
 
 #include "simulation_common.h"
+
 distance SIMULATION_get_distance_to_the_wall(position the_wall, ranging_sensor sensor){
     state mouse_state = get_mouse_state();
     uint8_t x = mouse_state.p.x * 2 + 1;
@@ -14,7 +15,7 @@ distance SIMULATION_get_distance_to_the_wall(position the_wall, ranging_sensor s
 
     sensor_distance = sensor_distance + (half_distance * A_WALL_PLUS_A_CELL_SIZE);
 
-    if (sensor==Front) {
+    if (sensor == Front_Sensor) {
         sensor_distance += FRONT_MARGIN_BTW_MOUSE_AND_WALL;
     }
     else{
@@ -23,7 +24,8 @@ distance SIMULATION_get_distance_to_the_wall(position the_wall, ranging_sensor s
     printf("distance in wall space %f\n",sensor_distance);
     return sensor_distance + get_gaussian_noise(sensor_distance);
 }
-distance SIMULATION_get_front_sensor_range_data() {
+#if DISCOVERY_SIMULATION
+distance get_front_sensor_range_data() {
     state mouse_state = get_mouse_state();
 
     uint8_t y = mouse_state.p.y * 2 + 1;
@@ -78,11 +80,11 @@ distance SIMULATION_get_front_sensor_range_data() {
         default:
             break;
     }
-    return SIMULATION_get_distance_to_the_wall(wall,Front);
+    return SIMULATION_get_distance_to_the_wall(wall,Front_Sensor);
 
 }
 
-distance SIMULATION_get_right_sensor_range_data() {
+distance get_right_sensor_range_data() {
     state mouse_state = get_mouse_state();
     uint8_t y = mouse_state.p.y * 2 + 1;
     uint8_t x = mouse_state.p.x * 2 + 1;
@@ -135,11 +137,11 @@ distance SIMULATION_get_right_sensor_range_data() {
         default:
             break;
     }
-    return SIMULATION_get_distance_to_the_wall(wall,Right);
+    return SIMULATION_get_distance_to_the_wall(wall,Right_Sensor);
 
 }
 
-distance SIMULATION_get_left_sensor_range_data() {
+distance get_left_sensor_range_data() {
     state mouse_state = get_mouse_state();
     uint8_t y = mouse_state.p.y * 2 + 1;
     uint8_t x = mouse_state.p.x * 2 + 1;
@@ -193,11 +195,13 @@ distance SIMULATION_get_left_sensor_range_data() {
         default:
             break;
     }
-    return SIMULATION_get_distance_to_the_wall(wall,Left);
+    return SIMULATION_get_distance_to_the_wall(wall,Left_Sensor);
 }
+#endif
+
 distance get_gaussian_noise(distance d){
     static double mean = 0;
-    double stdd = ((double) d) * (4.0 / (100.*3.)), noise;
+    double stdd = ((double) d) * (4.0 / (100.*2.)), noise;
     double u, v, s1;
     do{
         u = (rand() / ((double ) RAND_MAX) * 2.0 - 1.0);
