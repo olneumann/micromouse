@@ -3,9 +3,11 @@
 //
 
 
-#include "discovery_2.h"
+#include "discovery.h"
 
-static volatile uint8_t visited_cells[MAZE_SIZE][MAZE_SIZE];
+static volatile int8_t visited_cells[MAZE_SIZE][MAZE_SIZE];
+static volatile walls_around_t mouse_walls_around = {False, False, False, False};
+
 
 void init_visited_cells(void) {
     int i, j;
@@ -14,6 +16,10 @@ void init_visited_cells(void) {
             visited_cells[i][j];
         }
     }
+}
+
+void print_walls_around() {
+    printf(" f:%d r:%d l:%d\n", mouse_walls_around.front, mouse_walls_around.right, mouse_walls_around.left);
 }
 
 void print_visited_cells(void) {
@@ -26,50 +32,6 @@ void print_visited_cells(void) {
     }
     printf("\n");
 
-}
-
-void set_the_map(void) { // 5v5
-
-    set_a_wall(2, 1);
-    set_a_wall(5, 2);
-    set_a_wall(7, 2);
-    set_a_wall(2, 3);
-    set_a_wall(8, 3);
-    set_a_wall(3, 4);
-    set_a_wall(7, 4);
-    set_a_wall(4, 5);
-    set_a_wall(6, 5);
-    set_a_wall(8, 5);
-    set_a_wall(3, 6);
-    set_a_wall(5, 6);
-    set_a_wall(2, 7);
-    set_a_wall(6, 7);
-    set_a_wall(8, 7);
-    set_a_wall(3, 8);
-    set_a_wall(5, 8);
-
-}
-
-void set_the_map_2(void) { //7v7
-
-    set_a_wall_along_x(2, 3, 1, 5, 9);
-    set_a_wall_along_x(3, 6, 2, 4, 6, 8, 10, 12);
-    //set_a_wall(2, 13);
-    set_a_wall_along_x(4, 1, 7);
-    set_a_wall_along_x(5, 4, 2, 4, 10, 12);
-    set_a_wall_along_x(6, 4, 3, 5, 7, 11);
-    set_a_wall_along_x(7, 3, 4, 8, 12);
-    set_a_wall_along_x(8, 1, 9);
-    set_a_wall_along_x(9, 4, 2, 4, 10, 12);
-    set_a_wall_along_x(10, 4, 3, 5, 7, 11);
-    set_a_wall_along_x(11, 1, 8);
-    set_a_wall_along_x(12, 5, 3, 5, 7, 9, 11);
-
-}
-
-uint8_t manhattan_distance(position a, position b) {
-    printf(" manhattan ==> (%d, %d,) vs ( %d %d) \n", a.x, a.y, b.x, b.y);
-    return (u_int8_t) abs(a.x - b.x) + abs(a.y - b.y);
 }
 
 position get_the_cell_by_the_wall_related_to_mouse_orientation(position wall) {
@@ -143,45 +105,6 @@ position get_the_most_distant_cell_for_2_walls(position r_wall, position l_wall)
     return the_cell;
 }
 
-position get_the_most_distant_cell_for_3_walls(position f_wall, position r_wall, position l_wall) {
-
-    u_int8_t ultimate_visits = 255;
-    position the_cell, f_cell, r_cell, l_cell;
-    u_int8_t visits;
-
-    f_cell = get_the_cell_by_the_wall_related_to_mouse_orientation(f_wall);
-    visits = get_visits(f_cell);
-
-    printf(" f_cell ==> (%d, %d) visits : %d\n", f_cell.x, f_cell.y, visits);
-
-    if (visits < ultimate_visits) {
-
-        ultimate_visits = visits;
-        the_cell = f_cell;
-    }
-
-    r_cell = get_the_cell_by_the_wall_related_to_mouse_orientation(r_wall);
-    visits = get_visits(r_cell);
-
-    printf(" r_cell ==> (%d, %d) visits : %d\n", r_cell.x, r_cell.y, visits);
-    if (visits < ultimate_visits) {
-        ultimate_visits = visits;
-        the_cell = r_cell;
-    }
-
-    l_cell = get_the_cell_by_the_wall_related_to_mouse_orientation(l_wall);
-    visits = get_visits(l_cell);
-
-    printf(" l_cell ==> (%d, %d) visits : %d\n", l_cell.x, l_cell.y, visits);
-    if (visits < ultimate_visits) {
-        ultimate_visits = visits;
-        the_cell = l_cell;
-    }
-    printf(" a cell to go ==> (%d, %d) \n", the_cell.x, the_cell.y);
-
-    return the_cell;
-}
-
 direction get_opposite_direction(direction d) {
     switch (d) {
         case East:
@@ -198,13 +121,11 @@ direction get_opposite_direction(direction d) {
 }
 
 
-mission *init_mission(mission *parent, position target, position start) {
+mission *create_a_mission(mission *parent, direction d, position start) {
     mission *m = malloc(sizeof(mission));
     m->parent = parent;
-    m->target = target;
     m->start = start;
-    m->d = get_direction_btw_start_and_end_cells(start, target);
-    m->number_of_steps = manhattan_distance(start, target);
+    m->d = d;
     m->number_of_fork_missions = 0;
     return m;
 }
@@ -232,61 +153,125 @@ void print_missions(mission *mission_tail) {
     printf("missions : ");
 
     while (mission_tail) {
-        printf(" to (%d,%d) from (%d, %d) <<=", mission_tail->target.x, mission_tail->target.y, mission_tail->start.x,
+        printf(" to direction %d from (%d, %d) <<=", mission_tail->d, mission_tail->start.x,
                mission_tail->start.y);
         mission_tail = mission_tail->parent;
     }
     printf("\n");
 }
 
+void reset_around_walls() {
+    double f_distance = SIMULATION_get_front_sensor_range_data();
+    double r_distance = SIMULATION_get_right_sensor_range_data();
+    double l_distance = SIMULATION_get_left_sensor_range_data();
+    printf("f dist : %f ,r dist : %f ,l dist : %f \n", f_distance, r_distance, l_distance);
+    mouse_walls_around.front = f_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
+    mouse_walls_around.right = r_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
+    mouse_walls_around.left = l_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
+}
+
+void turn_towards_the_direction(direction d) {
+    printf("turn towards %d\n",d);
+    turn_towards(d);
+}
+bool goal_cell_found(){
+
+    bool is_same = 0;
+    position p = get_mouse_state().p;
+    is_same |= is_cells_the_same(goal_cells[0],p);
+    is_same |= is_cells_the_same(goal_cells[1],p);
+    is_same |= is_cells_the_same(goal_cells[2],p);
+    is_same |= is_cells_the_same(goal_cells[3],p);
+    return is_same;
+
+}
+void cheers(){
+    position pos = get_mouse_state().p;
+    visited_cells[pos.x][pos.y] = -1;
+}
 void process_mission(mission *current_mission) {
     state mouse_state = get_mouse_state();
     mission *found_mission_fork;
-    position next_cell;
     u_int8_t step;
     print_missions(current_mission);
-    printf("\nmission to (%d,%d) from (%d, %d) in %d steps in dir %d \n\n",
-           current_mission->target.x,
-           current_mission->target.y,
-           current_mission->start.x, current_mission->start.y, current_mission->number_of_steps, current_mission->d);
+    printf("\nmission to direction %d from (%d, %d) \n\n",
+           current_mission->d,
+           current_mission->start.x,
+           current_mission->start.y);
     printf("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
-    for (step = 0; step < current_mission->number_of_steps; step++) {
+    turn_towards_the_direction(current_mission->d);
+    reset_around_walls();
+
+    while (!mouse_walls_around.front) {
         printf(" -----------------------\n");
-        printf("move to (%d, %d )\n", next_cell.x, next_cell.y);
         move_to_one_cell_in_direction(current_mission->d);
+        mouse_state = get_mouse_state();
+        printf("move to 1 (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
+
+        if (get_visits(mouse_state.p)) {
+            printf("cell  (%d, %d ) is already visited\n", mouse_state.p.x, mouse_state.p.y);
+            break;
+        }
+        else if(goal_cell_found()){
+            cheers();
+            break;
+        }
         set_visited(get_mouse_state().p);
-        found_mission_fork = search_a_mission(current_mission, False);
-        if (found_mission_fork) {
-            printf("mission %d to (%d,%d) from (%d,%d)  is added to mission : to (%d,%d)  from (%d,%d) \n",
-                   current_mission->number_of_fork_missions + 1,
-                   found_mission_fork->target.x, found_mission_fork->target.y,
-                   found_mission_fork->start.x, found_mission_fork->start.y,
-                   current_mission->target.x, current_mission->target.y,
-                   current_mission->start.x, current_mission->start.y
-            );
+
+        reset_around_walls();
+        print_walls_around();
+
+        if (!mouse_walls_around.right) {
+            found_mission_fork = add_a_mission(current_mission, Right);
             current_mission->fork_missions[current_mission->number_of_fork_missions] = found_mission_fork;
             current_mission->number_of_fork_missions++;
+            printf("mission %d to direction %d from (%d,%d)  is added to mission : to direction %d  from (%d,%d) \n",
+                   current_mission->number_of_fork_missions + 1,
+                   found_mission_fork->d,
+                   found_mission_fork->start.x, found_mission_fork->start.y,
+                   current_mission->d,
+                   current_mission->start.x, current_mission->start.y
+            );
+        } else {
+            printf("no mission on right !\n");
         }
+        if (!mouse_walls_around.left) {
+            found_mission_fork = add_a_mission(current_mission, Left);
+            current_mission->fork_missions[current_mission->number_of_fork_missions] = found_mission_fork;
+            current_mission->number_of_fork_missions++;
+            printf("mission %d to direction %d from (%d,%d)  is added to mission : to direction %d  from (%d,%d) \n",
+                   current_mission->number_of_fork_missions + 1,
+                   found_mission_fork->d,
+                   found_mission_fork->start.x, found_mission_fork->start.y,
+                   current_mission->d,
+                   current_mission->start.x, current_mission->start.y
+            );
+        } else {
+            printf("no mission on left !\n");
+
+        }
+
+
         printf(" --------------end of a step -----------------------\n");
         print_visited_cells();
-
+        if (step++ == 6)exit(0);
     }
+
     printf(" --------------end of a mission -----------------------\n");
     printf(" --------------start of fork missions -----------------------\n");
+
     process_fork_missions(current_mission);
     printf(" --------------end of fork missions -----------------------\n");
     free(current_mission);
 }
 
 void convert_to_an_undo_mission(mission *mission_to_undo) {
-    printf("\nundo a mission to (%d,%d) from (%d, %d) in %d steps in dir %d \n\n",
-           mission_to_undo->target.x,
-           mission_to_undo->target.y,
-           mission_to_undo->start.x, mission_to_undo->start.y, mission_to_undo->number_of_steps, mission_to_undo->d);
-    position start_cell = mission_to_undo->start;
+    state mouse_state = get_mouse_state();
+    printf("\nundo a mission to direction %d from (%d, %d) \n\n",
+           mission_to_undo->d,
+           mission_to_undo->start.x, mission_to_undo->start.y);
     mission_to_undo->d = get_opposite_direction(mission_to_undo->d);
-    mission_to_undo->start = mission_to_undo->target;
-    mission_to_undo->target = start_cell;
+    mission_to_undo->start = mouse_state.p;
 
 }
 
@@ -297,109 +282,78 @@ void process_fork_mission(mission *fork_mission) {
 }
 
 void process_fork_missions(mission *mission_to_fork) {
-    convert_to_an_undo_mission(mission_to_fork);
     mission *fork_mission;
     int8_t fork_mission_index;
     int8_t step, number_of_steps, a;
     state mouse_state;
+    convert_to_an_undo_mission(mission_to_fork);
     printf("%d fork missions \n", mission_to_fork->number_of_fork_missions);
-    if(mission_to_fork->number_of_fork_missions){
+
+    if (mission_to_fork->number_of_fork_missions) {
         for (fork_mission_index = mission_to_fork->number_of_fork_missions - 1;
-             fork_mission_index >=0; fork_mission_index--) {
-            printf("qweee\n");
-            for (a = mission_to_fork->number_of_fork_missions - 1;
-                 a >=0; a--) {
-                printf("qweeeee11 %d %d\n",a, mission_to_fork->number_of_fork_missions);
+             fork_mission_index >= 0; fork_mission_index--) {
 
-            }
-            printf("qweeeee11 %d\n",fork_mission_index);
             fork_mission = mission_to_fork->fork_missions[fork_mission_index];
-            printf("qweeeee125 %d\n",fork_mission_index);
 
-            number_of_steps = manhattan_distance(get_mouse_state().p, fork_mission->start);
-            printf("qweeeee12\n");
+            number_of_steps = manhattan_distance_uint16_t(get_mouse_state().p, fork_mission->start);
 
             printf(" -----------preparation of a fork mission------------\n");
 
             for (step = 0; step < number_of_steps; step++) { // move to the start position of the fork mission
                 move_to_one_cell_in_direction(mission_to_fork->d);
                 mouse_state = get_mouse_state();
-                printf("move to (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
+                printf("move to 2 (%d, %d ) ultimate target is (%d,%d) \n", mouse_state.p.x, mouse_state.p.y,
+                       fork_mission->start.x, fork_mission->start.y);
                 set_visited(mouse_state.p);
             }
+
             printf(" -----------start of a fork mission------------\n");
-            printf("\nfork mission to (%d,%d) from (%d, %d) in %d steps in dir %d \n",
-                   fork_mission->target.x,
-                   fork_mission->target.y,
-                   fork_mission->start.x, fork_mission->start.y, fork_mission->number_of_steps, fork_mission->d);
+            printf("\nfork mission to direction %d from (%d, %d)\n", fork_mission->d, fork_mission->start.x,
+                   fork_mission->start.y);
+
             process_fork_mission(fork_mission);
 
             printf(" --------------end of a fork mission -----------------------\n");
-            printf("qweeeeee\n");
-
         }
-    }    printf("qweeeeee222\n");
+    }
 
-    mouse_state = get_mouse_state();
-    printf("qweeeeee22233\n");
-
-    number_of_steps = manhattan_distance(mouse_state.p, mission_to_fork->target);
-
-    printf(" -----------complete the undo mission after fork missions %d------------\n", number_of_steps);
-
-    for (step = 0; step < number_of_steps; step++) { // move to the start position of the fork mission
+    printf(" -----------complete the undo mission after %d  fork missions direction %d from (%d, %d) ------------\n",
+           number_of_steps, mission_to_fork->d, mission_to_fork->start.x,
+           mission_to_fork->start.y);
+    turn_towards_the_direction(mission_to_fork->d);
+    reset_around_walls();
+    while (!mouse_walls_around.front) { // move to the start position of the fork mission
         move_to_one_cell_in_direction(mission_to_fork->d);
         mouse_state = get_mouse_state();
-        printf("move to (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
+        printf("move to 3 (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
         set_visited(mouse_state.p);
+        reset_around_walls();
     }
     printf(" -----------completed undo mission------------\n");
 
 }
 
-mission *search_a_mission(mission *parent, bool init_search) {//search for undo missions
-    position f_wall, r_wall, l_wall;
+mission *add_a_mission(mission *parent, ranging_sensor sensor) {//search for undo missions
+    distance f_distance;
     mission *mission = NULL;
-    position possible_next_cell;
-    u_int8_t distance_to_the_possible_next_cell;
+
     state mouse_state = get_mouse_state();
-    r_wall = SIMULATION_get_right_sensor_range_data();
-    printf("right sensor first wall ==> (%d, %d) \n", r_wall.x, r_wall.y);
-    l_wall = SIMULATION_get_left_sensor_range_data();
-    printf("left sensor first wall ==> (%d, %d) \n", l_wall.x, l_wall.y);
 
-    if (init_search) {
-        f_wall = SIMULATION_get_front_sensor_range_data();
-        printf("front sensor first wall ==> (%d, %d) \n", f_wall.x, f_wall.y);
-        possible_next_cell = get_the_most_distant_cell_for_3_walls(f_wall, r_wall, l_wall);
-    } else {
-        possible_next_cell = get_the_most_distant_cell_for_2_walls(r_wall, l_wall);
-    }
-    printf(" possible_next_cell ==> (%d, %d) \n", possible_next_cell.x, possible_next_cell.y);
+    direction sight_direction = get_sight_direction_of_sensor(sensor);
 
-    distance_to_the_possible_next_cell = manhattan_distance(mouse_state.p, possible_next_cell);
-    if (distance_to_the_possible_next_cell > 0 && !get_visits(possible_next_cell)) {
-        mission = init_mission(parent, possible_next_cell, mouse_state.p);
-        printf(" found possible_next_cell ==> (%d, %d, distance: %d) \n", possible_next_cell.x,
-               possible_next_cell.y, distance_to_the_possible_next_cell);
-    }
+    f_distance = SIMULATION_get_front_sensor_range_data();
+    printf("%d sensor distance ==> %f \n", sensor, f_distance);
+    mission = create_a_mission(parent, sight_direction, mouse_state.p);
+    printf(" found possible_next_cell ==> (%d, %d, direction: %d) \n", mouse_state.p.x, mouse_state.p.y,
+           sight_direction);
+
     return mission;
 }
 
-void run_algo(void) {
-    mission *init_mission = search_a_mission(NULL, True);
-    set_visited(get_mouse_state().p);
-    process_mission(init_mission);
-    print_visited_cells();
-}
 
-int main() {
-    state mouse_state = get_mouse_state();
-    printf("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
-    init_walls();
-    init_visited_cells();
+void run_algo(void) {
+    mission *first_mission = create_a_mission(NULL, get_mouse_state().d, get_mouse_state().p);
+    set_visited(get_mouse_state().p);
+    process_mission(first_mission);
     print_visited_cells();
-    set_the_map_2();
-    run_algo();
-    return 0;
 }

@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "map_updater.h"
+#include <stdlib.h>
 //#include "solver.h"
 #include "actions.h"
 //#include "../common/logger.h"
@@ -17,6 +17,14 @@ typedef struct {
     uint8_t y;
 } position;
 
+distance get_front_sensor_range_distance();
+distance get_right_sensor_range_distance();
+distance get_left_sensor_range_distance();
+bool is_arrived_to_front_wall();
+uint8_t manhattan_distance_uint16_t(position a, position b);
+direction get_sight_direction_of_sensor(ranging_sensor);
+#include "map_updater.h"
+
 typedef struct {
     position p;
     direction d;
@@ -27,11 +35,13 @@ typedef struct {
     bool left;
     bool right;
     bool back;
-} walls_around;
+} walls_around_t;
 
 typedef enum {
     Normal = 0, Fast = 1, BlindlyFast = 2
 } inference_mode;
+
+extern position goal_cells[];
 
 void init_manager(void);
 
@@ -47,6 +57,8 @@ Action *decide_next_action(void);
 
 void start_action(Action*);
 
+void turn_towards(direction);
+
 state get_mouse_state(void);
 
 position get_start_cell();
@@ -54,5 +66,6 @@ position get_start_cell();
 position what_is_the_position_after_moving_one_step_in_the_direction(position , direction );
 
 void move_to_one_cell_in_direction(direction);
+
 
 #endif //MANAGER_H

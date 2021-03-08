@@ -27,8 +27,6 @@
 
 struct mission {
     position start;
-    position target;
-    uint8_t number_of_steps;
     uint8_t number_of_fork_missions;
     direction d;
     struct mission * parent;
@@ -37,15 +35,10 @@ struct mission {
 typedef struct mission mission;
 void init_visited_cells(void);
 void print_visited_cells(void);
-void set_the_map(void);
-uint8_t manhattan_distance(position a, position b);
 direction get_opposite_direction(direction);
 position get_the_cell_by_the_wall_related_to_mouse_orientation(position wall);
 direction get_direction_btw_start_and_end_cells(position start, position end);
-position get_the_most_distant_cell_for_2_walls(position r_wall, position l_wall);
-position get_the_most_distant_cell_for_3_walls(position f_wall, position r_wall, position l_wall);
-direction get_opposite_direction(direction);
-mission *init_mission(mission *parent, position target, position start);
+mission *create_a_mission(mission*, direction, position);
 uint8_t get_visits(position cell);
 void run_algo(void);
 void set_visited(position);
@@ -55,5 +48,5 @@ void process_mission(mission*);
 void convert_to_an_undo_mission(mission*);
 void process_fork_missions(mission*);
 void process_fork_mission(mission* fork_mission);
-mission *search_a_mission(mission*,bool);
+mission *add_a_mission(mission*,ranging_sensor);
 #endif //MM_DISCOVERY_H

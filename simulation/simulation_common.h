@@ -7,9 +7,12 @@
 
 #include "../manager/manager.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "time.h"
 
-position SIMULATION_get_front_sensor_range_data(void);
-position SIMULATION_get_right_sensor_range_data(void);
-position SIMULATION_get_left_sensor_range_data(void);
-
+distance SIMULATION_get_front_sensor_range_data(void);
+distance SIMULATION_get_right_sensor_range_data(void);
+distance SIMULATION_get_left_sensor_range_data(void);
+distance get_gaussian_noise(distance);
 #endif //MM_SIMULATION_COMMON_H
