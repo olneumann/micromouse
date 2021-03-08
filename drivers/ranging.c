@@ -11,12 +11,13 @@
 #include <stdio.h>
 
 #include "../dspic/board.h"
+#include "../common/defines.h"
 #include "vl53l0x/vl53l0x_api.h"
 #include "vl53l0x/vl53l0x_platform.h"
 
 #include "ranging.h"
 
-#define SENSOR_COUNT                (uint8_t)1    
+#define SENSOR_COUNT                (uint8_t)2    
 #define VL53L0X_ADDRESS_DEFAULT     (uint8_t)0x29
 
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
@@ -36,6 +37,8 @@ static volatile uint16_t RANGE_R[4];
 #ifdef VL53L0X_DEBUG
 
 #include "../drivers/serial_uart.h"
+
+#define SENSOR_COUNT                (uint8_t)1
 
 static volatile uint16_t RANGE;
 
@@ -163,11 +166,13 @@ void remapSensors(void)
     XSHUT_F = 0;    // all sensors in reset
     XSHUT_R = 0;
     
-    // L = 0x52; F -> 0x54; R -> 0x56;
+    // L = 0x29; F -> 0x2b; R -> 0x2d;
     XSHUT_F = 1;
-    VL53L0X_SetDeviceAddress(&pDev[1], dev[1].I2cDevAddr);
-    XSHUT_R = 1;
-    VL53L0X_SetDeviceAddress(&pDev[2], dev[2].I2cDevAddr);
+    DELAY_600uS;    // wait till set
+    VL53L0X_SetDeviceAddress(&pDev[0], dev[1].I2cDevAddr*2);
+    //XSHUT_R = 1;
+    //DELAY_600uS;
+    //VL53L0X_SetDeviceAddress(&pDev[0], dev[2].I2cDevAddr*2);
     XSHUT_L = 1;
 }
 
@@ -186,8 +191,13 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
         pDev[i].comms_speed_khz = kfscl;
     }
     
-#ifndef VL53L0X_DEBUG
-    //remapSensors();
+#ifdef VL53L0X_DEBUG
+    XSHUT_L = 1;
+    XSHUT_F = 0;    // only one sensor
+    XSHUT_R = 0;
+#else
+    remapSensors();
+    DELAY_600uS;
 #endif
     
     for (i=0; i<SENSOR_COUNT; i++)
@@ -211,17 +221,24 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     IFS1bits.INT1IF = 0;
     IFS1bits.INT2IF = 0;
     
+#ifdef VL53L0X_DEBUG
+    IEC0bits.INT0IE = 0;    // disable interrupts
+    IEC1bits.INT1IE = 0;
+    IEC1bits.INT2IE = 0;
+#else
     IEC0bits.INT0IE = 1;    // enable interrupts
     IEC1bits.INT1IE = 1;
     IEC1bits.INT2IE = 1;
-
+#endif
+    
     INTCON2bits.INT0EP = 1; // interrupt on negative edge
     INTCON2bits.INT1EP = 1;
     INTCON2bits.INT2EP = 1;
     
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
+    
     return Status;
 }
 
@@ -236,9 +253,10 @@ VL53L0X_Error enableRanging(void)
         Status = VL53L0X_ClearInterruptMask(&pDev[i], VL53L0X_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY);
     }
 
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
+    
     return Status;
 }
 
@@ -251,9 +269,11 @@ VL53L0X_Error disableRanging(void)
     {       
         Status = VL53L0X_StopMeasurement(&pDev[i]);  
     }
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+    
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
+    
     return Status;
 }
 
@@ -301,9 +321,10 @@ VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
     
     VL53L0X_ClearInterruptMask(pDev, VL53L0X_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY);
     
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
+    
     return Status;
 }
 
@@ -313,6 +334,7 @@ void doRanging(void)
 {
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     Status = getRangingSample(&pDev[0], &RANGE);
+    
 #ifdef VL53L0X_DEBUG_LOG
     print_pal_error(Status);
 #endif
@@ -338,9 +360,10 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
     
     i++;
     if (i==3) i = 0;
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+    
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
 }
 
 /*
@@ -356,9 +379,10 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT1Interrupt(void)
     
     i++;
     if (i==3) i = 0;
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+    
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
 }
 
 /*
@@ -374,7 +398,8 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT2Interrupt(void)
     
     i++;
     if (i==3) i = 0;
-    #ifdef VL53L0X_DEBUG_LOG
-        print_pal_error(Status);
-    #endif
+    
+#ifdef VL53L0X_DEBUG_LOG
+    print_pal_error(Status);
+#endif
 }
