@@ -4,26 +4,18 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
-//#include "solver.h"
-#include "actions.h"
-//#include "../common/logger.h"
 
 #include "../common/general_parameters.h"
 #include "../common/general_definitions.h"
-
 
 typedef struct {
     uint8_t x;
     uint8_t y;
 } position;
 
-distance get_front_sensor_range_distance();
-distance get_right_sensor_range_distance();
-distance get_left_sensor_range_distance();
 bool is_arrived_to_front_wall();
 uint8_t manhattan_distance_uint16_t(position a, position b);
 direction get_sight_direction_of_sensor(ranging_sensor);
-#include "map_updater.h"
 
 typedef struct {
     position p;
@@ -53,6 +45,8 @@ void do_discovery(void);
 
 void start_discovery(void);
 
+#include "actions.h"
+
 Action *decide_next_action(void);
 
 void start_action(Action*);
@@ -67,5 +61,8 @@ position what_is_the_position_after_moving_one_step_in_the_direction(position , 
 
 void move_to_one_cell_in_direction(direction);
 
+#include "map_updater.h"
+//#include "solver.h"
+//#include "../common/logger.h"
 
 #endif //MANAGER_H

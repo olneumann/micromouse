@@ -38,9 +38,9 @@ position what_is_the_position_after_moving_one_step_in_the_direction(position po
 
 direction get_sight_direction_of_sensor(ranging_sensor sensor) {
     switch (sensor) {
-        case Front:
+        case Front_Sensor:
             return mouse_state.d;
-        case Right:
+        case Right_Sensor:
             switch (mouse_state.d) {
                 case West:
                     return North;
@@ -54,7 +54,7 @@ direction get_sight_direction_of_sensor(ranging_sensor sensor) {
                     return -1;
             }
             break;
-        case Left:
+        case Left_Sensor:
             switch (mouse_state.d) {
                 case West:
                     return South;
@@ -184,16 +184,4 @@ void turn_towards(direction d) {
 uint8_t manhattan_distance_uint16_t(position a, position b) {
     printf(" manhattan ==> (%d, %d,) vs ( %d %d) \n", a.x, a.y, b.x, b.y);
     return (uint8_t) abs(a.x - b.x) + abs(a.y - b.y);
-}
-
-distance get_front_sensor_range_distance() {
-    return 0;
-}
-
-distance get_right_sensor_range_distance() {
-    return 0;
-}
-
-distance get_left_sensor_range_distance() {
-    return 0;
 }

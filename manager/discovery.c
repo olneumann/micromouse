@@ -6,7 +6,6 @@
 #include "discovery.h"
 
 static volatile int8_t visited_cells[MAZE_SIZE][MAZE_SIZE];
-static volatile walls_around_t mouse_walls_around = {False, False, False, False};
 
 
 void init_visited_cells(void) {
@@ -16,10 +15,6 @@ void init_visited_cells(void) {
             visited_cells[i][j];
         }
     }
-}
-
-void print_walls_around() {
-    printf(" f:%d r:%d l:%d\n", mouse_walls_around.front, mouse_walls_around.right, mouse_walls_around.left);
 }
 
 void print_visited_cells(void) {
@@ -160,15 +155,6 @@ void print_missions(mission *mission_tail) {
     printf("\n");
 }
 
-void reset_around_walls() {
-    double f_distance = SIMULATION_get_front_sensor_range_data();
-    double r_distance = SIMULATION_get_right_sensor_range_data();
-    double l_distance = SIMULATION_get_left_sensor_range_data();
-    printf("f dist : %f ,r dist : %f ,l dist : %f \n", f_distance, r_distance, l_distance);
-    mouse_walls_around.front = f_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
-    mouse_walls_around.right = r_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
-    mouse_walls_around.left = l_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
-}
 
 void turn_towards_the_direction(direction d) {
     printf("turn towards %d\n",d);
@@ -191,6 +177,7 @@ void cheers(){
 }
 void process_mission(mission *current_mission) {
     state mouse_state = get_mouse_state();
+    walls_around_t mouse_walls_around;
     mission *found_mission_fork;
     u_int8_t step;
     print_missions(current_mission);
@@ -200,7 +187,7 @@ void process_mission(mission *current_mission) {
            current_mission->start.y);
     printf("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
     turn_towards_the_direction(current_mission->d);
-    reset_around_walls();
+    mouse_walls_around = reset_around_walls();
 
     while (!mouse_walls_around.front) {
         printf(" -----------------------\n");
@@ -218,11 +205,11 @@ void process_mission(mission *current_mission) {
         }
         set_visited(get_mouse_state().p);
 
-        reset_around_walls();
+        mouse_walls_around = reset_around_walls();
         print_walls_around();
 
         if (!mouse_walls_around.right) {
-            found_mission_fork = add_a_mission(current_mission, Right);
+            found_mission_fork = add_a_mission(current_mission, Right_Sensor);
             current_mission->fork_missions[current_mission->number_of_fork_missions] = found_mission_fork;
             current_mission->number_of_fork_missions++;
             printf("mission %d to direction %d from (%d,%d)  is added to mission : to direction %d  from (%d,%d) \n",
@@ -236,7 +223,7 @@ void process_mission(mission *current_mission) {
             printf("no mission on right !\n");
         }
         if (!mouse_walls_around.left) {
-            found_mission_fork = add_a_mission(current_mission, Left);
+            found_mission_fork = add_a_mission(current_mission, Left_Sensor);
             current_mission->fork_missions[current_mission->number_of_fork_missions] = found_mission_fork;
             current_mission->number_of_fork_missions++;
             printf("mission %d to direction %d from (%d,%d)  is added to mission : to direction %d  from (%d,%d) \n",
@@ -286,6 +273,7 @@ void process_fork_missions(mission *mission_to_fork) {
     int8_t fork_mission_index;
     int8_t step, number_of_steps, a;
     state mouse_state;
+    walls_around_t mouse_walls_around;
     convert_to_an_undo_mission(mission_to_fork);
     printf("%d fork missions \n", mission_to_fork->number_of_fork_missions);
 
@@ -321,28 +309,26 @@ void process_fork_missions(mission *mission_to_fork) {
            number_of_steps, mission_to_fork->d, mission_to_fork->start.x,
            mission_to_fork->start.y);
     turn_towards_the_direction(mission_to_fork->d);
-    reset_around_walls();
+    mouse_walls_around = reset_around_walls();
     while (!mouse_walls_around.front) { // move to the start position of the fork mission
         move_to_one_cell_in_direction(mission_to_fork->d);
         mouse_state = get_mouse_state();
         printf("move to 3 (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
         set_visited(mouse_state.p);
-        reset_around_walls();
+        mouse_walls_around = reset_around_walls();
     }
     printf(" -----------completed undo mission------------\n");
 
 }
 
 mission *add_a_mission(mission *parent, ranging_sensor sensor) {//search for undo missions
-    distance f_distance;
+
     mission *mission = NULL;
 
     state mouse_state = get_mouse_state();
 
     direction sight_direction = get_sight_direction_of_sensor(sensor);
 
-    f_distance = SIMULATION_get_front_sensor_range_data();
-    printf("%d sensor distance ==> %f \n", sensor, f_distance);
     mission = create_a_mission(parent, sight_direction, mouse_state.p);
     printf(" found possible_next_cell ==> (%d, %d, direction: %d) \n", mouse_state.p.x, mouse_state.p.y,
            sight_direction);
