@@ -159,14 +159,15 @@ void remapSensors(void)
 {   
     /*
      * Remapping: Set all sensors in reset, incrementally reprogram (n-1) sensors 
-     *            to desired i2c address.     
+     *            to desired i2c address. 
+     * Addresses: L = 0x29; F -> 0x2b; R -> 0x2d;  
+     *   
      */
     
     XSHUT_L = 0;
     XSHUT_F = 0;    // all sensors in reset
     XSHUT_R = 0;
-    
-    // L = 0x29; F -> 0x2b; R -> 0x2d;
+
     XSHUT_F = 1;
     DELAY_600uS;    // wait till set
     VL53L0X_SetDeviceAddress(&pDev[0], dev[1].I2cDevAddr*2);
@@ -174,6 +175,7 @@ void remapSensors(void)
     //DELAY_600uS;
     //VL53L0X_SetDeviceAddress(&pDev[0], dev[2].I2cDevAddr*2);
     XSHUT_L = 1;
+    DELAY_600uS;
 }
 
 VL53L0X_Error rangingInit(uint16_t kfscl)
@@ -197,7 +199,6 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     XSHUT_R = 0;
 #else
     remapSensors();
-    DELAY_600uS;
 #endif
     
     for (i=0; i<SENSOR_COUNT; i++)
