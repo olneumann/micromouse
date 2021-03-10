@@ -174,6 +174,7 @@ void remapSensors(void)
     //DELAY_600uS;
     //VL53L0X_SetDeviceAddress(&pDev[0], dev[2].I2cDevAddr*2);
     XSHUT_L = 1;
+    DELAY_600uS;
 }
 
 VL53L0X_Error rangingInit(uint16_t kfscl)
@@ -197,7 +198,6 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     XSHUT_R = 0;
 #else
     remapSensors();
-    DELAY_600uS;
 #endif
     
     for (i=0; i<SENSOR_COUNT; i++)

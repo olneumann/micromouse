@@ -45,8 +45,8 @@ void taskTest(void)
             velo_l,velo_r);   
     uartWrite(str,0);  
     
-    driveLeft(0.1);
-    driveRight(0.1);
+    driveLeft(0);
+    driveRight(0);
 }
 
 void taskEncoder(uint16_t freq)
