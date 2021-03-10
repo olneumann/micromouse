@@ -137,10 +137,6 @@ void set_visited(position cell) {
 
 }
 
-bool is_cells_the_same(position a, position b) {
-    if (a.x == b.x && a.y == b.y) return True;
-    return False;
-}
 
 void print_missions(mission *mission_tail) {
     mission *parent;
@@ -176,7 +172,7 @@ void cheers(){
     visited_cells[pos.x][pos.y] = -1;
 }
 void process_mission(mission *current_mission) {
-    state mouse_state = get_mouse_state();
+    state mouse_state = get_mouse_state(), previous_mouse_state;
     walls_around_t mouse_walls_around;
     mission *found_mission_fork;
     u_int8_t step;
@@ -191,7 +187,9 @@ void process_mission(mission *current_mission) {
 
     while (!mouse_walls_around.front) {
         printf(" -----------------------\n");
+        previous_mouse_state = mouse_state;
         move_to_one_cell_in_direction(current_mission->d);
+        shorten_the_path_for_current_cell(previous_mouse_state);
         mouse_state = get_mouse_state();
         printf("move to 1 (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
 
@@ -271,7 +269,7 @@ void process_fork_mission(mission *fork_mission) {
 void process_fork_missions(mission *mission_to_fork) {
     mission *fork_mission;
     int8_t fork_mission_index;
-    int8_t step, number_of_steps, a;
+    int8_t step, number_of_steps;
     state mouse_state;
     walls_around_t mouse_walls_around;
     convert_to_an_undo_mission(mission_to_fork);
@@ -342,4 +340,6 @@ void run_algo(void) {
     set_visited(get_mouse_state().p);
     process_mission(first_mission);
     print_visited_cells();
+    print_dijkstra_distances();
+    print_shortest_path();
 }

@@ -45,6 +45,7 @@ void set_walls_along_x(uint8_t x, int wall_count, ...);
 
 void print_walls_around();
 
+bool is_cells_the_same(position,position);
 
 
 #endif

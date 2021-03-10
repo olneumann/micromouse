@@ -78,6 +78,7 @@ void move_to_one_cell_in_direction(direction d) {
     mouse_state.p.x = cell.x;
     mouse_state.p.y = cell.y;
     mouse_state.d = d;
+    //update_map();
 }
 
 state get_mouse_state() {

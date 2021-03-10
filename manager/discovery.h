@@ -27,6 +27,7 @@
 
 #include "map_updater.h"
 #include "manager.h"
+#include "shortest_path.h"
 
 void print_visited_cells(void);
 void init_visited_cells(void);
@@ -46,7 +47,6 @@ mission *create_a_mission(mission*, direction, position);
 uint8_t get_visits(position cell);
 void run_algo(void);
 void set_visited(position);
-bool is_cells_the_same(position,position);
 void print_missions(mission*);
 void process_mission(mission*);
 void convert_to_an_undo_mission(mission*);

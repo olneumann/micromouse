@@ -98,6 +98,10 @@ void print_walls(void){
     printf("\n");
 
 }
+bool is_cells_the_same(position a, position b) {
+    if (a.x == b.x && a.y == b.y) return True;
+    return False;
+}
 #if !DISCOVERY_SIMULATION
 distance get_front_sensor_range_data() {
     printf("aaaaaaaaaa");

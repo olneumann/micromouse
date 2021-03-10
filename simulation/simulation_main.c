@@ -14,8 +14,9 @@ int main() {
 
     init_walls();
     init_visited_cells();
+    init_shortest_path_utils();
     print_visited_cells();
-    set_the_map();
+    set_the_map_2();
     init_simulation();
     run_algo();
     return 0;

@@ -9,21 +9,24 @@
 
 #define DISCOVERY_SIMULATION 1
 
+#define MAZE_SIZE 7
+
 #define NUMBER_GOAL_CELL 4
 #define GOAL_CELL_1_X 2
 #define GOAL_CELL_1_Y 2
 
-//#define GOAL_CELL_3_X 4
-//#define GOAL_CELL_2_Y 2
-//#define GOAL_CELL_3_Y 2
-//#define GOAL_CELL_4_X 4
-//#define GOAL_CELL_2_X 3
-//#define GOAL_CELL_4_Y 3
+#define GOAL_CELL_3_X 4
+#define GOAL_CELL_2_Y 2
+#define GOAL_CELL_3_Y 2
+#define GOAL_CELL_4_X 4
+#define GOAL_CELL_2_X 3
+#define GOAL_CELL_4_Y 3
 
 #define START_POSITION_X 0
 #define START_POSITION_Y 0
 #define START_DIRECTION North
-#define MAZE_SIZE 5
+
+
 #define ROBOT_SIZE_X 14.5 // cm ---->x     ^
 #define ROBOT_SIZE_Y 9 // cm          | y
 #define ROBOT_SIZE_Z 10000000
