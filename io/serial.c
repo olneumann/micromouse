@@ -30,11 +30,11 @@ void serialInit(void)
     }
     
     /* I2C setup
-     * Initialize I2C to [FSCL] 400kHz 
+     * Initialize I2C to [FSCL] 200kHz 
      */ 
     i2c_config_t i2cConf;
     i2cConf.fcy = FCY;
-    i2cConf.fscl = 400000;
+    i2cConf.fscl = 200000;
     i2cConf.fdelay = 8333333;
 
     if (i2cInit(&i2cConf) != 0) {
