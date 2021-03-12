@@ -89,8 +89,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
 {
     /* Clear Timer1 interrupt flag */
     IFS0bits.T1IF = 0;
-    debug();
-    //control_loop(CONTROL_LOOP_FREQ_HZ);
+    control_loop(CONTROL_LOOP_FREQ_HZ);
     
     static int watchdog = 0;
     watchdog += CONTROL_LOOP_PERIODE_MS;
@@ -112,5 +111,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _T3Interrupt(void)
 {
     /* Clear Timer3 interrupt flag */
     IFS0bits.T3IF = 0;
+    LED_IND1 = ~LED_IND1;
+    debug();
     //ranging_loop(RANGING_UPDATE_FREQ_HZ);
 }

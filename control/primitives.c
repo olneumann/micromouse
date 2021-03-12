@@ -1,5 +1,5 @@
 /*
- * File:   pathplanning.c
+ * File:   primitives.c
  * Author: oliver
  *
  * Created on 2. Januar 2021, 17:00
@@ -9,14 +9,16 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "control.h"
+
 #include "primitives.h"
 
-void move_forward(void)
+void moveForward(void)
 {
     
 }
 
-void move_side(void)
+void moveSide(void)
 {
     
 }

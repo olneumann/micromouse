@@ -10,6 +10,7 @@
 #include <stddef.h>
 
 #include "board.h"
+#include "../dspic/core.h"
 #include "../io/serial.h"
 #include "../drivers/timer.h"
 #include "../drivers/dma.h"
@@ -17,6 +18,7 @@
 #include "../drivers/motor.h"
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
+#include "../control/pid.h"
 #include "../common/logger.h"
 
 #include "init.h"
@@ -39,8 +41,14 @@ void init(void)
     
     motorInit(20);
     qeiInit();
+    
+    pidProfileInit();
+    pidInit(CONTROL_LOOP_PERIODE_MS);
+    
+#ifndef SIMULATOR
     rangingInit(200);
     enableRanging();
+#endif
     
     /* 
      * Main loop:

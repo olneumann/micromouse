@@ -10,21 +10,23 @@
 
 #include "../common/defines.h"
 #include "../common/maths.h"
-#include "../control/primitives.h"
+#include "../control/control.h"
 
 #include "pid.h"
 
 pidRuntime_t pidRuntime;
 pidProfile_t pidProfile;
-pidMotorData_t pidData[PID_ITEM_COUNT];
+pidData_t pidData[PID_ITEM_COUNT];
 
 void pidProfileInit()
 {
-    pidProfile.pid[PID_L_MOTOR] = (pidf_t) { 42, 42, 42, 42 };
-    pidProfile.pid[PID_R_MOTOR] = (pidf_t) { 42, 42, 42, 42 };
+    pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { 42, 42, 42, 42 };
+    pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 42, 42, 42, 42 };
+    pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 42, 42, 42, 42 };
+    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 42, 42, 42, 42 };
 }
 
-void pidInit(uint32_t pidLooptime) 
+void pidInit(uint16_t pidLooptime) 
 {
     pidRuntime.dT = pidLooptime;
     pidRuntime.pidFreq = 1.0f / pidRuntime.dT;
@@ -34,21 +36,21 @@ void pidInit(uint32_t pidLooptime)
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
         pidRuntime.pidCoef[ctrl].Kp = pidProfile.pid[ctrl].P;
-        pidRuntime.pidCoef[ctrl].Ki = 1.0f * pidProfile.pid[ctrl].I;
-        pidRuntime.pidCoef[ctrl].Kd = 1.0f * pidProfile.pid[ctrl].D;
-        pidRuntime.pidCoef[ctrl].Kf = 1.0f * pidProfile.pid[ctrl].F;
+        pidRuntime.pidCoef[ctrl].Ki = pidProfile.pid[ctrl].I;
+        pidRuntime.pidCoef[ctrl].Kd = pidProfile.pid[ctrl].D;
+        pidRuntime.pidCoef[ctrl].Kf = pidProfile.pid[ctrl].F;
     }
 }
 
-void pidController(timeUs_t currentTimeUs)
+void pidController(void)
 {    
     static float PidSetpoint[PID_ITEM_COUNT];
     static float PidInput[PID_ITEM_COUNT];
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
-        PidSetpoint[ctrl] = 0.0f; //get_desired_val(ctrl);
-        PidInput[ctrl] = 0.0f; // get_input_val();
+        PidSetpoint[ctrl]   = getSetpoint(ctrl); 
+        PidInput[ctrl]      = getInput(ctrl);
         
         // Proportional component
         float errRate = PidSetpoint[ctrl] - PidInput[ctrl];
