@@ -43,6 +43,8 @@
 #define LOG_FUNCTION_END_FMT(status, fmt, ...) \
 	_LOG_FUNCTION_END_FMT(TRACE_MODULE_API, status, fmt, ##__VA_ARGS__)
 
+#define USE_I2C_2V8
+
 #ifdef VL53L0X_LOG_ENABLE
 #define trace_print(level, ...) trace_print_module_function(TRACE_MODULE_API, \
 	level, TRACE_FUNCTION_NONE, ##__VA_ARGS__)
@@ -578,7 +580,7 @@ VL53L0X_Error VL53L0X_StaticInit(VL53L0X_DEV Dev)
 		((ApertureSpads == 0) && (count > 12)))
 		Status = VL53L0X_perform_ref_spad_management(Dev, &refSpadCount,
 			&isApertureSpads);
-	else
+	//else
 		Status = VL53L0X_set_reference_spads(Dev, count, ApertureSpads);
 
 
@@ -2819,14 +2821,14 @@ VL53L0X_Error VL53L0X_GetInterruptThresholds(VL53L0X_DEV Dev,
 
 	Status = VL53L0X_RdWord(Dev, VL53L0X_REG_SYSTEM_THRESH_LOW, &Threshold16);
 	/* Need to multiply by 2 because the FW will apply a x2 */
-	*pThresholdLow = (FixPoint1616_t)((0x00fff & Threshold16) << 17);
+	*pThresholdLow = (FixPoint1616_t)((uint32_t)(0x00fff & Threshold16) << 17);
 
 	if (Status == VL53L0X_ERROR_NONE) {
 		Status = VL53L0X_RdWord(Dev, VL53L0X_REG_SYSTEM_THRESH_HIGH,
 			&Threshold16);
 		/* Need to multiply by 2 because the FW will apply a x2 */
 		*pThresholdHigh =
-			(FixPoint1616_t)((0x00fff & Threshold16) << 17);
+			(FixPoint1616_t)((uint32_t)(0x00fff & Threshold16) << 17);
 	}
 
 	LOG_FUNCTION_END(Status);

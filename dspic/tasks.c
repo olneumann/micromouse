@@ -14,6 +14,7 @@
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
+#include "../drivers/serial_i2c.h"
 #include "../drivers/motor.h"
 #include "../control/pid.h"
 
@@ -21,25 +22,31 @@
 
 void taskTest(void)
 {
-    //char str[30];
-    //char str2[30];
-       
-    driveLeft(1);   
-    driveRight(0.05);
-            
-    //float test = getRangeLeft();
+#ifdef VL53L0X_DEBUG
+    char str[30];
     
-    //sprintf(str, "BTN %d\n", BTN);    
-    //sprintf(str2, "P2 %d\n", POS2CNT);
-        
-    //uartWrite(str);
-    //uartWrite(str2);
+    //i2c_test();
+    doRanging();
     
-    if (BTN == 1)
-    {          
-        LED_W = LEDON;
-
-    }
+    uint16_t val = getRange();
+    
+    sprintf(str, "%d\n", val);   
+    uartWrite(str,0);  
+#endif
+    
+    char str[100];
+    float range_l = getRangeLeft();
+    float range_f = getRangeFront();
+    float velo_l = getVelocityLeft();
+    float velo_r = getVelocityRight();
+    
+    sprintf(str, "R: [%-.1f][%-.1f][%-.1f]\nV: [%-.3f][%-.3f]\n", 
+            range_l,range_f,0.0f,
+            velo_l,velo_r);   
+    uartWrite(str,0);  
+    
+    driveLeft(0);
+    driveRight(0);
 }
 
 void taskEncoder(uint16_t freq)
@@ -52,10 +59,10 @@ void taskRanging(uint16_t freq)
     // do we need it in the end?
 }
 
-
 void taskControl(uint16_t freq)
 {
     //timeUs_t currentTimeUs;
     //pidController(currentTimeUs);
     //writeMotors();
 }
+

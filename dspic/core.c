@@ -20,7 +20,7 @@ void debug(void)
 
 void control_loop(uint16_t freq)
 {
-    taskControl(freq);
+    taskControl(freq);    
 }
 
 void encoder_loop(uint16_t freq)

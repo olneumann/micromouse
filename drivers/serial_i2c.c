@@ -17,6 +17,7 @@ int i2cInit(i2c_config_t *config)
 {
     int status = -1;
 
+    I2C1CONbits.I2CEN = 0;
     I2C1BRG = (config->fcy/config->fscl - config->fcy/config->fdelay)/2 - 2;
     I2C1CONbits.I2CEN = 1;                  // Enables the I2Cx module
     status = 0;
@@ -26,6 +27,7 @@ int i2cInit(i2c_config_t *config)
 
 int waitACK(void)
 {
+    while(I2C1STATbits.TBF);                // Transmit in progress, I2CxTRN is full
     while(I2C1STATbits.TRSTAT);             // Wait for and verify ACK from the slave
     if (I2C1STATbits.ACKSTAT)               // 1 = NACK
     {
@@ -39,7 +41,7 @@ int waitACK(void)
 void sendACK(void)
 {
     I2C1CONbits.ACKEN = 1;                  // Send master ACK
-    while(I2C1STATbits.TRSTAT);             // Wait for transmit (?)
+    while(I2C1CONbits.ACKEN);               // Wait for complete
 }
 
 int i2cWrite(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint8_t count)
@@ -58,7 +60,7 @@ int i2cWrite(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint8_t count)
 
     for(i=0; i<count; i++)                  // Send data (sequential)
     {
-        I2C1TRN = pData[i];                 // [?] Order of data packages
+        I2C1TRN = pData[i];                 // Order of data packages
         if(waitACK() == -1) return status;
     }
     
@@ -83,21 +85,21 @@ int i2cRead(uint8_t addr, uint8_t idx_addr, uint8_t *pData, uint32_t count)
     if(waitACK() == -1) return status;
     I2C1TRN = idx_addr;                     // Send idx_addr
     if(waitACK() == -1) return status;
-    
+       
     I2C1CONbits.RSEN = 1;                   // Assert repeated start condition
     while(I2C1CONbits.RSEN == 1);            
     
     I2C1TRN = r_addr;                       // Send r_addr with read indication
     if(waitACK() == -1) return status;
     
-    I2C1CONbits.RCEN = 1;                   // Enable master reception
-    while(!I2C1STATbits.RBF);
-    
     for(i=0; i<count; i++)
     {
+        I2C1CONbits.RCEN = 1;               // Enable master reception
+        while(!I2C1STATbits.RBF);
+        
         pData[i] = I2C1RCV;                 // Receive slave data
-        sendACK();                          
-        while(!I2C1STATbits.RBF);           // Wait till r_buffer is full again
+        
+        if (i != count-1) sendACK();                          
     }
 
     I2C1CONbits.PEN = 1;                    // Send stop condition

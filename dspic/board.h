@@ -29,6 +29,10 @@
 #define XSHUT_L     LATCbits.LATC0 // (active low)
 #define UART_RX_IND LATCbits.LATC3 // (active low)
 
+/* I2C testing*/
+#define SDA         LATBbits.LATB9
+#define SCL         LATBbits.LATB8
+
 /* GPIO pins */
 #define RP10        PORTBbits.RB10
 #define AN1         PORTAbits.RA1
