@@ -10,7 +10,7 @@
 
 #include "../common/defines.h"
 #include "../common/maths.h"
-#include "../control/pathplanning.h"
+#include "../control/primitives.h"
 
 #include "pid.h"
 
@@ -47,7 +47,7 @@ void pidController(timeUs_t currentTimeUs)
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
-        PidSetpoint[ctrl] = getSetpointRate(ctrl);
+        PidSetpoint[ctrl] = 0.0f; //get_desired_val(ctrl);
         PidInput[ctrl] = 0.0f; // get_input_val();
         
         // Proportional component

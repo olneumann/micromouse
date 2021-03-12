@@ -12,8 +12,8 @@
         <itemPath>common/logger.h</itemPath>
       </logicalFolder>
       <logicalFolder name="control" displayName="control" projectFiles="true">
-        <itemPath>control/pathplanning.h</itemPath>
         <itemPath>control/pid.h</itemPath>
+        <itemPath>control/primitives.h</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
@@ -67,8 +67,8 @@
         <itemPath>common/logger.c</itemPath>
       </logicalFolder>
       <logicalFolder name="control" displayName="control" projectFiles="true">
-        <itemPath>control/pathplanning.c</itemPath>
         <itemPath>control/pid.c</itemPath>
+        <itemPath>control/primitives.c</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
