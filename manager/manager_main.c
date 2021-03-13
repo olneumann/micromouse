@@ -3,7 +3,7 @@
 //
 
 #include "manager.h"
-int main() {
+int manager_main() {
     loggerInit();
     init_manager();
     start_discovery();
