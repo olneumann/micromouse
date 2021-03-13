@@ -2,7 +2,7 @@
  * File:   control.c
  * Author: oliver
  *
- * Created on 12. März 2021, 18:10
+ * Created on 12. March 2021, 18:10
  */
 
 #include <stdint.h>
@@ -14,6 +14,11 @@
 #include "../control/pid.h"
 
 #include "control.h"
+
+#ifdef CONTROL_DEBUG
+#include "../drivers/serial_uart.h"
+#include <math.h>
+#endif
 
 static volatile float SETPOINT[PID_ITEM_COUNT];
 
@@ -59,13 +64,10 @@ float getInput(int ctrl)
     return 0.0f;
 }
 
-float offsetConv(float offset)
+float convSpeedtoDC(float offset)
 {
-    /*
-     * Output has to be between -1 and 1 to control the motors.
-     * 
-     */
-    return offset;
+    return (offset)/MAX_SPEED_MS;
+    
 }
 
 void motorControl(void)
@@ -83,6 +85,20 @@ void motorControl(void)
                 //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
                 //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
     
-    driveLeft(offsetConv(offsetLeft));
-    driveRight(offsetConv(offsetRight));   
+    driveLeft(convSpeedtoDC(offsetLeft));
+    driveRight(convSpeedtoDC(offsetRight)); 
+     
+#ifdef CONTROL_DEBUG
+    char str[100];   
+    sprintf(str, "[%-.3f] [%-.3f]\n", 
+                                convSpeedtoDC(offsetLeft),
+                                fabs(pidRuntime.prevPidInput[PID_VELO_MOTOR_LEFT]-
+                                pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT]));
+    uartWrite(str,0);
+    sprintf(str, "[%-.3f] [%-.3f]\n", 
+                                convSpeedtoDC(offsetRight),
+                                fabs(pidRuntime.prevPidInput[PID_VELO_MOTOR_RIGHT]-
+                                pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_RIGHT]));
+    uartWrite(str,0);
+#endif
 }

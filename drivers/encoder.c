@@ -65,12 +65,12 @@ int16_t getCounterDiff(uint16_t now, uint16_t prev)
     
     if (diff >= 0)
     {
-        if (diff >= MAX_CNT_PER_REV/4)
+        if (diff >= (int16_t)MAX_CNT_PER_REV/2)
             diff -= MAX_CNT_PER_REV;
     }
     else
     {
-        if (diff < -MAX_CNT_PER_REV/4)
+        if (diff < -(int16_t)MAX_CNT_PER_REV/2)
             diff += MAX_CNT_PER_REV;
     }
     return diff;
@@ -83,18 +83,18 @@ void updateEncoderReadings(uint16_t freq)
     
     uint16_t cnt_l = POS2CNT;           // motor left
     uint16_t cnt_r = POS1CNT;           // motor right
-    
+   
     DIFF_CNT_L = getCounterDiff(cnt_l, prev_cnt_l);
     DIFF_CNT_R = getCounterDiff(cnt_r, prev_cnt_r);
-    
+
     DISTANCE_UM_L += (int32_t)(DIFF_CNT_L * UM_PER_CNT);
     DISTANCE_UM_R += (int32_t)(DIFF_CNT_R * UM_PER_CNT);
-    
+
     VELOCITY_L = DIFF_CNT_L * (UM_PER_CNT * 1e-6) * freq;
     VELOCITY_R = DIFF_CNT_R * (UM_PER_CNT * 1e-6) * freq;
-    
-    prev_cnt_l = cnt_l;
-    prev_cnt_r = cnt_r;
+        
+    if (prev_cnt_l != cnt_l) prev_cnt_l = cnt_l;
+    if (prev_cnt_r != cnt_r) prev_cnt_r = cnt_r;
 }
 
 void qeiInit(void)
@@ -106,8 +106,8 @@ void qeiInit(void)
     QEI1CONbits.SWPAB = 1;          // Phase A and Phase B inputs not swapped
     QEI2CONbits.SWPAB = 0;
     
-    MAX1CNT = MAX_CNT_PER_REV*20;   // times 20, reducing prob. of not sensing jump
-    MAX2CNT = MAX_CNT_PER_REV*20;
+    MAX1CNT = MAX_CNT_PER_REV;  
+    MAX2CNT = MAX_CNT_PER_REV;
     POS1CNT = 0;
     POS2CNT = 0;
     

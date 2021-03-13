@@ -2,7 +2,7 @@
  * File:   control.h
  * Author: oliver
  *
- * Created on 12. März 2021, 18:10
+ * Created on 12. March 2021, 18:10
  */
  
 #ifndef CONTROL_H

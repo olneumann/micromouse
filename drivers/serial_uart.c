@@ -12,6 +12,7 @@
 #include "../common/defines.h"
 #include "../common/ring_buffer.h"
 #include "../dspic/board.h"
+#include "../io/hmi.h"
 
 #define _XTAL_FREQ FOSC
 #include <libpic30.h>
@@ -136,6 +137,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
         else if (CMD && c == '>')       // wait till '>' end of key-value
         {
             uartCMD();
+            userCommand(&rbmem[0]);
         }
     }
     

@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "../drivers/motor.h"
 #include "../common/defines.h"
 #include "../common/maths.h"
 #include "../control/control.h"
@@ -20,8 +21,8 @@ pidData_t pidData[PID_ITEM_COUNT];
 
 void pidProfileInit()
 {
-    pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { 42, 42, 42, 42 };
-    pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 42, 42, 42, 42 };
+    pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { 17, 3, 7, 0 };
+    pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 17, 3, 7, 0 };
     pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 42, 42, 42, 42 };
     pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 42, 42, 42, 42 };
 }
@@ -30,15 +31,17 @@ void pidInit(uint16_t pidLooptime)
 {
     pidRuntime.dT = pidLooptime;
     pidRuntime.pidFreq = 1.0f / pidRuntime.dT;
-    pidRuntime.iLim = 42;
+    pidRuntime.iLim = 0.03f;
     pidRuntime.prevPidSetpoint[PID_ITEM_COUNT] = 0.0f;
+    pidRuntime.outMin = 0.0f;
+    pidRuntime.outMax = MAX_SPEED_MS;
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
-        pidRuntime.pidCoef[ctrl].Kp = pidProfile.pid[ctrl].P;
-        pidRuntime.pidCoef[ctrl].Ki = pidProfile.pid[ctrl].I;
-        pidRuntime.pidCoef[ctrl].Kd = pidProfile.pid[ctrl].D;
-        pidRuntime.pidCoef[ctrl].Kf = pidProfile.pid[ctrl].F;
+        pidRuntime.pidCoef[ctrl].Kp = 0.01f * pidProfile.pid[ctrl].P;
+        pidRuntime.pidCoef[ctrl].Ki = 0.01f * pidProfile.pid[ctrl].I;
+        pidRuntime.pidCoef[ctrl].Kd = 0.01f * pidProfile.pid[ctrl].D;
+        pidRuntime.pidCoef[ctrl].Kf = 1.0f * pidProfile.pid[ctrl].F;
     }
 }
 
@@ -68,14 +71,16 @@ void pidController(void)
         pidData[ctrl].D = pidRuntime.pidCoef[ctrl].Kd * (-deltaPidSetpoint) * pidRuntime.pidFreq; 
         pidRuntime.prevPidInput[ctrl] = PidInput[ctrl];
         
-        // Feedforward component
+        // Feedforward component (setpoint weighting)
         pidRuntime.prevPidSetpoint[ctrl] = PidSetpoint[ctrl];
         pidData[ctrl].F = pidRuntime.pidCoef[ctrl].Kf * deltaPidSetpoint * pidRuntime.pidFreq;
         
-        const float pidSum = pidData[ctrl].P 
+        const float pidSum = PidSetpoint[ctrl] - pidData[ctrl].P 
                            + pidData[ctrl].I
                            + pidData[ctrl].D
                            + pidData[ctrl].F;
-        pidData[ctrl].Sum = pidSum;
+        
+        // Output windup protection
+        pidData[ctrl].Sum = constrainf(pidSum, pidRuntime.outMin, pidRuntime.outMax);   
     }
 }

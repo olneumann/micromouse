@@ -13,6 +13,8 @@
 
 #include "motor.h"
 
+#define MAX_VELOCITY_MS 0.626f
+
 void pwmParams(int pwm_freq_khz, volatile uint16_t* pTCON, volatile uint16_t* pPiTPER)
 {
     long double ticks = FCY / (pwm_freq_khz * 1e3); 

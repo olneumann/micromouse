@@ -111,7 +111,6 @@ void __attribute__((__interrupt__,no_auto_psv)) _T3Interrupt(void)
 {
     /* Clear Timer3 interrupt flag */
     IFS0bits.T3IF = 0;
-    LED_IND1 = ~LED_IND1;
     debug();
     //ranging_loop(RANGING_UPDATE_FREQ_HZ);
 }

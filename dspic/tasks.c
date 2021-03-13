@@ -37,14 +37,20 @@ void taskTest(void)
 #endif
     
 #ifdef CONTROL_DEBUG
-    char str[100];
-    float velo_l = getVelocityLeft();
-    float velo_r = getVelocityRight();
+    //char str[100];
+    //sprintf(str, "[I] %d\n",getDiffCnt());
+    //uartWrite(str,0);
     
-    sprintf(str, "%-.3f\n",velo_l);
-    uartWrite(str,0);
+    static float m = 0.0f;
     
-    driveLeft(0);
+    setSetpoint(0, m*MAX_SPEED_MS);
+    setSetpoint(1, m*MAX_SPEED_MS);
+    
+    if (BTN)
+    {
+        m += 0.1f;
+        if (m > 0.95f) m = 0.1f;
+    }
 #endif
 }
 

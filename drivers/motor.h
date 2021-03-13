@@ -10,6 +10,7 @@
  
 #define motorLeftDir      1
 #define motorRightDir    -1
+#define MAX_SPEED_MS      0.626f
 
 /**
  * \brief Initilizes motor pwm signal generation
