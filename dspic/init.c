@@ -39,7 +39,7 @@ void init(void)
     //enableTimer();
 
     //qei1_init(0);
-    init_manager()
+    init_manager();
 
 }
     
