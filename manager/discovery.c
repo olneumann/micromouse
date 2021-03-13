@@ -77,9 +77,9 @@ direction get_direction_btw_start_and_end_cells(position start, position end) {
 }
 
 position get_the_most_distant_cell_for_2_walls(position r_wall, position l_wall) {
-    u_int8_t ultimate_visits = 255;
+    uint8_t ultimate_visits = 255;
     position the_cell, r_cell, l_cell;
-    u_int8_t visits;
+    uint8_t visits;
 
     r_cell = get_the_cell_by_the_wall_related_to_mouse_orientation(r_wall);
     logger.info(" l_cell ==> (%d, %d) \n", r_cell.x, r_cell.y);
@@ -175,7 +175,7 @@ void process_mission(mission *current_mission) {
     state mouse_state = get_mouse_state(), previous_mouse_state;
     walls_around_t mouse_walls_around;
     mission *found_mission_fork;
-    u_int8_t step;
+    uint8_t step;
     print_missions(current_mission);
     logger.info("\nmission to direction %d from (%d, %d) \n\n",
            current_mission->d,
