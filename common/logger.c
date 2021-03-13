@@ -25,7 +25,7 @@ int debug_func(const char *format, ...) {
     vsnprintf(buffer, 255, log_format, args);
     va_end(args);
 #if (RUNNING_ON_MICROPROCESSOR)
-    return uartWrite(buffer);
+    return uartWrite(buffer,0);
 #else
     return printf("%s", buffer);
 #endif
@@ -47,7 +47,7 @@ int error_func(const char *format, ...) {
     vsnprintf(buffer, 255, log_format, args);
     va_end(args);
 #if (RUNNING_ON_MICROPROCESSOR)
-    return uartWrite(buffer);
+    return uartWrite(buffer,0);
 #else
     return printf("%s", buffer);
 #endif
@@ -69,7 +69,7 @@ int info_func(const char *format, ...) {
     vsnprintf(buffer, 255, format, args);
     va_end(args);
 #if (RUNNING_ON_MICROPROCESSOR)
-    return uartWrite(buffer);
+    return uartWrite(buffer,0);
 #else
     return printf("%s", buffer);
 #endif
@@ -90,7 +90,7 @@ int warning_func(const char *format, ...) {
     vsnprintf(buffer, 255, log_format, args);
     va_end(args);
 #if (RUNNING_ON_MICROPROCESSOR)
-    return uartWrite(buffer);
+    return uartWrite(buffer,0);
 #else
     return printf("%s", buffer);
 #endif
