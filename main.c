@@ -10,7 +10,8 @@
 
 #include "platform.h"
 #include "dspic/init.h"
-#include "manager/manager.h"
+#include "dspic/core.h"
+
 void run(void);
 
 int main(void) 
@@ -23,9 +24,8 @@ int main(void)
 
 void run(void)
 {
-
-    start_discovery();
-    init_inference();
-    start_inference(0);
+    while (true) {
+        // explore() and then fast_run()
+    }
 }
 

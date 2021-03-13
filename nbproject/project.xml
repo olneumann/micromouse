@@ -18,12 +18,14 @@
                 <sourceRootElem>drivers</sourceRootElem>
                 <sourceRootElem>dspic</sourceRootElem>
                 <sourceRootElem>io</sourceRootElem>
-                <sourceRootElem>scheduler</sourceRootElem>
-                <sourceRootElem>/home/oliver/Documents/Workspace/C/micromouse/sensors</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>default</name>
+                    <name>sim</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>pickit</name>
                     <type>2</type>
                 </confElem>
             </confList>

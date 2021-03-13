@@ -14,33 +14,42 @@
 #include "../drivers/timer.h"
 #include "../drivers/dma.h"
 #include "../drivers/adc.h"
+#include "../drivers/motor.h"
+#include "../drivers/encoder.h"
+#include "../drivers/ranging.h"
 #include "../common/logger.h"
-#include "../manager/manager.h"
+
+#include "init.h"
 
 void init(void)
 {
-    loggerInit();
-    
     boardInit();
-    //serialInit();
-    
-    /* TODO: mapping of sensor value streams (qei/i2c) into dma */
-    //dmaInit();
-    
+    serialInit();
+      
     /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
     //adcInit();
     
-    //motorInit();
-    /* TODO: setup qei (pulses per rev, position/angle measurement, etc.) */
-    //qeiInit();
+    /*
+     * Components Initialization:
+     * - motorInit(uint16_t kfpwm)      -> PWM Generation (Freq.)
+     * - qeiInit()                      -> Encoder Readings (Pulses, Unit Conversion)
+     * - rangingInit(uint16_t kfscl)    -> VL53L0X Ranging Readings (Remapping, Measurement Freq.)
+     *      
+     */
     
-    /* TODO: start main timer - setup pid control loop */
-    //timerInit(); 
-    //enableTimer();
-
-    //qei1_init(0);
-    init_manager();
-
+    motorInit(20);
+    qeiInit();
+    rangingInit(200);
+    enableRanging();
+    
+    /* 
+     * Main loop:
+     * Generates task calls for control (pid), sensing (range, encoder)
+     * 
+     */
+    
+    timerInit(); 
+    enableTimer();
 }
     
   

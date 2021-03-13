@@ -8,8 +8,10 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
+#include "xc.h"
+
 /* Frequencies */
-#define FOSC        (80000000ULL)
+#define FOSC        (62500000UL)
 #define FCY         (FOSC/2)  
 
 /* LED */
@@ -26,6 +28,10 @@
 #define XSHUT_F     LATBbits.LATB3 // (active low)
 #define XSHUT_L     LATCbits.LATC0 // (active low)
 #define UART_RX_IND LATCbits.LATC3 // (active low)
+
+/* I2C testing*/
+#define SDA         LATBbits.LATB9
+#define SCL         LATBbits.LATB8
 
 /* GPIO pins */
 #define RP10        PORTBbits.RB10

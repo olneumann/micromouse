@@ -5,9 +5,10 @@
  * Created on 2. Januar 2021, 17:00
  */
 
-#ifndef PATHPLANNING_H
-#define	PATHPLANNING_H
+#ifndef PRIMITIVES_H
+#define	PRIMITIVES_H
 
-float getSetpointRate(int motor);
+void move_forward(void);
+void move_side(void);
 
 #endif /* PATHPLANNING_H */

@@ -12,8 +12,10 @@
 #include "../common/defines.h"
 #include "../drivers/serial_uart.h"
 
-#include "xc.h"
 #include "board.h"
+#include "p33Fxxxx.h"
+
+//#define I2C_DEBUG
 
 void ioInit(void)
 {    
@@ -34,6 +36,17 @@ void ioInit(void)
     
     TRISCbits.TRISC3 = 0;           // [OUT] UART_RX_IND
     
+    /* 
+     * I2C Open-Drain 
+     */  
+    ODCBbits.ODCB8 = 1;
+    ODCBbits.ODCB9 = 1;
+    
+#ifdef I2C_DEBUG
+    TRISBbits.TRISB8 = 0;           
+    TRISBbits.TRISB9 = 0;
+#endif  
+    
     /*
      * Remapping
      */
@@ -51,7 +64,7 @@ void ioInit(void)
     RPINR16bits.QEB2R = 25;         // [IN] M2_B (<- RP25)
     
     // UART
-    RPINR18bits.U1RXR = 20;         // [IN] UART_RX (<- RP20)
+    RPINR18bits.U1RXR = 21;         // [IN] UART_RX (<- RP21)
     
     // INT
     // INT0 hard-coded on RP7 - INT_L
@@ -67,14 +80,14 @@ void ioInit(void)
     
     AD1PCFGL = 0xFFFF;              // all analog pins now digital
     AD1PCFGLbits.PCFG0 = 0;         // [IN] BAT_SENSE
-   
+    
     /*
      * Output Mapping
      * PIN <- PERIPHERAL (RPnR codes | table 11-2)
      */   
     
     // UART
-    RPOR10bits.RP21R = 0b00011;       // [OUT] UART_TX (-> RP21)
+    RPOR10bits.RP20R = 0b00011;       // [OUT] UART_TX (-> RP21)
     
     __builtin_write_OSCCONL(OSCCON | 0x40);
     
@@ -86,14 +99,14 @@ void boardInit(void)
     /* OSCILLATOR setup
      * [FIN]    20 MHz 
      * [N1]     4       -> [FPLLI]  5   MHz
-     * [M]      64      -> [FVCO]   320 MHz
-     * [N2]     4       -> [FOSC]   80  MHz
+     * [M]      25      -> [FVCO]   125 MHz
+     * [N2]     2       -> [FOSC]   62.5  MHz
      * 
-     * [FCY]    40 MHz  -> [TCYC]   25 ns
+     * [FCY]    31.25 MHz  -> [TCYC]   32 ns
      */
-    PLLFBDbits.PLLDIV = 62;             // M  = PLLDIV + 2
+    PLLFBDbits.PLLDIV = 23;             // M  = PLLDIV + 2
     CLKDIVbits.PLLPRE = 2;              // N1 = PLLPRE + 2
-    CLKDIVbits.PLLPOST = 1;             // N2 = 2(PLLPOST + 1)
+    CLKDIVbits.PLLPOST = 0;             // N2 = 2(PLLPOST + 1)
         
     __builtin_write_OSCCONH(0x03);
     __builtin_write_OSCCONL(OSCCON | 0x01);
