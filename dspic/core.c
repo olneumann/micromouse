@@ -9,16 +9,36 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "../control/pid.h"
+#include "../dspic/tasks.h"
+
 #include "core.h"
 
-void taskEncoder(void)
+void debug(void)
 {
-    // getEncoderData();
+    taskTest();
 }
 
-void taskPIDLoop(timeUs_t currentTimeUs)
+void control_loop(uint16_t freq)
 {
-    pidController(currentTimeUs);
-    // writeMotors();
+    taskControl(freq);    
+}
+
+void encoder_loop(uint16_t freq)
+{
+    taskEncoder(freq);
+}
+
+void ranging_loop(uint16_t freq)
+{
+    taskRanging(freq);
+}
+
+void explore(void)
+{
+    // exploration phase
+}
+
+void fast_run(void)
+{
+    // final fast run
 }

@@ -9,13 +9,14 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "pathplanning.h"
+#include "primitives.h"
 
-float getSetpointRate(int motor)
+void move_forward(void)
 {
-    int i = motor;
-    i++;
     
-    return 0.0f;
 }
 
+void move_side(void)
+{
+    
+}

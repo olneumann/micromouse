@@ -13,7 +13,9 @@
 #include "../common/ring_buffer.h"
 #include "../dspic/board.h"
 
-#include "xc.h"
+#define _XTAL_FREQ FOSC
+#include <libpic30.h>
+
 #include "serial_uart.h"
 
 #define CMD 0   // read commands via uart
@@ -74,7 +76,7 @@ int uartWriteC(int c)
     return 0;
 }
 
-int uartWrite(const char *str)
+int uartWrite(const char *str, int delay_ms)
 {
     int status = -1;
 
@@ -86,7 +88,7 @@ int uartWrite(const char *str)
             while (!U1STAbits.TRMT);
             /* Transmit data */
             U1TXREG = *str; 
-
+            __delay_ms(delay_ms);
             str++;
         }
     }
@@ -105,11 +107,11 @@ int uartCMD(void)
     {
         char str[30];
         sprintf(str, "OK: pulseWidth = <%d>\n", val);
-        uartWrite(str);
+        uartWrite(str,0);
     }
     else
     {
-        uartWrite("ERROR!\n");
+        uartWrite("ERROR!\n",0);
     }
     
     status = 0;
