@@ -9,6 +9,7 @@ void init_simulation(){
 
 }
 int main() {
+    loggerInit();
     state mouse_state = get_mouse_state();
     printf("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
 

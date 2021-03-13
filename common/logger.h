@@ -11,8 +11,8 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-    
 #include "__logger__.h"
+#include "../drivers/serial_uart.h"
 /**
  * init a logger and return it
  * @return logger struct

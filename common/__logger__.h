@@ -7,16 +7,18 @@
 
 #ifndef __LOGGER___H
 #define	__LOGGER___H
+#include <string.h>
+#include <stdio.h>
+#include <stdarg.h>
+typedef int (*__debug__)(const char *,...);
+typedef int (*__error__)(const char *,...);
+typedef int (*__info__)(const char *,...);
+typedef int (*__warning__)(const char *,...);
 
-typedef int (*__debug__)(const char * str);
-typedef int (*__error__)(const char * str);
-typedef int (*__info__)(const char * str);
-typedef int (*__warning__)(const char * str);
-
-int debug_func(const char* str);
-int error_func(const char* str);
-int info_func(const char* str);
-int warning_func(const char* str);
+int debug_func(const char *,...);
+int error_func(const char *,...);
+int info_func(const char *,...);
+int warning_func(const char *,...);
 
 /**
  * \brief logger structure with function parameters

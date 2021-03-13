@@ -25,6 +25,7 @@
 #include "../simulation/simulation_common.h"
 #endif
 
+#include "../common/logger.h"
 #include "map_updater.h"
 #include "manager.h"
 #include "shortest_path.h"
