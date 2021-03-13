@@ -13,7 +13,6 @@ position goal_cells[] = {{GOAL_CELL_1_X,GOAL_CELL_1_Y}
 };
 
 position get_first_seen_wall(direction sensor_sight_direction, distance d){
-    state mouse_state = get_mouse_state();
     return (position){0,1};
 }
 void print_walls_around() {

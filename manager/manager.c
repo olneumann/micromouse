@@ -66,7 +66,7 @@ void start_inference(inference_mode mode) {
 }
 
 Action *decide_next_action() {
-
+    return 0;
 }
 
 void start_action(Action *action) {

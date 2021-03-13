@@ -139,7 +139,6 @@ void set_visited(position cell) {
 
 
 void print_missions(mission *mission_tail) {
-    mission *parent;
 
     logger.info("missions : ");
 
