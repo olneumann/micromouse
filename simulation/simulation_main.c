@@ -8,7 +8,7 @@ void init_simulation(){
     srand(time(NULL));
 
 }
-int main() {
+int simulation_main() {
     loggerInit();
     state mouse_state = get_mouse_state();
     printf("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
@@ -19,6 +19,6 @@ int main() {
     print_visited_cells();
     set_the_map_2();
     init_simulation();
-    run_algo();
+    run_discovery_algo();
     return 0;
 }

@@ -14,7 +14,12 @@ position goal_cells[] = {{GOAL_CELL_1_X,GOAL_CELL_1_Y}
 #endif
 };
 void init_manager() {
-
+    loggerInit();
+    logger.info("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
+    init_walls();
+    init_shortest_path_utils();
+    init_visited_cells();
+    print_visited_cells();
 }
 position what_is_the_position_after_moving_one_step_in_the_direction(position pos, direction d) {
     switch (d) {
@@ -86,22 +91,22 @@ state get_mouse_state() {
 }
 
 void start_discovery() {
-
+#if (DISCOVERY_SIMULATION==1)
+    simulation_main();
+#else
+    run_discovery_algo();
+#endif
 }
 
 position get_start_cell() {
     return (position) {START_POSITION_X, START_POSITION_Y};
 }
 
-void do_discovery() {
+void init_inference() {
 
 }
 
-void start_inference() {
-
-}
-
-void do_inference(inference_mode mode) {
+void start_inference(inference_mode mode) {
 
 }
 
@@ -112,9 +117,7 @@ Action *decide_next_action() {
 void start_action(Action *action) {
 
 }
-void init_goal_cells(){
 
-}
 void turn_towards(direction d) {
     mouse_state.d = d;
     switch (mouse_state.d) {
@@ -183,6 +186,6 @@ void turn_towards(direction d) {
 }
 
 uint8_t manhattan_distance_uint16_t(position a, position b) {
-    printf(" manhattan ==> (%d, %d,) vs ( %d %d) \n", a.x, a.y, b.x, b.y);
+    logger.info(" manhattan ==> (%d, %d,) vs ( %d %d) \n", a.x, a.y, b.x, b.y);
     return (uint8_t) abs(a.x - b.x) + abs(a.y - b.y);
 }

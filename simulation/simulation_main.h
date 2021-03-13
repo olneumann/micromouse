@@ -7,4 +7,6 @@
 #include "time.h"
 #include "../manager/discovery.h"
 #include "simulation_maps.h"
+
+int simulation_main();
 #endif //MM_SIMULATION_MAIN_H

@@ -335,7 +335,7 @@ mission *add_a_mission(mission *parent, ranging_sensor sensor) {//search for und
 }
 
 
-void run_algo(void) {
+void run_discovery_algo(void) {
     mission *first_mission = create_a_mission(NULL, get_mouse_state().d, get_mouse_state().p);
     set_visited(get_mouse_state().p);
     process_mission(first_mission);
