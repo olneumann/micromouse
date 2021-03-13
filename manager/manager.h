@@ -5,42 +5,17 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "../common/logger.h"
 #include "../common/general_parameters.h"
 #include "../common/general_definitions.h"
+#include "../common/logger.h"
 
 #include "map_updater.h"
 #include "discovery.h"
+#include "mouse_state.h"
 
 #if DISCOVERY_SIMULATION
 #include "../simulation/simulation_main.h"
 #endif
-
-typedef struct {
-    uint8_t x;
-    uint8_t y;
-} position;
-
-uint8_t manhattan_distance_uint16_t(position a, position b);
-direction get_sight_direction_of_sensor(ranging_sensor);
-
-typedef struct {
-    position p;
-    direction d;
-} state;
-
-typedef struct {
-    bool front;
-    bool left;
-    bool right;
-    bool back;
-} walls_around_t;
-
-typedef enum {
-    Normal = 0, Fast = 1, BlindlyFast = 2
-} inference_mode;
-
-extern position goal_cells[];
 
 void init_manager(void);
 
@@ -55,19 +30,5 @@ void start_discovery();
 Action *decide_next_action(void);
 
 void start_action(Action*);
-
-void turn_towards(direction);
-
-state get_mouse_state(void);
-
-position get_start_cell();
-
-position what_is_the_position_after_moving_one_step_in_the_direction(position , direction );
-
-void move_to_one_cell_in_direction(direction);
-
-#include "map_updater.h"
-//#include "solver.h"
-//#include "../common/logger.h"
 
 #endif //MANAGER_H

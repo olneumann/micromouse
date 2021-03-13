@@ -1,47 +1,16 @@
 #include "manager.h"
 
-static volatile state mouse_state = {{START_POSITION_X, START_POSITION_Y}, START_DIRECTION};
-
-position goal_cells[] = {{GOAL_CELL_1_X,GOAL_CELL_1_Y}
-#ifdef GOAL_CELL_2_X
-,{GOAL_CELL_2_X,GOAL_CELL_2_Y}
-#endif
-#ifdef GOAL_CELL_3_X
-,{GOAL_CELL_3_X,GOAL_CELL_3_Y}
-#endif
-#ifdef GOAL_CELL_4_X
-,{GOAL_CELL_4_X,GOAL_CELL_4_Y}
-#endif
-};
 void init_manager() {
-    loggerInit();
+    state mouse_state = get_mouse_state();
     logger.info("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
-    init_walls();
     init_shortest_path_utils();
     init_visited_cells();
     print_visited_cells();
 }
-position what_is_the_position_after_moving_one_step_in_the_direction(position pos, direction d) {
-    switch (d) {
-        case West:
-            pos.x -= 1;
-            return pos;
-        case East:
-            pos.x += 1;
-            return pos;
-        case North:
-            pos.y += 1;
-            return pos;
-        case South:
-            pos.y -= 1;
-            return pos;
-        default:
-            return pos;
-    }
 
-}
 
 direction get_sight_direction_of_sensor(ranging_sensor sensor) {
+    state mouse_state = get_mouse_state();
     switch (sensor) {
         case Front_Sensor:
             return mouse_state.d;
@@ -78,17 +47,7 @@ direction get_sight_direction_of_sensor(ranging_sensor sensor) {
     }
 }
 
-void move_to_one_cell_in_direction(direction d) {
-    position cell = what_is_the_position_after_moving_one_step_in_the_direction(mouse_state.p, d);
-    mouse_state.p.x = cell.x;
-    mouse_state.p.y = cell.y;
-    mouse_state.d = d;
-    //update_map();
-}
 
-state get_mouse_state() {
-    return mouse_state;
-}
 
 void start_discovery() {
 #if (DISCOVERY_SIMULATION==1)
@@ -96,10 +55,6 @@ void start_discovery() {
 #else
     run_discovery_algo();
 #endif
-}
-
-position get_start_cell() {
-    return (position) {START_POSITION_X, START_POSITION_Y};
 }
 
 void init_inference() {
@@ -116,73 +71,6 @@ Action *decide_next_action() {
 
 void start_action(Action *action) {
 
-}
-
-void turn_towards(direction d) {
-    mouse_state.d = d;
-    switch (mouse_state.d) {
-        case West:
-            switch (d) {
-                case West:
-                    break;
-                case East:
-                    break;
-                case North:
-                    break;
-                case South:
-                    break;
-                default:
-                    break;
-            }
-            break;
-        case East:
-            switch (mouse_state.d) {
-                case West:
-                    break;
-                case East:
-                    break;
-                case North:
-                    break;
-                case South:
-                    break;
-                default:
-                    break;
-            }
-            break;
-
-        case North:
-            switch (mouse_state.d) {
-                case West:
-                    break;
-                case East:
-                    break;
-                case North:
-                    break;
-                case South:
-                    break;
-                default:
-                    break;
-            }
-            break;
-
-        case South:
-            switch (mouse_state.d) {
-                case West:
-                    break;
-                case East:
-                    break;
-                case North:
-                    break;
-                case South:
-                    break;
-                default:
-                    break;
-            }
-            break;
-
-        default:
-            break;
-    }
 }
 
 uint8_t manhattan_distance_uint16_t(position a, position b) {

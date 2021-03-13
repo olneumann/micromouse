@@ -23,7 +23,12 @@ int debug_func(const char *format, ...) {
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, 255, log_format, args);
+    va_end(args);
+#if (RUNNING_ON_MICROPROCESSOR)
     return uartWrite(buffer);
+#else
+    return printf("%s", buffer);
+#endif
 
 }
 
@@ -40,7 +45,12 @@ int error_func(const char *format, ...) {
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, 255, log_format, args);
+    va_end(args);
+#if (RUNNING_ON_MICROPROCESSOR)
     return uartWrite(buffer);
+#else
+    return printf("%s", buffer);
+#endif
 }
 
 /**
@@ -51,13 +61,18 @@ int error_func(const char *format, ...) {
 int info_func(const char *format, ...) {
 
     char buffer[256];
-    int l = (int) strlen(format) + 8;
-    char log_format[l];
-    sprintf(log_format, "INFO : %s", format);
+    //int l = (int) strlen(format) + 8;
+    //char log_format[l];
+    //sprintf(log_format, "INFO : %s", format);
     va_list args;
     va_start(args, format);
-    vsnprintf(buffer, 255, log_format, args);
+    vsnprintf(buffer, 255, format, args);
+    va_end(args);
+#if (RUNNING_ON_MICROPROCESSOR)
     return uartWrite(buffer);
+#else
+    return printf("%s", buffer);
+#endif
 }
 
 /**
@@ -73,7 +88,12 @@ int warning_func(const char *format, ...) {
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, 255, log_format, args);
+    va_end(args);
+#if (RUNNING_ON_MICROPROCESSOR)
     return uartWrite(buffer);
+#else
+    return printf("%s", buffer);
+#endif
 }
 
 void loggerInit() {

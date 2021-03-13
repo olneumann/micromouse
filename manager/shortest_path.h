@@ -4,7 +4,11 @@
 
 #ifndef MM_SHORTEST_PATH_H
 #define MM_SHORTEST_PATH_H
-#include "manager.h"
+#include "../common/general_definitions.h"
+#include "../common/general_parameters.h"
+#include "../common/logger.h"
+#include "mouse_state.h"
+#include "map_updater.h"
 
 #define MAX_DIJKSTRA_DISTANCE MAZE_SIZE // will be used in the discovery
 extern position previous_cells[MAZE_SIZE][MAZE_SIZE];

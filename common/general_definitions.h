@@ -6,7 +6,7 @@
 #define MM_GENERAL_DEFINITIONS_H
 
 #include <stdint.h>
-
+#include "stdbool.h"
 #define radians float
 
 #define True 1
@@ -26,5 +26,29 @@ typedef enum {
 typedef enum {
     Front_Sensor = 0, Right_Sensor = 1, Left_Sensor = 2,
 }ranging_sensor;
+typedef struct {
+    uint8_t x;
+    uint8_t y;
+} position;
+
+uint8_t manhattan_distance_uint16_t(position a, position b);
+direction get_sight_direction_of_sensor(ranging_sensor);
+
+typedef struct {
+    position p;
+    direction d;
+} state;
+
+typedef struct {
+    bool front;
+    bool left;
+    bool right;
+    bool back;
+} walls_around_t;
+
+
+typedef enum {
+    Normal = 0, Fast = 1, BlindlyFast = 2
+} inference_mode;
 
 #endif //MM_GENERAL_DEFINITIONS_H

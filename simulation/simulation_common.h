@@ -7,6 +7,8 @@
 
 #include "../common/general_parameters.h"
 #include "../common/general_definitions.h"
+#include "../manager/mouse_state.h"
+#include "simulation_maps.h"
 
 #if DISCOVERY_SIMULATION
 distance get_front_sensor_range_data(void);
@@ -14,7 +16,6 @@ distance get_right_sensor_range_data(void);
 distance get_left_sensor_range_data(void);
 #endif
 
-#include "../manager/manager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

@@ -8,7 +8,7 @@
 // This file includes general parameters of robot mouse
 
 #define DISCOVERY_SIMULATION 1
-
+#define RUNNING_ON_MICROPROCESSOR 0
 #define MAZE_SIZE 7
 
 #define NUMBER_GOAL_CELL 4
@@ -21,6 +21,7 @@
 #define GOAL_CELL_4_X 4
 #define GOAL_CELL_2_X 3
 #define GOAL_CELL_4_Y 3
+
 
 #define START_POSITION_X 0
 #define START_POSITION_Y 0

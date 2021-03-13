@@ -1,15 +1,6 @@
 //
 // Created by root on 3/4/21.
 //
-
-#ifndef MM_DISCOVERY_2_H
-#define MM_DISCOVERY_2_H
-
-#endif //MM_DISCOVERY_2_H
-//
-// Created by root on 3/3/21.
-//
-
 #ifndef MM_DISCOVERY_H
 #define MM_DISCOVERY_H
 
@@ -19,15 +10,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <aio.h>
 
-#if DISCOVERY_SIMULATION
+#if (DISCOVERY_SIMULATION==1)
 #include "../simulation/simulation_common.h"
 #endif
 
 #include "../common/logger.h"
+#include "mouse_state.h"
 #include "map_updater.h"
-#include "manager.h"
 #include "shortest_path.h"
 
 void print_visited_cells(void);

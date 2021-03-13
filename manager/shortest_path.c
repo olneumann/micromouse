@@ -11,8 +11,8 @@ uint32_t dijkstra_distances[MAZE_SIZE][MAZE_SIZE];
 void init_shortest_path_utils() {
     int i, j;
     state mouse_state = get_mouse_state();
-    for (i = 0; i < MAZE_WALL_SIZE; i++) {
-        for (j = 0; j < MAZE_WALL_SIZE; j++) {
+    for (i = 0; i < MAZE_SIZE; i++) {
+        for (j = 0; j < MAZE_SIZE; j++) {
             previous_cells[i][j] = (position) {-1, -1};
             dijkstra_distances[i][j] = UINT32_MAX;
         }
@@ -45,10 +45,10 @@ void print_dijkstra_distances(void){
         printf("\n");
         for (i = 0; i < MAZE_SIZE; i++) {
             if (dijkstra_distances[i][j]==UINT32_MAX){
-                printf("00 ");
+                logger.info("00 ");
             }
             else{
-                printf("%d ",dijkstra_distances[i][j]);
+                logger.info("%d ",dijkstra_distances[i][j]);
             }
         }
     }
@@ -67,12 +67,12 @@ void print_shortest_path(void){
         }
     }
     proceeding_cell = the_found_goal_cell;
-    printf("Found goal : (%d, %d)",the_found_goal_cell.x,the_found_goal_cell.y);
+    logger.info("Found goal : (%d, %d)",the_found_goal_cell.x,the_found_goal_cell.y);
 
     while(!is_cells_the_same(state_cell,proceeding_cell)){
         proceeding_cell = previous_cells[proceeding_cell.x][proceeding_cell.y];
-        printf("<-- (%d, %d) ",proceeding_cell.x,proceeding_cell.y);
+        logger.info("<-- (%d, %d) ",proceeding_cell.x,proceeding_cell.y);
     }
-    printf("\n");
+    logger.info("\n");
 
 }
