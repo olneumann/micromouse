@@ -1,8 +1,6 @@
 #ifndef MAP_UPDATER_H
 #define MAP_UPDATER_H
 
-
-#include "../sensors/ranging.h"
 #include "../common/general_definitions.h"
 #include "../common/general_parameters.h"
 #include "../common/logger.h"
