@@ -16,6 +16,6 @@
 
 void userCommand(char *prbmem) 
 {
-    char buf = *prbmem;
+    //char buf = *prbmem;
 }
 

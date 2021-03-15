@@ -23,8 +23,8 @@ void pidProfileInit()
 {
     pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { 17, 4, 7, 0 }; 
     pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 17, 4, 7, 0 };
-    pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 42, 42, 42, 42 };
-    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 42, 42, 42, 42 };
+    pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 1, 0, 0, 0 };
+    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 17, 4, 7, 0 };
 }
 
 void pidInit(uint16_t pidLooptime) 
@@ -33,7 +33,7 @@ void pidInit(uint16_t pidLooptime)
     pidRuntime.pidFreq = 1.0f / pidRuntime.dT;
     pidRuntime.iLim = 0.01f;
     pidRuntime.prevPidSetpoint[PID_ITEM_COUNT] = 0.0f;
-    pidRuntime.outMin = 0.0f;
+    pidRuntime.outMin = -MAX_SPEED_MS;
     pidRuntime.outMax = MAX_SPEED_MS;
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)

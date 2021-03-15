@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #include "../drivers/motor.h"
 #include "../drivers/encoder.h"
@@ -21,15 +22,23 @@
 #endif
 
 static volatile float SETPOINT[PID_ITEM_COUNT];
+static volatile bool MOTOR_CONTROL  = true;
+static volatile bool SIDE_CONTROL   = false;
+static volatile bool FRONT_CONTROL  = false;
 
-void getFrontSensorError(void)
+void toggleMotorControl(bool state)
 {
-    
+    MOTOR_CONTROL = state;
 }
 
-void getSideSensorError(void)
+void toggleSideControl(bool state)
 {
-    
+    SIDE_CONTROL = state;
+}
+
+void toggleFrontControl(bool state)
+{
+    FRONT_CONTROL = state;
 }
 
 void setSetpoint(int ctrl, float val)
@@ -54,20 +63,25 @@ float getInput(int ctrl)
     }
     else if (ctrl == PID_DIST_SENSOR_SIDE)
     {
-        
+        /* 
+         * [D]      [L]             [R]
+         * [R-L]    (+)             (-)
+         * [DC-L]   (+)             (-)
+         * [DC-R]   (-)             (+)
+         */
+        return getRangeRight() - getRangeLeft();
     }
     else if (ctrl == PID_DIST_SENSOR_FRONT)
     {
-        
+        return getRangeFront();
     }
     
     return 0.0f;
 }
 
-float convSpeedtoDC(float pidsum, int ctrl)
+float convDC(float pidsum, int ctrl)
 {
-    return (SETPOINT[ctrl] + pidsum)/MAX_SPEED_MS;
-    
+    return (SETPOINT[ctrl] + pidsum)/MAX_SPEED_MS;  
 }
 
 void motorControl(void)
@@ -77,14 +91,14 @@ void motorControl(void)
     float controlLeft;
     float controlRight;
     
-    controlLeft = pidData[PID_VELO_MOTOR_LEFT].Sum;
-               //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
-               //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
+    controlLeft = MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum
+                + SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
+                - FRONT_CONTROL * pidData[PID_DIST_SENSOR_FRONT].Sum;
     
-    controlRight = pidData[PID_VELO_MOTOR_RIGHT].Sum;
-                //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
-                //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
+    controlRight = MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum
+                 - SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
+                 - FRONT_CONTROL * pidData[PID_DIST_SENSOR_FRONT].Sum;
     
-    driveLeft(convSpeedtoDC(controlLeft, 0));
-    driveRight(convSpeedtoDC(controlRight, 1)); 
+    driveLeft(convDC(controlLeft, 0));
+    driveRight(convDC(controlRight, 1)); 
 }

@@ -8,15 +8,20 @@
 #ifndef CONTROL_H
 #define	CONTROL_H
 
+#include <stdbool.h>
+
 #define CONTROL_DEBUG
 
-void setSetpoint(int ctrl, float val);
-float getSetpoint(int ctrl);
+void toggleMotorControl(bool state);
+void toggleSideControl(bool state);
+void toggleFrontControl(bool state);
 float getInput(int ctrl);
+float getSetpoint(int ctrl);
+void setSetpoint(int ctrl, float val);
 void motorControl(void);
 
 #ifdef CONTROL_DEBUG
-float convSpeedtoDC(float pidsum, int ctrl);
+float convDC(float pidsum, int ctrl);
 #endif
 
 #endif	/* CONTROL_H */
