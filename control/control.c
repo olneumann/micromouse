@@ -64,9 +64,9 @@ float getInput(int ctrl)
     return 0.0f;
 }
 
-float convSpeedtoDC(float offset)
+float convSpeedtoDC(float pidsum, int ctrl)
 {
-    return (offset)/MAX_SPEED_MS;
+    return (SETPOINT[ctrl] + pidsum)/MAX_SPEED_MS;
     
 }
 
@@ -74,31 +74,17 @@ void motorControl(void)
 {
     pidController();
     
-    float offsetLeft;
-    float offsetRight;
+    float controlLeft;
+    float controlRight;
     
-    offsetLeft = pidData[PID_VELO_MOTOR_LEFT].Sum;
+    controlLeft = pidData[PID_VELO_MOTOR_LEFT].Sum;
                //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
                //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
     
-    offsetRight = pidData[PID_VELO_MOTOR_RIGHT].Sum;
+    controlRight = pidData[PID_VELO_MOTOR_RIGHT].Sum;
                 //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
                 //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
     
-    driveLeft(convSpeedtoDC(offsetLeft));
-    driveRight(convSpeedtoDC(offsetRight)); 
-     
-#ifdef CONTROL_DEBUG
-    char str[100];   
-    sprintf(str, "[%-.3f] [%-.3f]\n", 
-                                convSpeedtoDC(offsetLeft),
-                                fabs(pidRuntime.prevPidInput[PID_VELO_MOTOR_LEFT]-
-                                pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT]));
-    uartWrite(str,0);
-    sprintf(str, "[%-.3f] [%-.3f]\n", 
-                                convSpeedtoDC(offsetRight),
-                                fabs(pidRuntime.prevPidInput[PID_VELO_MOTOR_RIGHT]-
-                                pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_RIGHT]));
-    uartWrite(str,0);
-#endif
+    driveLeft(convSpeedtoDC(controlLeft, 0));
+    driveRight(convSpeedtoDC(controlRight, 1)); 
 }

@@ -14,11 +14,17 @@
 #include "../drivers/encoder.h"
 #include "../control/control.h"
 
-// for testing
+#ifdef VL53L0X_DEBUG
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
 #include "../drivers/serial_i2c.h"
+#endif
+
+#ifdef CONTROL_DEBUG
+#include "../control/pid.h"
 #include "../drivers/motor.h"
+#include "../drivers/serial_uart.h"
+#endif
 
 #include "tasks.h"
 
@@ -37,10 +43,6 @@ void taskTest(void)
 #endif
     
 #ifdef CONTROL_DEBUG
-    //char str[100];
-    //sprintf(str, "[I] %d\n",getDiffCnt());
-    //uartWrite(str,0);
-    
     static float m = 0.0f;
     
     setSetpoint(0, m*MAX_SPEED_MS);
@@ -51,6 +53,27 @@ void taskTest(void)
         m += 0.1f;
         if (m > 0.95f) m = 0.1f;
     }
+    
+    float controlLeft;
+    float controlRight;
+    
+    controlLeft = pidData[PID_VELO_MOTOR_LEFT].Sum;
+               //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
+               //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
+    
+    controlRight = pidData[PID_VELO_MOTOR_RIGHT].Sum;
+                //+ pidData[PID_DIST_SENSOR_SIDE].Sum      // sign!!
+                //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
+    
+    char str[100];   
+    sprintf(str, "DC [%-.3f] IN [%-.4f] ST [%-.4f] P [%-.3f] I [%-.3f] D [%-.3f]\n", 
+            convSpeedtoDC(controlLeft, 0),
+            pidRuntime.prevPidInput[PID_VELO_MOTOR_LEFT],
+            pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT],
+            pidData[PID_VELO_MOTOR_LEFT].P,
+            pidData[PID_VELO_MOTOR_LEFT].I,
+            pidData[PID_VELO_MOTOR_LEFT].D);
+    uartWrite(str,0);
 #endif
 }
 

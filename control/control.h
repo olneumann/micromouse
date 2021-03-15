@@ -15,5 +15,9 @@ float getSetpoint(int ctrl);
 float getInput(int ctrl);
 void motorControl(void);
 
+#ifdef CONTROL_DEBUG
+float convSpeedtoDC(float pidsum, int ctrl);
+#endif
+
 #endif	/* CONTROL_H */
 

@@ -67,6 +67,9 @@ void motorInit(uint16_t kfpwm)
  */
 void driveRight(float percent)
 {
+    if (percent > 1.0f) percent = 1.0f;
+    if (percent < -1.0f) percent = -1.0f;
+    
     percent = (float)motorRightDir * percent;
     if (percent > 0) 
     {
