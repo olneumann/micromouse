@@ -59,8 +59,9 @@ void pidController(void)
         float errRate = PidSetpoint[ctrl] - PidInput[ctrl];
         pidData[ctrl].P = pidRuntime.pidCoef[ctrl].Kp * errRate;
         
-        // Integral component (with windup protection)
-        pidData[ctrl].I = constrainf(pidRuntime.pidCoef[ctrl].Ki * errRate * pidRuntime.dT,
+        // Integral component (with windup protection & stable integral term)
+        const float prevI = pidData[ctrl].I;
+        pidData[ctrl].I = constrainf(prevI + pidRuntime.pidCoef[ctrl].Ki * errRate * pidRuntime.dT,
                                      -pidRuntime.iLim,
                                      pidRuntime.iLim);
         
