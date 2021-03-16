@@ -79,6 +79,11 @@ float getInput(int ctrl)
     return 0.0f;
 }
 
+float getVeloSetpoint(void)
+{
+    return 0.5f * (SETPOINT[PID_VELO_MOTOR_LEFT] + SETPOINT[PID_VELO_MOTOR_RIGHT]);
+}
+
 float convDC(float pidsum, int ctrl)
 {
     return (SETPOINT[ctrl] + pidsum)/MAX_SPEED_MS;  
@@ -86,6 +91,17 @@ float convDC(float pidsum, int ctrl)
 
 void motorControl(void)
 {
+    if (SIDE_CONTROL)
+    {
+        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -getVeloSetpoint();
+        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  getVeloSetpoint();
+    }
+    if (FRONT_CONTROL)
+    {
+        pidRuntime.outMin[PID_DIST_SENSOR_FRONT] = -getVeloSetpoint();
+        pidRuntime.outMax[PID_DIST_SENSOR_FRONT] =  getVeloSetpoint();
+    }
+    
     pidController();
     
     float controlLeft;

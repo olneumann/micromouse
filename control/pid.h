@@ -43,8 +43,8 @@ typedef struct pidRuntime_s {
     uint16_t dT;
     float pidFreq;
     float iLim;
-    float outMax;
-    float outMin;
+    float outMax[PID_ITEM_COUNT];
+    float outMin[PID_ITEM_COUNT];
     float prevPidSetpoint[PID_ITEM_COUNT];
     float prevPidInput[PID_ITEM_COUNT];
     pidCoefficient_t pidCoef[PID_ITEM_COUNT];

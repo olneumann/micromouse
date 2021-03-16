@@ -33,15 +33,15 @@ void pidInit(uint16_t pidLooptime)
     pidRuntime.pidFreq = 1.0f / pidRuntime.dT;
     pidRuntime.iLim = 0.01f;
     pidRuntime.prevPidSetpoint[PID_ITEM_COUNT] = 0.0f;
-    pidRuntime.outMin = -MAX_SPEED_MS;
-    pidRuntime.outMax = MAX_SPEED_MS;
-    
+
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
         pidRuntime.pidCoef[ctrl].Kp = 0.01f * pidProfile.pid[ctrl].P;
         pidRuntime.pidCoef[ctrl].Ki = 0.001f * pidProfile.pid[ctrl].I;
         pidRuntime.pidCoef[ctrl].Kd = 0.01f * pidProfile.pid[ctrl].D;
         pidRuntime.pidCoef[ctrl].Kf = 1.0f * pidProfile.pid[ctrl].F;
+        pidRuntime.outMin[ctrl] = -MAX_SPEED_MS;
+        pidRuntime.outMax[ctrl] =  MAX_SPEED_MS;
     }
 }
 
@@ -82,6 +82,6 @@ void pidController(void)
                            + pidData[ctrl].F;
         
         // Output windup protection
-        pidData[ctrl].Sum = constrainf(pidSum, pidRuntime.outMin, pidRuntime.outMax);   
+        pidData[ctrl].Sum = constrainf(pidSum, pidRuntime.outMin[ctrl], pidRuntime.outMax[ctrl]);   
     }
 }
