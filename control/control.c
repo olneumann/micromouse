@@ -24,7 +24,7 @@
 static volatile float SETPOINT[PID_ITEM_COUNT];
 static volatile bool MOTOR_CONTROL  = true;
 static volatile bool SIDE_CONTROL   = false;
-static volatile bool FRONT_CONTROL  = false;
+static volatile bool FRONT_CONTROL  = true;
 
 void toggleMotorControl(bool state)
 {
@@ -86,7 +86,7 @@ float getVeloSetpoint(void)
 
 float convDC(float pidsum, int ctrl)
 {
-    return (SETPOINT[ctrl] + pidsum)/MAX_SPEED_MS;  
+    return (SETPOINT[ctrl] - pidsum)/MAX_SPEED_MS;
 }
 
 void motorControl(void)
@@ -109,11 +109,11 @@ void motorControl(void)
     
     controlLeft = MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum
                 + SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                - FRONT_CONTROL * pidData[PID_DIST_SENSOR_FRONT].Sum;
+                + FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
     
     controlRight = MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum
                  - SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                 - FRONT_CONTROL * pidData[PID_DIST_SENSOR_FRONT].Sum;
+                 + FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_RIGHT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
     
     driveLeft(convDC(controlLeft, 0));
     driveRight(convDC(controlRight, 1)); 

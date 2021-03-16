@@ -24,7 +24,7 @@ void pidProfileInit()
     pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { 17, 4, 7, 0 }; 
     pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 17, 4, 7, 0 };
     pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 1, 0, 0, 0 };
-    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 17, 4, 7, 0 };
+    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 2, 1, 1, 0 };
 }
 
 void pidInit(uint16_t pidLooptime) 
@@ -49,6 +49,7 @@ void pidController(void)
 {    
     static float PidSetpoint[PID_ITEM_COUNT];
     static float PidInput[PID_ITEM_COUNT];
+    static float prevI = 0.0f;
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
@@ -60,7 +61,7 @@ void pidController(void)
         pidData[ctrl].P = pidRuntime.pidCoef[ctrl].Kp * errRate;
         
         // Integral component (with windup protection & stable integral term)
-        const float prevI = pidData[ctrl].I;
+        const float prevI = 0.0f; //pidData[ctrl].I;
         pidData[ctrl].I = constrainf(prevI + pidRuntime.pidCoef[ctrl].Ki * errRate * pidRuntime.dT,
                                      -pidRuntime.iLim,
                                      pidRuntime.iLim);

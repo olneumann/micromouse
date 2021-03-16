@@ -58,16 +58,12 @@ void taskTest(void)
     }
     
     float controlLeft;
-    float controlRight;
     
-    controlLeft = pidData[PID_VELO_MOTOR_LEFT].Sum;
-               //+ pidData[PID_DIST_SENSOR_SIDE].Sum;
-               //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
+    controlLeft = 1.0f * pidData[PID_VELO_MOTOR_LEFT].Sum
+                + 0.0f  * pidData[PID_DIST_SENSOR_SIDE].Sum
+                + 1.0f * (pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
     
-    controlRight = pidData[PID_VELO_MOTOR_RIGHT].Sum;
-                //- pidData[PID_DIST_SENSOR_SIDE].Sum;
-                //+ pidData[PID_DIST_SENSOR_FRONT].Sum;
-    
+        
     char str[100];   
     sprintf(str, "DC[%-.3f] IN[%-.4f] ST[%-.4f] P[%-.3f] I[%-.3f] D[%-.3f] F[%-.3f]\n", 
             convDC(controlLeft, 0),
