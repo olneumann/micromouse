@@ -13,6 +13,7 @@
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
 #include "../control/pid.h"
+#include "../control/primitives.h"
 
 #include "control.h"
 
@@ -22,9 +23,9 @@
 #endif
 
 static volatile float SETPOINT[PID_ITEM_COUNT];
-static volatile bool MOTOR_CONTROL  = true;
+static volatile bool MOTOR_CONTROL  = false;
 static volatile bool SIDE_CONTROL   = false;
-static volatile bool FRONT_CONTROL  = true;
+static volatile bool FRONT_CONTROL  = false;
 
 void toggleMotorControl(bool state)
 {
@@ -79,6 +80,12 @@ float getInput(int ctrl)
     return 0.0f;
 }
 
+void setVeloSetpoint(float speed_ms)
+{
+    SETPOINT[PID_VELO_MOTOR_LEFT] = speed_ms;
+    SETPOINT[PID_VELO_MOTOR_RIGHT] = speed_ms;
+}
+
 float getVeloSetpoint(void)
 {
     return 0.5f * (SETPOINT[PID_VELO_MOTOR_LEFT] + SETPOINT[PID_VELO_MOTOR_RIGHT]);
@@ -107,14 +114,14 @@ void motorControl(void)
     float controlLeft;
     float controlRight;
     
-    controlLeft = MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum
-                + SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                + FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
+    controlLeft = (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum
+                + (float)SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
+                + (float)FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
     
-    controlRight = MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum
-                 - SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                 + FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_RIGHT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
+    controlRight = (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum
+                 - (float)SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
+                 + (float)FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_RIGHT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
     
-    driveLeft(convDC(controlLeft, 0));
-    driveRight(convDC(controlRight, 1)); 
+    driveLeft(convDC(controlLeft, PID_VELO_MOTOR_LEFT));
+    driveRight(convDC(controlRight, PID_VELO_MOTOR_RIGHT)); 
 }

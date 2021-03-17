@@ -37,6 +37,11 @@ int32_t getDistanceRight(void)
     return DISTANCE_UM_R;
 }
 
+int32_t getDistance(void)
+{
+    return 0.5f * (DISTANCE_UM_L + DISTANCE_UM_R);
+}
+
 float getVelocityLeft(void)
 {  
     return VELOCITY_L;
@@ -45,6 +50,11 @@ float getVelocityLeft(void)
 float getVelocityRight(void)
 {
     return VELOCITY_R;
+}
+
+float getVelocity(void)
+{
+    return 0.5f * (VELOCITY_L + VELOCITY_R);
 }
 
 float getAngleLeft(void)

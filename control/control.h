@@ -10,17 +10,20 @@
 
 #include <stdbool.h>
 
-#define CONTROL_DEBUG
-
 void toggleMotorControl(bool state);
 void toggleSideControl(bool state);
 void toggleFrontControl(bool state);
+
 float getInput(int ctrl);
 float getSetpoint(int ctrl);
-void setSetpoint(int ctrl, float val);
+
+void setVeloSetpoint(float speed_ms);
+float getVeloSetpoint(void);
+
 void motorControl(void);
 
 #ifdef CONTROL_DEBUG
+void setSetpoint(int ctrl, float val);
 float convDC(float pidsum, int ctrl);
 #endif
 

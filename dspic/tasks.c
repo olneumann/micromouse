@@ -22,9 +22,13 @@
 
 #ifdef CONTROL_DEBUG
 #include "../control/pid.h"
-#include "../drivers/motor.h"
+#include "../control/primitives.h"
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
+#endif
+
+#ifdef PRIMITIVES_DEBUG
+#include "../control/primitives.h"
 #endif
 
 #include "tasks.h"
@@ -46,9 +50,7 @@ void taskTest(void)
 #ifdef CONTROL_DEBUG
     static float m = 0.0f;
     
-    setSetpoint(0, m*MAX_SPEED_MS);
-    setSetpoint(1, m*MAX_SPEED_MS);
-    
+    setVeloSetpoint(m*MAX_SPEED_MS);    
     setSetpoint(3, 20.0f);
     
     if (BTN)
@@ -74,6 +76,10 @@ void taskTest(void)
             pidData[PID_VELO_MOTOR_LEFT].D,
             getRangeFront());
     uartWrite(str,0);
+#endif
+    
+#ifdef PRIMITIVES_DEBUG
+    moveForward();
 #endif
 }
 

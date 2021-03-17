@@ -35,16 +35,28 @@ float getVelocityLeft(void);
 float getVelocityRight(void);
 
 /**
+ * \brief Determine the average velocity in m/s
+ * \param[out] average velocity - float value
+ */
+float getVelocity(void);
+
+/**
  * \brief Determine the distance in µm of the left motor
- * \param[out] velocity - float value
+ * \param[out] distance - int32_t value
  */
 int32_t getDistanceLeft(void);
 
 /**
  * \brief Determine the distance in µm of the right motor
- * \param[out] velocity - float value
+ * \param[out] distance - int32_t value
  */
 int32_t getDistanceRight(void);
+
+/**
+ * \brief Determine the average (of both encoders) distance in µm
+ * \param[out] average distance - int32_t value
+ */
+int32_t getDistance(void);
 
 /**
  * \brief Update the encoder readings (counter, velocity)

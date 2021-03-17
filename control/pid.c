@@ -8,10 +8,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "../drivers/motor.h"
 #include "../common/defines.h"
 #include "../common/maths.h"
 #include "../control/control.h"
+#include "../control/primitives.h"
 
 #include "pid.h"
 
@@ -49,7 +49,6 @@ void pidController(void)
 {    
     static float PidSetpoint[PID_ITEM_COUNT];
     static float PidInput[PID_ITEM_COUNT];
-    static float prevI = 0.0f;
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
