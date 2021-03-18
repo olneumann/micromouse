@@ -61,6 +61,9 @@ void taskTest(void)
     
     float controlLeft;
     
+    toggleMotorControl(true);
+    toggleFrontControl(true);
+    
     controlLeft = 1.0f * pidData[PID_VELO_MOTOR_LEFT].Sum
                 + 0.0f  * pidData[PID_DIST_SENSOR_SIDE].Sum
                 + 1.0f * (pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
@@ -79,7 +82,17 @@ void taskTest(void)
 #endif
     
 #ifdef PRIMITIVES_DEBUG
-    moveForward();
+    char str[42];
+    //toggleMotorControl(true);
+    //setVeloSetpoint(0.4*MAX_SPEED_MS);       
+    sprintf(str, "%016ld\n", getDistance());
+    uartWrite(str,0);
+    
+    if (BTN)
+    {
+        LED_IND1 = ~LED_IND1;
+        moveForward();
+    }
 #endif
 }
 

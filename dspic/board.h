@@ -14,7 +14,7 @@
 //#define VL53L0X_DEBUG
 //#define VL53L0X_DEBUG_LOG
 //#define CONTROL_DEBUG
-//#define PRIMITIVES_DEBUG
+#define PRIMITIVES_DEBUG
 
 /* Frequencies */
 #define FOSC        (62500000UL)
