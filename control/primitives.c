@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "../dspic/board.h"
 #include "../drivers/encoder.h"
 #include "../control/control.h"
 
@@ -20,7 +21,7 @@
  * 
  */
 
-float reqDistanceToSpeed(float speed)
+int32_t reqDistanceToSpeed(float speed)
 {
     float acceleration;
 	float current_speed = getVelocity();
@@ -28,7 +29,7 @@ float reqDistanceToSpeed(float speed)
 	acceleration = (current_speed > speed) ? -LIN_ACCELERATION
                                            :  LIN_ACCELERATION;
 
-	return 0.0f; //(int32_t)((speed * speed - current_speed * current_speed) /
+	return 0; //(int32_t)((speed * speed - current_speed * current_speed) /
                  //(2 * acceleration) * 1e6); [ToDo: Calibrate!]
 }
 
@@ -65,7 +66,7 @@ void moveForward(void)
     toggleMotorControl(true);
     toggleSideControl(false);
     toggleFrontControl(false);
-    targetStraight(getDistance(), 0.2f, 0.3*MAX_SPEED_MS);
+    targetStraight(getDistance(), 0.05f, 0.3*MAX_SPEED_MS);
     
     // hard-stop - ToDo
     setVeloSetpoint(0.0f);

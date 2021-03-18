@@ -39,7 +39,7 @@ int32_t getDistanceRight(void)
 
 int32_t getDistance(void)
 {
-    return 0.5f * (DISTANCE_UM_L + DISTANCE_UM_R);
+    return (int32_t)(0.5f * (DISTANCE_UM_L + DISTANCE_UM_R));
 }
 
 float getVelocityLeft(void)
@@ -97,8 +97,8 @@ void updateEncoderReadings(uint16_t freq)
     DIFF_CNT_L = getCounterDiff(cnt_l, prev_cnt_l);
     DIFF_CNT_R = getCounterDiff(cnt_r, prev_cnt_r);
 
-    DISTANCE_UM_L += (int32_t)(DIFF_CNT_L * UM_PER_CNT);
-    DISTANCE_UM_R += (int32_t)(DIFF_CNT_R * UM_PER_CNT);
+    DISTANCE_UM_L += DIFF_CNT_L * UM_PER_CNT;
+    DISTANCE_UM_R += DIFF_CNT_R * UM_PER_CNT;
 
     VELOCITY_L = DIFF_CNT_L * (UM_PER_CNT * 1e-6) * freq;
     VELOCITY_R = DIFF_CNT_R * (UM_PER_CNT * 1e-6) * freq;

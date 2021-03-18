@@ -72,8 +72,8 @@ void timerInit(void)
     timerParams(RANGING_UPDATE_PERIODE_MS, &T3CON, &TMR3, &PR3);    
         
     // interrupt params
-    IPC0bits.T1IP = 4;      // prios
-    IPC1bits.T2IP = 4;      
+    IPC0bits.T1IP = 5;      // prios
+    IPC1bits.T2IP = 5;      
     IPC2bits.T3IP = 4;
     
     IFS0bits.T1IF = 0;      // reset both flags
