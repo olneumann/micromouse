@@ -26,19 +26,19 @@ float getAngleRight(void);
  * \brief Determine the velocity in m/s of the left motor
  * \param[out] velocity - float value
  */
-float getVelocityLeft(void);
+float getLinearVelocityLeft(void);
 
 /**
  * \brief Determine the velocity in m/s of the right motor
  * \param[out] velocity - float value
  */
-float getVelocityRight(void);
+float getLinearVelocityRight(void);
 
 /**
  * \brief Determine the average velocity in m/s
  * \param[out] average velocity - float value
  */
-float getVelocity(void);
+float getLinearVelocity(void);
 
 /**
  * \brief Determine the distance in µm of the left motor

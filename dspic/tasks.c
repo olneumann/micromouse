@@ -51,7 +51,7 @@ void taskTest(void)
 #ifdef CONTROL_DEBUG
     static float m = 0.0f;
     
-    setVeloSetpoint(m*MAX_SPEED_MS);    
+    setSetpointLinearVelocity(m*MAX_SPEED_MS);    
     setSetpoint(3, 20.0f);
     
     if (BTN)
@@ -83,9 +83,7 @@ void taskTest(void)
 #endif
     
 #ifdef PRIMITIVES_DEBUG
-    char str[42];
-    //toggleMotorControl(true);
-    //setVeloSetpoint(0.4*MAX_SPEED_MS);       
+    char str[42];     
     sprintf(str, "%016ld\n", getDistance());
     uartWrite(str,0);
     

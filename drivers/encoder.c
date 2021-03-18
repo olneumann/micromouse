@@ -42,17 +42,17 @@ int32_t getDistance(void)
     return (int32_t)(0.5f * (DISTANCE_UM_L + DISTANCE_UM_R));
 }
 
-float getVelocityLeft(void)
+float getLinearVelocityLeft(void)
 {  
     return VELOCITY_L;
 }
 
-float getVelocityRight(void)
+float getLinearVelocityRight(void)
 {
     return VELOCITY_R;
 }
 
-float getVelocity(void)
+float getLinearVelocity(void)
 {
     return 0.5f * (VELOCITY_L + VELOCITY_R);
 }

@@ -17,9 +17,8 @@ void toggleFrontControl(bool state);
 float getInput(int ctrl);
 float getSetpoint(int ctrl);
 
-void setVeloSetpoint(float speed_ms);
-float getVeloSetpoint(void);
-
+void setSetpointLinearVelocity(float speed_ms);
+void setSetpointAngularVelocity(float speed_ms);
 void motorControl(void);
 
 #ifdef CONTROL_DEBUG

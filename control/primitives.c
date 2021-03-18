@@ -24,7 +24,7 @@
 int32_t reqDistanceToSpeed(float speed)
 {
     float acceleration;
-	float current_speed = getVelocity();
+	float current_speed = getLinearVelocity();
 
 	acceleration = (current_speed > speed) ? -LIN_ACCELERATION
                                            :  LIN_ACCELERATION;
@@ -39,12 +39,12 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
     
     if (delta_dist_m > 0.0f)
     {
-        setVeloSetpoint(speed_ms);
+        setSetpointLinearVelocity(speed_ms);
         while (getDistance() < target_dist - reqDistanceToSpeed(speed_ms));
     }
     else if (delta_dist_m < 0.0f)
     {
-        setVeloSetpoint(-speed_ms);
+        setSetpointLinearVelocity(-speed_ms);
         while (getDistance() > target_dist - reqDistanceToSpeed(speed_ms));
     }
 }
@@ -69,7 +69,7 @@ void moveForward(void)
     targetStraight(getDistance(), 0.05f, 0.3*MAX_SPEED_MS);
     
     // hard-stop - ToDo
-    setVeloSetpoint(0.0f);
+    setSetpointLinearVelocity(0.0f);
 }
 
 void moveSide(void)

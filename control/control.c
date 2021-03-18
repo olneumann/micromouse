@@ -56,11 +56,11 @@ float getInput(int ctrl)
 {
     if (ctrl == PID_VELO_MOTOR_LEFT)
     {
-        return getVelocityLeft();
+        return getLinearVelocityLeft();
     }
     else if (ctrl == PID_VELO_MOTOR_RIGHT)
     {
-        return getVelocityRight();
+        return getLinearVelocityRight();
     }
     else if (ctrl == PID_DIST_SENSOR_SIDE)
     {
@@ -80,15 +80,21 @@ float getInput(int ctrl)
     return 0.0f;
 }
 
-void setVeloSetpoint(float speed_ms)
+void setSetpointLinearVelocity(float speed_ms)
 {
     SETPOINT[PID_VELO_MOTOR_LEFT] = speed_ms;
     SETPOINT[PID_VELO_MOTOR_RIGHT] = speed_ms;
 }
 
-float getVeloSetpoint(void)
+float getSetpointLinearVelocity(void)
 {
     return 0.5f * (SETPOINT[PID_VELO_MOTOR_LEFT] + SETPOINT[PID_VELO_MOTOR_RIGHT]);
+}
+
+void setSetpointAngularVelocity(float speed_ms)
+{
+    SETPOINT[PID_VELO_MOTOR_LEFT] = speed_ms;       // pos. speed_ms cw. turn
+    SETPOINT[PID_VELO_MOTOR_RIGHT] = -speed_ms;
 }
 
 float convDC(float pidsum, int ctrl)
@@ -100,13 +106,13 @@ void motorControl(void)
 {
     if (SIDE_CONTROL)
     {
-        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -getVeloSetpoint();
-        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  getVeloSetpoint();
+        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -getSetpointLinearVelocity();
+        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  getSetpointLinearVelocity();
     }
     if (FRONT_CONTROL)
     {
-        pidRuntime.outMin[PID_DIST_SENSOR_FRONT] = -getVeloSetpoint();
-        pidRuntime.outMax[PID_DIST_SENSOR_FRONT] =  getVeloSetpoint();
+        pidRuntime.outMin[PID_DIST_SENSOR_FRONT] = -getSetpointLinearVelocity();
+        pidRuntime.outMax[PID_DIST_SENSOR_FRONT] =  getSetpointLinearVelocity();
     }
     
     pidController();
