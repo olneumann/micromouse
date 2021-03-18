@@ -8,18 +8,23 @@
 #include <stdint.h>
 #include <math.h>
 
+#include "../common/maths.h"
 #include "../dspic/board.h"
 #include "../drivers/motor.h"
 
 #include "encoder.h"
 
+#define PERIMETER_WHEEL_UM  (uint32_t)188496
 #define PULSES_PER_REV      16*33 
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (uint16_t)(PULSES_PER_REV*CNT_INC_PER_REV-1)
-#define UM_PER_CNT          (float)188495/MAX_CNT_PER_REV
+#define UM_PER_CNT          (float)(PERIMETER_WHEEL_UM/MAX_CNT_PER_REV)
 
 static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
 static volatile int32_t DISTANCE_UM_R;      // binary drift (loop closure?)
+
+static volatile float ANGLE_L;
+static volatile float ANGLE_R;
 
 static volatile int16_t DIFF_CNT_L;
 static volatile int16_t DIFF_CNT_R;
@@ -59,14 +64,24 @@ float getLinearVelocity(void)
 
 float getAngleLeft(void)
 {
-    
-    return 0;
+    return ANGLE_L;
 }
 
 float getAngleRight(void)
 {
 
-    return 0;
+    return ANGLE_R;
+}
+
+void resetAngleCnt(void)
+{
+    ANGLE_L = 0.0f;
+    ANGLE_R = 0.0f;
+}
+
+float getAngle(void)
+{
+    return 0.0f; // ToDo!! (360.0f - ANGLE_L + ANGLE_R);
 }
 
 int16_t getCounterDiff(uint16_t now, uint16_t prev)
@@ -97,9 +112,12 @@ void updateEncoderReadings(uint16_t freq)
     DIFF_CNT_L = getCounterDiff(cnt_l, prev_cnt_l);
     DIFF_CNT_R = getCounterDiff(cnt_r, prev_cnt_r);
 
-    DISTANCE_UM_L += DIFF_CNT_L * UM_PER_CNT;
-    DISTANCE_UM_R += DIFF_CNT_R * UM_PER_CNT;
-
+    DISTANCE_UM_L += (int32_t)(DIFF_CNT_L * UM_PER_CNT);
+    DISTANCE_UM_R += (int32_t)(DIFF_CNT_R * UM_PER_CNT);
+    
+    ANGLE_L = ((float)(DISTANCE_UM_L % PERIMETER_WHEEL_UM))/PERIMETER_WHEEL_UM * 360.0f;
+    ANGLE_R = ((float)(DISTANCE_UM_R % PERIMETER_WHEEL_UM))/PERIMETER_WHEEL_UM * 360.0f;
+    
     VELOCITY_L = DIFF_CNT_L * (UM_PER_CNT * 1e-6) * freq;
     VELOCITY_R = DIFF_CNT_R * (UM_PER_CNT * 1e-6) * freq;
         

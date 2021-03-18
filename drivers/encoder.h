@@ -12,15 +12,21 @@
 
 /**
  * \brief Determine the angle of the motor left motor
- * \param[out] angle - float value [0.0-360.0]
+ * \param[out] angle - float value [0.0-2*PI]
  */
 float getAngleLeft(void);
 
 /**
  * \brief Determine the angle of the motor right motor
- * \param[out] angle - float value [0.0-360.0]
+ * \param[out] angle - float value [0.0-2*PI]
  */
 float getAngleRight(void);
+
+/**
+ * \brief Determine the average angle driven by the target
+ * \param[out] angle - float value [0.0-2*PI]
+ */
+float getAngle(void);
 
 /**
  * \brief Determine the velocity in m/s of the left motor
