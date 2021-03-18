@@ -15,7 +15,8 @@
 #include "primitives.h"
 
 /*
- * Low-Level kinematic primitives; incorp. dynamics of the robot (accel, deccel, friction)
+ * Description: Low-Level kinematic primitives; incorp. dynamics of the 
+ *              robot (accel, deccel, friction).
  * 
  */
 
@@ -38,7 +39,7 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
     if (delta_dist_m > 0.0f)
     {
         setVeloSetpoint(speed_ms);
-        //while (getDistance() < target_dist - reqDistanceToSpeed(speed_ms));
+        while (getDistance() < target_dist - reqDistanceToSpeed(speed_ms));
     }
     else if (delta_dist_m < 0.0f)
     {
@@ -53,7 +54,9 @@ void targetTurn()
 }
 
 /*
- * Cell-wise functions/primitives (forward, side, backwards, turn on spot)
+ * Description: Cell-wise functions/primitives (forward, side, backwards, turn on spot)
+ *              Should then be used in the manager/pathplanner as a concatenation
+ *              of primitives to solve the maze.
  * 
  */
 
@@ -65,7 +68,7 @@ void moveForward(void)
     targetStraight(getDistance(), 0.2f, 0.3*MAX_SPEED_MS);
     
     // hard-stop - ToDo
-    // setVeloSetpoint(0.0f);
+    setVeloSetpoint(0.0f);
 }
 
 void moveSide(void)
