@@ -25,6 +25,7 @@ void pidProfileInit()
     pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 17, 4, 7, 0 };
     pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 1, 0, 0, 0 };
     pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 2, 1, 1, 0 };
+    pidProfile.pid[PID_ANGLE_TURN]          = (pidf_t) { 1, 0, 0, 0 };
 }
 
 void pidInit(uint16_t pidLooptime) 

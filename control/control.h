@@ -13,12 +13,14 @@
 void toggleMotorControl(bool state);
 void toggleSideControl(bool state);
 void toggleFrontControl(bool state);
+void toggleTurnControl(bool state);
 
 float getInput(int ctrl);
 float getSetpoint(int ctrl);
 
 void setSetpointLinearVelocity(float speed_ms);
 void setSetpointAngularVelocity(float speed_ms);
+void setSetpointTurnAngle(float angle);
 void motorControl(void);
 
 #ifdef CONTROL_DEBUG

@@ -23,8 +23,8 @@
 static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
 static volatile int32_t DISTANCE_UM_R;      // binary drift (loop closure?)
 
-static volatile float ANGLE_L;
-static volatile float ANGLE_R;
+static volatile int16_t ANGLE_TICK_L;
+static volatile int16_t ANGLE_TICK_R;
 
 static volatile int16_t DIFF_CNT_L;
 static volatile int16_t DIFF_CNT_R;
@@ -62,26 +62,35 @@ float getLinearVelocity(void)
     return 0.5f * (VELOCITY_L + VELOCITY_R);
 }
 
-float getAngleLeft(void)
+int16_t getAngleTickLeft(void)
 {
-    return ANGLE_L;
+    return ANGLE_TICK_L;
 }
 
-float getAngleRight(void)
+int16_t getAngleTickRight(void)
 {
-
-    return ANGLE_R;
+    return ANGLE_TICK_R;
 }
 
-void resetAngleCnt(void)
+void resetAngleTick(void)
 {
-    ANGLE_L = 0.0f;
-    ANGLE_R = 0.0f;
+    ANGLE_TICK_L = 0;
+    ANGLE_TICK_R = 0;
+}
+
+int16_t getAngleDiffTick(void)
+{
+    return ANGLE_TICK_L - ANGLE_TICK_R;
+}
+
+float ticksToAngle(int16_t ticks)
+{
+    return (float)ticks/MAX_CNT_PER_REV * 360.0f;
 }
 
 float getAngle(void)
 {
-    return 0.0f; // ToDo!! (360.0f - ANGLE_L + ANGLE_R);
+    return ticksToAngle(getAngleDiffTick());
 }
 
 int16_t getCounterDiff(uint16_t now, uint16_t prev)
@@ -115,8 +124,8 @@ void updateEncoderReadings(uint16_t freq)
     DISTANCE_UM_L += (int32_t)(DIFF_CNT_L * UM_PER_CNT);
     DISTANCE_UM_R += (int32_t)(DIFF_CNT_R * UM_PER_CNT);
     
-    ANGLE_L = ((float)(DISTANCE_UM_L % PERIMETER_WHEEL_UM))/PERIMETER_WHEEL_UM * 360.0f;
-    ANGLE_R = ((float)(DISTANCE_UM_R % PERIMETER_WHEEL_UM))/PERIMETER_WHEEL_UM * 360.0f;
+    ANGLE_TICK_L += DIFF_CNT_L;
+    ANGLE_TICK_R += DIFF_CNT_R;
     
     VELOCITY_L = DIFF_CNT_L * (UM_PER_CNT * 1e-6) * freq;
     VELOCITY_R = DIFF_CNT_R * (UM_PER_CNT * 1e-6) * freq;

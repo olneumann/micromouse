@@ -18,6 +18,7 @@ typedef enum {
     PID_VELO_MOTOR_RIGHT,
     PID_DIST_SENSOR_SIDE,
     PID_DIST_SENSOR_FRONT,
+    PID_ANGLE_TURN,
     PID_ITEM_COUNT
 } pidIndex_e;
 

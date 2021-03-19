@@ -85,9 +85,9 @@ void taskTest(void)
 #ifdef PRIMITIVES_DEBUG
     char str[42];     
     toggleMotorControl(true);
-    setSetpointAngularVelocity(0.05f * MAX_SPEED_MS);
-    sprintf(str, "% -.3f\n", getAngle()); 
-    uartWrite(str,0);
+    //setSetpointAngularVelocity(0.05f * MAX_SPEED_MS);
+    //sprintf(str, "% -.3f\n", getAngle()); 
+    //uartWrite(str,0);
     
     if (BTN)
     {

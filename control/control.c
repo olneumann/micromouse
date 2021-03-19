@@ -26,6 +26,7 @@ static volatile float SETPOINT[PID_ITEM_COUNT];
 static volatile bool MOTOR_CONTROL  = false;
 static volatile bool SIDE_CONTROL   = false;
 static volatile bool FRONT_CONTROL  = false;
+static volatile bool TURN_CONTROL   = false;
 
 void toggleMotorControl(bool state)
 {
@@ -40,6 +41,11 @@ void toggleSideControl(bool state)
 void toggleFrontControl(bool state)
 {
     FRONT_CONTROL = state;
+}
+
+void toggleTurnControl(bool state)
+{
+    TURN_CONTROL = state;
 }
 
 void setSetpoint(int ctrl, float val)
@@ -76,6 +82,10 @@ float getInput(int ctrl)
     {
         return getRangeFront();
     }
+    else if (ctrl == PID_ANGLE_TURN)
+    {
+        return getAngle();
+    }
     
     return 0.0f;
 }
@@ -97,13 +107,14 @@ void setSetpointAngularVelocity(float speed_ms)
     SETPOINT[PID_VELO_MOTOR_RIGHT] = -speed_ms;
 }
 
-float convDC(float pidsum, int ctrl)
+void setSetpointTurnAngle(float angle)
 {
-    return (SETPOINT[ctrl] - pidsum)/MAX_SPEED_MS;
+    SETPOINT[PID_ANGLE_TURN] = angle;
 }
 
-void motorControl(void)
+void calcSetpointVelocity(void)
 {
+    // Limit output of secondary control loops based on the linear velocity setpoint
     if (SIDE_CONTROL)
     {
         pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -getSetpointLinearVelocity();
@@ -115,19 +126,36 @@ void motorControl(void)
         pidRuntime.outMax[PID_DIST_SENSOR_FRONT] =  getSetpointLinearVelocity();
     }
     
+    float commandSetpointLeft, commandSetpointRight;
+    float errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
+    float errTurn = (float)TURN_CONTROL * pidData[PID_ANGLE_TURN].Sum;
+
+    // Adjust each setpoint velocity to compensate wall distance and allow turning
+    commandSetpointLeft  = getSetpoint(PID_VELO_MOTOR_LEFT) + errSide + errTurn;
+    commandSetpointRight = getSetpoint(PID_VELO_MOTOR_RIGHT) - errSide - errTurn;
+    
+    setSetpoint(PID_VELO_MOTOR_LEFT, commandSetpointLeft);
+    setSetpoint(PID_VELO_MOTOR_RIGHT, commandSetpointRight);
+}
+
+float convDC(float velocity)
+{
+    return velocity/MAX_SPEED_MS;
+}
+
+void motorControl(void)
+{
+    calcSetpointVelocity();
     pidController();
     
     float controlLeft;
     float controlRight;
     
-    controlLeft = (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum
-                + (float)SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                + (float)FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
+    controlLeft     = getSetpoint(PID_VELO_MOTOR_LEFT) 
+                    + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum;
+    controlRight    = getSetpoint(PID_VELO_MOTOR_RIGHT)
+                    + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum;
     
-    controlRight = (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum
-                 - (float)SIDE_CONTROL  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                 + (float)FRONT_CONTROL * (SETPOINT[PID_VELO_MOTOR_RIGHT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
-    
-    driveLeft(convDC(controlLeft, PID_VELO_MOTOR_LEFT));
-    driveRight(convDC(controlRight, PID_VELO_MOTOR_RIGHT)); 
+    driveLeft(convDC(controlLeft));
+    driveRight(convDC(controlRight)); 
 }
