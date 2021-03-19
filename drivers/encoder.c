@@ -18,6 +18,7 @@
 #define PULSES_PER_REV      16*33 
 #define CNT_INC_PER_REV     4
 #define MAX_CNT_PER_REV     (uint16_t)(PULSES_PER_REV*CNT_INC_PER_REV-1)
+#define MAX_CNT_PER_TURN    (float)3694.25
 #define UM_PER_CNT          (float)(PERIMETER_WHEEL_UM/MAX_CNT_PER_REV)
 
 static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
@@ -85,10 +86,10 @@ int16_t getAngleDiffTick(void)
 
 float ticksToAngle(int16_t ticks)
 {
-    return (float)ticks/MAX_CNT_PER_REV * 360.0f;
+    return (float)ticks/MAX_CNT_PER_TURN * 180.0f;
 }
 
-float getAngle(void)
+float getDiffAngle(void)
 {
     return ticksToAngle(getAngleDiffTick());
 }

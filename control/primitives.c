@@ -49,25 +49,18 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
     }
 }
 
-void targetTurn(float angle, bool controlled)
+void targetTurn(float delta_angle_deg, float speed_ms)
 {
-    if (controlled)
+    if (delta_angle_deg > 0.0f)
     {
-        setSetpointTurnAngle(angle);
-        while(getAngle() > 0.0f);
+        setSetpointTurnAngle(delta_angle_deg, speed_ms);
+        toggleTurnControl(true);
+        while (getDiffAngle() < delta_angle_deg);
+        toggleTurnControl(false);
     }
-    else
+    else if (delta_angle_deg < 0.0f)
     {
-//        if (grad > 0.0f)
-//        {
-//            setSetpointAngularVelocity(speed_ms);
-//            while (getAngle() < grad);
-//        }
-//        else if (grad < 0.0f)
-//        {
-//            setSetpointAngularVelocity(-speed_ms);
-//            while (getAngle() > grad);
-//        }
+        
     }
 }
 
@@ -83,11 +76,10 @@ void moveForward(void)
     toggleMotorControl(true);
     toggleSideControl(false);
     toggleFrontControl(false);
-    toggleTurnControl(false);
-    targetStraight(getDistance(), 0.1f, 0.3*MAX_SPEED_MS);
     
-    // hard-stop - ToDo
-    setSetpointLinearVelocity(0.0f);
+    targetStraight(getDistance(), 0.2f, 0.2f*MAX_SPEED_MS);
+    
+    // ToDo: Transition into next action, blending?
 }
 
 void moveSide(void)
@@ -95,7 +87,9 @@ void moveSide(void)
     toggleMotorControl(true);
     toggleSideControl(false);
     toggleFrontControl(false);
-    resetAngleTick();
-    toggleTurnControl(true);
-    targetTurn(180.0f, true);
+
+    targetTurn(180.0f, 0.2f*MAX_SPEED_MS);
+
+    
+    // ToDo: Transition into next action, blending?
 }

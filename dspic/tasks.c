@@ -46,8 +46,7 @@ void taskTest(void)
     
     sprintf(str, "%d\n", val);   
     uartWrite(str,0);  
-#endif
-    
+#endif   
 #ifdef CONTROL_DEBUG
     static float m = 0.0f;
     
@@ -81,19 +80,21 @@ void taskTest(void)
             getRangeFront());
     uartWrite(str,0);
 #endif
-    
 #ifdef PRIMITIVES_DEBUG
-    char str[42];     
-    toggleMotorControl(true);
+    //char str[42];     
+    //toggleMotorControl(true);
     //setSetpointAngularVelocity(0.05f * MAX_SPEED_MS);
     //sprintf(str, "% -.3f\n", getAngle()); 
     //uartWrite(str,0);
-    
+
     if (BTN)
     {
-        LED_IND1 = ~LED_IND1;
-        //moveForward();
+        moveForward();
         moveSide();
+        moveForward();
+        moveSide();
+        moveForward();
+        setSetpointLinearVelocity(0.0f);
     }
 #endif
 }

@@ -17,7 +17,7 @@
 
 #include "ranging.h"
 
-#define SENSOR_COUNT                (uint8_t)2    
+#define SENSOR_COUNT                (uint8_t)3    
 #define VL53L0X_ADDRESS_DEFAULT     (uint8_t)0x29
 
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
@@ -171,9 +171,9 @@ void remapSensors(void)
     XSHUT_F = 1;
     DELAY_600uS;    // wait till set
     VL53L0X_SetDeviceAddress(&pDev[0], dev[1].I2cDevAddr*2);
-    //XSHUT_R = 1;
-    //DELAY_600uS;
-    //VL53L0X_SetDeviceAddress(&pDev[0], dev[2].I2cDevAddr*2);
+    XSHUT_R = 1;
+    DELAY_600uS;
+    VL53L0X_SetDeviceAddress(&pDev[0], dev[2].I2cDevAddr*2);
     XSHUT_L = 1;
     DELAY_600uS;
 }

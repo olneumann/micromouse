@@ -10,7 +10,7 @@
  
 #include <stdint.h>
 
-float getAngle(void);
+float getDiffAngle(void);
 void resetAngleTick(void);
 
 float getLinearVelocityLeft(void);

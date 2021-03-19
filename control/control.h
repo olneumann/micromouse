@@ -20,7 +20,7 @@ float getSetpoint(int ctrl);
 
 void setSetpointLinearVelocity(float speed_ms);
 void setSetpointAngularVelocity(float speed_ms);
-void setSetpointTurnAngle(float angle);
+void setSetpointTurnAngle(float angle, float speed_ms);
 void motorControl(void);
 
 #ifdef CONTROL_DEBUG
