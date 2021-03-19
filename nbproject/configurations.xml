@@ -15,6 +15,7 @@
         <itemPath>control/pid.h</itemPath>
         <itemPath>control/primitives.h</itemPath>
         <itemPath>common/PIDcontrol.h</itemPath>
+        <itemPath>common/action.h</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
@@ -71,6 +72,7 @@
         <itemPath>control/pid.c</itemPath>
         <itemPath>control/primitives.c</itemPath>
         <itemPath>common/PIDcontrol.c</itemPath>
+        <itemPath>common/action.c</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
