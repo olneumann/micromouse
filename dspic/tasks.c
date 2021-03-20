@@ -28,7 +28,9 @@
 #endif
 
 #ifdef PRIMITIVES_DEBUG
+#include "../control/pid.h"
 #include "../control/primitives.h"
+#include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
 #endif
 
@@ -48,36 +50,28 @@ void taskTest(void)
     uartWrite(str,0);  
 #endif   
 #ifdef CONTROL_DEBUG
-    static float m = 0.0f;
-    
+    static float m = 0.5f;
     setSetpointLinearVelocity(m*MAX_SPEED_MS);    
-    setSetpoint(3, 20.0f);
+    setSetpointDeltaSide(0.0f);
     
     if (BTN)
     {
         m += 0.1f;
         if (m > 0.95f) m = 0.1f;
     }
-    
-    float controlLeft;
-    
-    toggleMotorControl(true);
-    toggleFrontControl(true);
-    
-    controlLeft = 1.0f * pidData[PID_VELO_MOTOR_LEFT].Sum
-                + 0.0f  * pidData[PID_DIST_SENSOR_SIDE].Sum
-                + 1.0f * (pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT] + pidData[PID_DIST_SENSOR_FRONT].Sum);
-    
         
+    toggleMotorControl(true);
+    toggleSideControl(true);
+            
+    
     char str[100];   
-    sprintf(str, "DC[%-.3f] IN[%-.4f] ST[%-.4f] P[%-.3f] I[%-.3f] D[%-.3f] F[%-.3f]\n", 
-            convDC(controlLeft, 0),
-            pidRuntime.prevPidInput[PID_VELO_MOTOR_LEFT],
-            pidRuntime.prevPidSetpoint[PID_VELO_MOTOR_LEFT],
-            pidData[PID_VELO_MOTOR_LEFT].P,
-            pidData[PID_VELO_MOTOR_LEFT].I,
-            pidData[PID_VELO_MOTOR_LEFT].D,
-            getRangeFront());
+    sprintf(str, "[IN %-.3f][R %-.3f][L %-.3f] [SUM %-.3f] [VL %-.3f] [VR %-.3f]\n", 
+            getInput(PID_DIST_SENSOR_SIDE),
+            getRangeRight(),
+            getRangeLeft(),
+            pidData[PID_DIST_SENSOR_SIDE].Sum,
+            getLinearVelocityLeft(),
+            getLinearVelocityRight());
     uartWrite(str,0);
 #endif
 #ifdef PRIMITIVES_DEBUG
@@ -86,17 +80,19 @@ void taskTest(void)
     //setSetpointAngularVelocity(0.05f * MAX_SPEED_MS);
     //sprintf(str, "% -.3f\n", getAngle()); 
     //uartWrite(str,0);
-
+    setSetpointDeltaSide(0.0f);
+    
     if (BTN)
     {
         moveForward();
-        moveSide();
-        moveForward();
-        moveSide();
-        moveForward();
+//        moveSide();
+//        moveForward();
+//        moveSide();
+//        moveSide();
+        //moveForward();
         setSetpointLinearVelocity(0.0f);
-    }
-#endif
+    }   
+#endif    
 }
 
 void taskEncoder(uint16_t freq)

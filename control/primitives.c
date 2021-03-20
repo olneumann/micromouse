@@ -13,6 +13,12 @@
 #include "../drivers/encoder.h"
 #include "../control/control.h"
 
+#ifdef PRIMITIVES_DEBUG
+#include "../control/pid.h"
+#include "../drivers/ranging.h"
+#include "../drivers/serial_uart.h"
+#endif
+
 #include "primitives.h"
 
 /*
@@ -74,10 +80,12 @@ void targetTurn(float delta_angle_deg, float speed_ms)
 void moveForward(void)
 {
     toggleMotorControl(true);
-    toggleSideControl(false);
+    toggleSideControl(true);
     toggleFrontControl(false);
     
-    targetStraight(getDistance(), 0.2f, 0.2f*MAX_SPEED_MS);
+    targetStraight(getDistance(), 2.0f, 0.4f*MAX_SPEED_MS);
+    
+    toggleSideControl(false);
     
     // ToDo: Transition into next action, blending?
 }
@@ -88,7 +96,7 @@ void moveSide(void)
     toggleSideControl(false);
     toggleFrontControl(false);
 
-    targetTurn(180.0f, 0.2f*MAX_SPEED_MS);
+    targetTurn(180.0f, 0.4f*MAX_SPEED_MS);
 
     
     // ToDo: Transition into next action, blending?

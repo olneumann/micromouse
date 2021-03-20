@@ -24,11 +24,21 @@
 #include <math.h>
 #endif
 
+#define MAX_DELTA_SIDE      20.0f // in mm
+
 static volatile float SETPOINT[PID_ITEM_COUNT];
+static volatile float COMMAND_VELO_L, COMMAND_VELO_R;
+static volatile float SPEED_LIMIT   = 0.4f * MAX_SPEED_MS;
+
 static volatile bool MOTOR_CONTROL  = false;
 static volatile bool SIDE_CONTROL   = false;
 static volatile bool FRONT_CONTROL  = false;
 static volatile bool TURN_CONTROL   = false;
+
+void setSpeedLimit(float speed_ms)
+{
+    SPEED_LIMIT = speed_ms;
+}
 
 void toggleMotorControl(bool state)
 {
@@ -99,11 +109,6 @@ void setSetpointLinearVelocity(float speed_ms)
     SETPOINT[PID_VELO_MOTOR_RIGHT] = speed_ms;
 }
 
-float getAbsSetpointLinearVelocity(void)
-{
-    return 0.5f * (fabs(SETPOINT[PID_VELO_MOTOR_LEFT]) + fabs(SETPOINT[PID_VELO_MOTOR_RIGHT]));
-}
-
 void setSetpointAngularVelocity(float speed_ms)
 {
     SETPOINT[PID_VELO_MOTOR_LEFT] = speed_ms;       // pos. speed_ms cw. turn
@@ -115,27 +120,30 @@ void setSetpointTurnAngle(float angle, float speed_ms)
     SETPOINT[PID_ROBOT_TURN_ANGLE] = angle;
     SETPOINT[PID_VELO_MOTOR_LEFT] = speed_ms;       // pos. speed_ms cw. turn
     SETPOINT[PID_VELO_MOTOR_RIGHT] = -speed_ms;
-    
 }
 
-void updateSetpointVelocity(void)
+void setSetpointDeltaSide(float delta)
+{
+    SETPOINT[PID_DIST_SENSOR_SIDE] = delta;
+}
+
+void updateCommandVelocity(void)
 {    
-    float commandSetpointLeft, commandSetpointRight;
     float errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
     float errTurn = (float)TURN_CONTROL * pidData[PID_ROBOT_TURN_ANGLE].Sum;
-    float prevSetpointLeft = getSetpoint(PID_VELO_MOTOR_LEFT);
-    float prevSetpointRight = getSetpoint(PID_VELO_MOTOR_RIGHT);
+    float SetpointLeft  = getSetpoint(PID_VELO_MOTOR_LEFT);
+    float SetpointRight = getSetpoint(PID_VELO_MOTOR_RIGHT);
+    
+    // Adapt side control of jump in measurement (over threshold)
+    if (SIDE_CONTROL && fabs(getInput(PID_DIST_SENSOR_SIDE)) > MAX_DELTA_SIDE) errSide = 0.0f;
     
     // Adjust each setpoint velocity to compensate wall distance and allow turning
-    commandSetpointLeft  = constrainf(prevSetpointLeft + errSide + errTurn,
-                                     -fabs(prevSetpointLeft),
-                                      fabs(prevSetpointLeft));
-    commandSetpointRight = constrainf(prevSetpointRight - errSide - errTurn,
-                                     -fabs(prevSetpointRight),
-                                      fabs(prevSetpointRight));
-    
-    setSetpoint(PID_VELO_MOTOR_LEFT, commandSetpointLeft);
-    setSetpoint(PID_VELO_MOTOR_RIGHT, commandSetpointRight);
+    COMMAND_VELO_L = constrainf(SetpointLeft - errSide + errTurn,
+                                    -SPEED_LIMIT,
+                                     SPEED_LIMIT);
+    COMMAND_VELO_R = constrainf(SetpointRight + errSide - errTurn,
+                                    -SPEED_LIMIT,
+                                     SPEED_LIMIT);
 }
 
 float convDC(float velocity)
@@ -148,29 +156,29 @@ void motorControl(void)
     // Limit output of secondary control loops based on the linear velocity setpoint
     if (SIDE_CONTROL)
     {
-        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -getAbsSetpointLinearVelocity();
-        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  getAbsSetpointLinearVelocity();
+        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -SPEED_LIMIT;
+        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  SPEED_LIMIT;
     }
     if (FRONT_CONTROL)
     {
-        pidRuntime.outMin[PID_DIST_SENSOR_FRONT] = -getAbsSetpointLinearVelocity();
-        pidRuntime.outMax[PID_DIST_SENSOR_FRONT] =  getAbsSetpointLinearVelocity();
+        pidRuntime.outMin[PID_DIST_SENSOR_FRONT] = -SPEED_LIMIT;
+        pidRuntime.outMax[PID_DIST_SENSOR_FRONT] =  SPEED_LIMIT;
     }
     if (TURN_CONTROL)
     {
-        pidRuntime.outMin[PID_ROBOT_TURN_ANGLE] = -getAbsSetpointLinearVelocity();
-        pidRuntime.outMax[PID_ROBOT_TURN_ANGLE] =  getAbsSetpointLinearVelocity();
+        pidRuntime.outMin[PID_ROBOT_TURN_ANGLE] = -SPEED_LIMIT;
+        pidRuntime.outMax[PID_ROBOT_TURN_ANGLE] =  SPEED_LIMIT;
     }
     
     pidController();
-    updateSetpointVelocity();
+    updateCommandVelocity();
     
     float controlLeft;
     float controlRight;
     
-    controlLeft     = getSetpoint(PID_VELO_MOTOR_LEFT) 
+    controlLeft     = COMMAND_VELO_L 
                     + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum;
-    controlRight    = getSetpoint(PID_VELO_MOTOR_RIGHT)
+    controlRight    = COMMAND_VELO_R
                     + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum;
     
     driveLeft(convDC(controlLeft));
