@@ -6,16 +6,19 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "../dspic/board.h"
 #include "../common/defines.h"
 #include "../drivers/serial_uart.h"
+#include "../dspic/tasks.h"
 
 #include "hmi.h"
 
-void userCommand(char *prbmem) 
+void userCommand(char *cmd, int *pval) 
 {
-    //char buf = *prbmem;
+    if(strcmp(cmd, "run") && *pval == 42) runFlag = true;
 }
 

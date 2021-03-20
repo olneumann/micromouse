@@ -19,9 +19,9 @@
 
 #include "serial_uart.h"
 
-#define CMD 0   // read commands via uart
+#define HMI 1   // read commands via uart
 
-static char rbmem[8];
+static char rbmem[16];
 static rbd_t rbd;
 static rb_attr_t attr = {sizeof(rbmem[0]), ARRAY_SIZE(rbmem), rbmem};
 
@@ -39,12 +39,12 @@ int uartInit(uart_config_t *config)
     U1STAbits.URXISEL = 0;              // Interrupt after one RX character is received
 
     IFS0bits.U1RXIF = 0;                // RX reset flag
-    IPC2bits.U1RXIP = 5;                // RX interrupt priority
+    IPC2bits.U1RXIP = 4;                // RX interrupt priority
     IEC0bits.U1RXIE = 1;                // RX interrupt enabled
     
-    IFS0bits.U1TXIF = 0;                // RX reset flag
-    IPC3bits.U1TXIP = 5;                // RX interrupt priority
-    IEC0bits.U1TXIE = 0;                // RX interrupt (not) enabled
+    IFS0bits.U1TXIF = 0;                // TX reset flag
+    IPC3bits.U1TXIP = 4;                // TX interrupt priority
+    IEC0bits.U1TXIE = 0;                // TX interrupt (not) enabled
     
     if (ring_buffer_init(&rbd, &attr) == 0) { 
         U1MODEbits.UARTEN = 1;              // Enable UART
@@ -129,15 +129,18 @@ void __attribute__((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
         const char c = U1RXREG;
         ring_buffer_put(rbd, &c);  
                 
-        // Format of commands: !<val> 
-        if (CMD && c == '!') 
+        // Format of commands: ![CMD]<val> 
+        if (HMI && c == '!') 
         {
             ring_buffer_flush(0, &rbd);
         }
-        else if (CMD && c == '>')       // wait till '>' end of key-value
+        else if (HMI && c == '>')       // wait till '>' end of key-value
         {
-            uartCMD();
-            userCommand(&rbmem[0]);
+            char cmd[3];
+            int val;
+            sscanf(rbmem, "%3s,<%d>", cmd, &val);
+            
+            userCommand(&cmd, &val);
         }
     }
     

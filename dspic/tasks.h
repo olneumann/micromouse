@@ -9,11 +9,16 @@
 #define	TASKS_H
 
 #include <stdint.h>
+#include "../dspic/board.h"
 
 void taskTest(void);
 
 void taskEncoder(uint16_t freq);
 void taskRanging(uint16_t freq);
 void taskControl(uint16_t freq);
+
+#ifdef PRIMITIVES_DEBUG
+extern bool runFlag;
+#endif
 
 #endif	/* TASKS_H */

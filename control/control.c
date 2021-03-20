@@ -24,11 +24,11 @@
 #include <math.h>
 #endif
 
-#define MAX_DELTA_SIDE      20.0f // in mm
+#define MAX_DELTA_SIDE      42.0f // in mm
 
 static volatile float SETPOINT[PID_ITEM_COUNT];
 static volatile float COMMAND_VELO_L, COMMAND_VELO_R;
-static volatile float SPEED_LIMIT   = 0.4f * MAX_SPEED_MS;
+static volatile float SPEED_LIMIT   = 0.5f * MAX_SPEED_MS;
 
 static volatile bool MOTOR_CONTROL  = false;
 static volatile bool SIDE_CONTROL   = false;
@@ -129,14 +129,23 @@ void setSetpointDeltaSide(float delta)
 
 void updateCommandVelocity(void)
 {    
-    float errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
+    static int i = 0;
+    
+    float errSide = 0.0f;
     float errTurn = (float)TURN_CONTROL * pidData[PID_ROBOT_TURN_ANGLE].Sum;
     float SetpointLeft  = getSetpoint(PID_VELO_MOTOR_LEFT);
     float SetpointRight = getSetpoint(PID_VELO_MOTOR_RIGHT);
     
+    if (i == 0)
+    {
+        errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
+    }
+    i++;
+    if (i==2) i = 0; 
+    
     // Adapt side control of jump in measurement (over threshold)
     if (SIDE_CONTROL && fabs(getInput(PID_DIST_SENSOR_SIDE)) > MAX_DELTA_SIDE) errSide = 0.0f;
-    
+
     // Adjust each setpoint velocity to compensate wall distance and allow turning
     COMMAND_VELO_L = constrainf(SetpointLeft - errSide + errTurn,
                                     -SPEED_LIMIT,
@@ -156,8 +165,8 @@ void motorControl(void)
     // Limit output of secondary control loops based on the linear velocity setpoint
     if (SIDE_CONTROL)
     {
-        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -SPEED_LIMIT;
-        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  SPEED_LIMIT;
+        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -0.6f * SPEED_LIMIT;
+        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  0.6f * SPEED_LIMIT;
     }
     if (FRONT_CONTROL)
     {

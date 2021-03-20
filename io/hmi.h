@@ -8,7 +8,7 @@
 #ifndef HMI_H
 #define	HMI_H
 
-void userCommand(char *prbmem);
+void userCommand(char *cmd, int *pval);
 
 #endif	/* HMI_H */
 

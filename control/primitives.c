@@ -83,7 +83,7 @@ void moveForward(void)
     toggleSideControl(true);
     toggleFrontControl(false);
     
-    targetStraight(getDistance(), 2.0f, 0.4f*MAX_SPEED_MS);
+    targetStraight(getDistance(), 1.6f, 0.5f*MAX_SPEED_MS);
     
     toggleSideControl(false);
     
@@ -96,7 +96,7 @@ void moveSide(void)
     toggleSideControl(false);
     toggleFrontControl(false);
 
-    targetTurn(180.0f, 0.4f*MAX_SPEED_MS);
+    targetTurn(180.0f, 0.1f*MAX_SPEED_MS);
 
     
     // ToDo: Transition into next action, blending?

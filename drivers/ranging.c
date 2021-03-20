@@ -214,9 +214,9 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
     }
     
     // interrupt params
-    IPC0bits.INT0IP = 4;    // prios
-    IPC5bits.INT1IP = 4;
-    IPC7bits.INT2IP = 4;
+    IPC0bits.INT0IP = 5;    // prios
+    IPC5bits.INT1IP = 5;
+    IPC7bits.INT2IP = 5;
     
     IFS0bits.INT0IF = 0;    // reset both flags
     IFS1bits.INT1IF = 0;
@@ -298,17 +298,17 @@ float filter(volatile uint16_t *Data)
 
 float getRangeLeft(void)
 {
-    return filter(&RANGE_L[0]);
+    return RANGE_L[0]; //filter(&RANGE_L[0]);
 }
 
 float getRangeFront(void)
 {
-    return filter(&RANGE_F[0]);
+    return RANGE_F[0]; //filter(&RANGE_F[0]);
 }
 
 float getRangeRight(void)
 {
-    return filter(&RANGE_R[0]);
+    return RANGE_R[0]; //filter(&RANGE_R[0]);
 }
 
 VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
@@ -357,7 +357,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT0Interrupt(void)
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
     
-    Status = getRangingSample(&dev[0], &RANGE_L[i]);
+    Status = getRangingSample(&dev[0], &RANGE_L[0]);
     
     i++;
     if (i==3) i = 0;
@@ -376,7 +376,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT1Interrupt(void)
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
 
-    Status = getRangingSample(&dev[1], &RANGE_F[i]);
+    Status = getRangingSample(&dev[1], &RANGE_F[0]);
     
     i++;
     if (i==3) i = 0;
@@ -395,7 +395,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _INT2Interrupt(void)
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
     static int i = 0;
     
-    Status = getRangingSample(&dev[2], &RANGE_R[i]);
+    Status = getRangingSample(&dev[2], &RANGE_R[0]);
     
     i++;
     if (i==3) i = 0;

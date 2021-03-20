@@ -32,6 +32,9 @@
 #include "../control/primitives.h"
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
+
+bool runFlag = false;
+
 #endif
 
 #include "tasks.h"
@@ -75,22 +78,21 @@ void taskTest(void)
     uartWrite(str,0);
 #endif
 #ifdef PRIMITIVES_DEBUG
-    //char str[42];     
-    //toggleMotorControl(true);
-    //setSetpointAngularVelocity(0.05f * MAX_SPEED_MS);
-    //sprintf(str, "% -.3f\n", getAngle()); 
-    //uartWrite(str,0);
     setSetpointDeltaSide(0.0f);
     
-    if (BTN)
+    if (runFlag)
     {
         moveForward();
-//        moveSide();
-//        moveForward();
-//        moveSide();
-//        moveSide();
-        //moveForward();
+        moveSide();
+        moveForward();
+        moveSide();
+        moveForward();
+        moveSide();
+        moveForward();
+        moveSide();
+
         setSetpointLinearVelocity(0.0f);
+        runFlag = false;
     }   
 #endif    
 }
