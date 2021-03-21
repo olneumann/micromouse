@@ -140,7 +140,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
             int val;
             sscanf(rbmem, "%3s,<%d>", cmd, &val);
             
-            userCommand(&cmd, &val);
+            userCommand(cmd, &val);
         }
     }
     

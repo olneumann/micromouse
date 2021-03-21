@@ -10,6 +10,7 @@
 #include <stdbool.h>
 
 #include "../dspic/board.h"
+#include "../dspic/core.h"
 #include "../common/defines.h"
 #include "../drivers/encoder.h"
 #include "../control/control.h"
@@ -19,14 +20,12 @@
 #include "../drivers/serial_uart.h"
 #include "../drivers/serial_i2c.h"
 #endif
-
 #ifdef CONTROL_DEBUG
 #include "../control/pid.h"
 #include "../control/primitives.h"
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
 #endif
-
 #ifdef PRIMITIVES_DEBUG
 #include "../control/pid.h"
 #include "../control/primitives.h"
@@ -104,7 +103,13 @@ void taskEncoder(uint16_t freq)
 
 void taskControl(uint16_t freq)
 {
+    int update_rate = SETPOINT_UPDATE_RATE;    
+    static int i = 0;
+    if (i == 0) updateSetpointVelocity();
     motorControl();
+    
+    i++;
+    if (i == update_rate) i = 0;
 }
 
 void taskRanging(uint16_t freq)

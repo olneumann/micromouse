@@ -21,11 +21,11 @@ pidData_t pidData[PID_ITEM_COUNT];
 
 void pidProfileInit()
 {
-    pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { 17, 4, 7, 0 }; 
-    pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { 17, 4, 7, 0 };
-    pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { 1, 1, 1, 0 };
-    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { 2, 1, 1, 0 };
-    pidProfile.pid[PID_ROBOT_TURN_ANGLE]    = (pidf_t) { 1, 1, 1, 0 };
+    pidProfile.pid[PID_VELO_MOTOR_LEFT]     = (pidf_t) { .017, .004, .07, 0 }; 
+    pidProfile.pid[PID_VELO_MOTOR_RIGHT]    = (pidf_t) { .017, .004, .07, 0 };
+    pidProfile.pid[PID_DIST_SENSOR_SIDE]    = (pidf_t) { .002, .0001, .01, 0 };
+    pidProfile.pid[PID_DIST_SENSOR_FRONT]   = (pidf_t) { .02, .001, .01, 0 };
+    pidProfile.pid[PID_ROBOT_TURN_ANGLE]    = (pidf_t) { .01, .001, .01, 0 };
 }
 
 void pidInit(uint16_t pidLooptime) 
@@ -37,10 +37,10 @@ void pidInit(uint16_t pidLooptime)
 
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
-        pidRuntime.pidCoef[ctrl].Kp = 0.01f * pidProfile.pid[ctrl].P;
-        pidRuntime.pidCoef[ctrl].Ki = 0.001f * pidProfile.pid[ctrl].I;
-        pidRuntime.pidCoef[ctrl].Kd = 0.01f * pidProfile.pid[ctrl].D;
-        pidRuntime.pidCoef[ctrl].Kf = 1.0f * pidProfile.pid[ctrl].F;
+        pidRuntime.pidCoef[ctrl].Kp = pidProfile.pid[ctrl].P;
+        pidRuntime.pidCoef[ctrl].Ki = pidProfile.pid[ctrl].I;
+        pidRuntime.pidCoef[ctrl].Kd = pidProfile.pid[ctrl].D;
+        pidRuntime.pidCoef[ctrl].Kf = pidProfile.pid[ctrl].F;
         pidRuntime.outMin[ctrl] = -MAX_SPEED_MS;
         pidRuntime.outMax[ctrl] =  MAX_SPEED_MS;
     }

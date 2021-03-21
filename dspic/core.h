@@ -12,6 +12,7 @@
 
 #define CONTROL_LOOP_PERIODE_MS         (uint16_t)20 
 #define CONTROL_LOOP_FREQ_HZ            (uint16_t)1/(CONTROL_LOOP_PERIODE_MS * 1e-3)
+#define SETPOINT_UPDATE_RATE            (uint8_t)2
 #define ENCODER_UPDATE_PERIODE_MS       (uint16_t)10
 #define ENCODER_UPDATE_FREQ_HZ          (uint16_t)1/(ENCODER_UPDATE_PERIODE_MS * 1e-3) 
 #define RANGING_UPDATE_PERIODE_MS       (uint16_t)200 // debug; normal double sensing?

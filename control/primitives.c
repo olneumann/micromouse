@@ -27,18 +27,6 @@
  * 
  */
 
-int32_t reqDistanceToSpeed(float speed)
-{
-    float acceleration;
-	float current_speed = getLinearVelocity();
-
-	acceleration = (current_speed > speed) ? -LIN_ACCELERATION
-                                           :  LIN_ACCELERATION;
-
-	return 0; //(int32_t)((speed * speed - current_speed * current_speed) /
-                 //(2 * acceleration) * 1e6); [ToDo: Calibrate!]
-}
-
 void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
 {
     int32_t target_dist = start_um + (int32_t)(delta_dist_m * 1e6);
@@ -46,12 +34,12 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
     if (delta_dist_m > 0.0f)
     {
         setSetpointLinearVelocity(speed_ms);
-        while (getDistance() < target_dist - reqDistanceToSpeed(speed_ms));
+        while (getDistance() < target_dist);
     }
     else if (delta_dist_m < 0.0f)
     {
         setSetpointLinearVelocity(-speed_ms);
-        while (getDistance() > target_dist - reqDistanceToSpeed(speed_ms));
+        while (getDistance() > target_dist);
     }
 }
 
@@ -83,7 +71,7 @@ void moveForward(void)
     toggleSideControl(true);
     toggleFrontControl(false);
     
-    targetStraight(getDistance(), 1.6f, 0.5f*MAX_SPEED_MS);
+    targetStraight(getDistance(), 0.4f, 0.2f*MAX_SPEED_MS);
     
     toggleSideControl(false);
     

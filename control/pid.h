@@ -23,10 +23,10 @@ typedef enum {
 } pidIndex_e;
 
 typedef struct pidf_s {
-    uint8_t P;
-    uint8_t I;
-    uint8_t D;
-    uint16_t F;
+    float P;
+    float I;
+    float D;
+    float F;
 } pidf_t;
 
 typedef struct pidCoefficient_s {

@@ -27,8 +27,8 @@
 #define MAX_DELTA_SIDE      42.0f // in mm
 
 static volatile float SETPOINT[PID_ITEM_COUNT];
-static volatile float COMMAND_VELO_L, COMMAND_VELO_R;
-static volatile float SPEED_LIMIT   = 0.5f * MAX_SPEED_MS;
+static volatile float SLIDING_SETPOINT_VELO_L, SLIDING_SETPOINT_VELO_R;
+static volatile float SPEED_LIMIT   = 0.2f * MAX_SPEED_MS;
 
 static volatile bool MOTOR_CONTROL  = false;
 static volatile bool SIDE_CONTROL   = false;
@@ -127,46 +127,19 @@ void setSetpointDeltaSide(float delta)
     SETPOINT[PID_DIST_SENSOR_SIDE] = delta;
 }
 
-void updateCommandVelocity(void)
-{    
-    static int i = 0;
-    
-    float errSide = 0.0f;
+void updateSetpointVelocity(void)
+{       
+    float errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
     float errTurn = (float)TURN_CONTROL * pidData[PID_ROBOT_TURN_ANGLE].Sum;
-    float SetpointLeft  = getSetpoint(PID_VELO_MOTOR_LEFT);
-    float SetpointRight = getSetpoint(PID_VELO_MOTOR_RIGHT);
+    float errFront = (float)FRONT_CONTROL * pidData[PID_DIST_SENSOR_FRONT].Sum;
+    float idealSetpointLeft  = getSetpoint(PID_VELO_MOTOR_LEFT);
+    float idealSetpointRight = getSetpoint(PID_VELO_MOTOR_RIGHT);
     
-    if (i == 0)
-    {
-        errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
-    }
-    i++;
-    if (i==2) i = 0; 
-    
-    // Adapt side control of jump in measurement (over threshold)
-    if (SIDE_CONTROL && fabs(getInput(PID_DIST_SENSOR_SIDE)) > MAX_DELTA_SIDE) errSide = 0.0f;
-
-    // Adjust each setpoint velocity to compensate wall distance and allow turning
-    COMMAND_VELO_L = constrainf(SetpointLeft - errSide + errTurn,
-                                    -SPEED_LIMIT,
-                                     SPEED_LIMIT);
-    COMMAND_VELO_R = constrainf(SetpointRight + errSide - errTurn,
-                                    -SPEED_LIMIT,
-                                     SPEED_LIMIT);
-}
-
-float convDC(float velocity)
-{
-    return velocity/MAX_SPEED_MS;
-}
-
-void motorControl(void)
-{
-    // Limit output of secondary control loops based on the linear velocity setpoint
+    // Limit output of secondary control loops
     if (SIDE_CONTROL)
     {
-        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -0.6f * SPEED_LIMIT;
-        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  0.6f * SPEED_LIMIT;
+        pidRuntime.outMin[PID_DIST_SENSOR_SIDE] = -SPEED_LIMIT;
+        pidRuntime.outMax[PID_DIST_SENSOR_SIDE] =  SPEED_LIMIT;
     }
     if (FRONT_CONTROL)
     {
@@ -179,16 +152,31 @@ void motorControl(void)
         pidRuntime.outMax[PID_ROBOT_TURN_ANGLE] =  SPEED_LIMIT;
     }
     
+    // Adapt side control of jump in measurement (over threshold)
+    if (SIDE_CONTROL && fabs(getInput(PID_DIST_SENSOR_SIDE)) > MAX_DELTA_SIDE) errSide = 0.0f;
+
+    // Adjust each setpoint velocity to compensate wall distance and allow turning
+    SLIDING_SETPOINT_VELO_L = constrainf(idealSetpointLeft - errSide + errTurn + errFront,
+                                         -SPEED_LIMIT,
+                                          SPEED_LIMIT);
+    SLIDING_SETPOINT_VELO_R = constrainf(idealSetpointRight + errSide - errTurn + errFront,
+                                         -SPEED_LIMIT,
+                                          SPEED_LIMIT);
+}
+
+float convDC(float velocity)
+{
+    return velocity/MAX_SPEED_MS;
+}
+
+void motorControl(void)
+{
     pidController();
-    updateCommandVelocity();
-    
-    float controlLeft;
-    float controlRight;
-    
-    controlLeft     = COMMAND_VELO_L 
-                    + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum;
-    controlRight    = COMMAND_VELO_R
-                    + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum;
+
+    float controlLeft  = SLIDING_SETPOINT_VELO_L 
+                       + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_LEFT].Sum;
+    float controlRight = SLIDING_SETPOINT_VELO_R
+                       + (float)MOTOR_CONTROL * pidData[PID_VELO_MOTOR_RIGHT].Sum;
     
     driveLeft(convDC(controlLeft));
     driveRight(convDC(controlRight)); 
