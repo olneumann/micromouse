@@ -21,7 +21,6 @@
 
 #ifdef CONTROL_DEBUG
 #include "../drivers/serial_uart.h"
-#include <math.h>
 #endif
 
 #define MAX_DELTA_SIDE      42.0f // in mm
@@ -38,6 +37,11 @@ static volatile bool TURN_CONTROL   = false;
 void setSpeedLimit(float speed_ms)
 {
     SPEED_LIMIT = speed_ms;
+}
+
+float getSpeedLimit(void)
+{
+    return SPEED_LIMIT;
 }
 
 void toggleMotorControl(bool state)
@@ -127,7 +131,13 @@ void setSetpointDeltaSide(float delta)
     SETPOINT[PID_DIST_SENSOR_SIDE] = delta;
 }
 
-void updateSetpointVelocity(void)
+void resetSlidingSetpointVelocity(void)
+{
+    SLIDING_SETPOINT_VELO_L = 0.0f;
+    SLIDING_SETPOINT_VELO_R = 0.0f;
+}
+
+void updateSlidingSetpointVelocity(void)
 {       
     float errSide = (float)SIDE_CONTROL * pidData[PID_DIST_SENSOR_SIDE].Sum;
     float errTurn = (float)TURN_CONTROL * pidData[PID_ROBOT_TURN_ANGLE].Sum;

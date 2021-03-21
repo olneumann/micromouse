@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "../drivers/motor.h"
 #include "../common/defines.h"
 #include "../common/maths.h"
 #include "../control/control.h"

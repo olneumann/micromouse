@@ -8,10 +8,15 @@
 #ifndef PRIMITIVES_H
 #define	PRIMITIVES_H
 
-#define MAX_SPEED_MS            0.62f
-#define LIN_ACCELERATION        0.1f    // ToDo: Calibrate!
+typedef enum {
+	MOVE_END,
+	MOVE_FRONT,
+	MOVE_LEFT,
+	MOVE_RIGHT,
+	MOVE_BACK,
+	MOVE_ITEM_COUNT,
+} primitives_e;
 
-void moveForward(void);
-void moveSide(void);
+void move(primitives_e primitive);
 
 #endif /* PRIMITIVES_H */

@@ -33,7 +33,6 @@
 #include "../drivers/serial_uart.h"
 
 bool runFlag = false;
-
 #endif
 
 #include "tasks.h"
@@ -77,20 +76,14 @@ void taskTest(void)
     uartWrite(str,0);
 #endif
 #ifdef PRIMITIVES_DEBUG
-    setSetpointDeltaSide(0.0f);
-    
     if (runFlag)
     {
-        moveForward();
-        moveSide();
-        moveForward();
-        moveSide();
-        moveForward();
-        moveSide();
-        moveForward();
-        moveSide();
+        move(MOVE_FRONT);
+        move(MOVE_LEFT);
+        move(MOVE_RIGHT);
+        move(MOVE_BACK);
+        move(MOVE_END);
 
-        setSetpointLinearVelocity(0.0f);
         runFlag = false;
     }   
 #endif    
@@ -105,7 +98,7 @@ void taskControl(uint16_t freq)
 {
     int update_rate = SETPOINT_UPDATE_RATE;    
     static int i = 0;
-    if (i == 0) updateSetpointVelocity();
+    if (i == 0) updateSlidingSetpointVelocity();
     motorControl();
     
     i++;

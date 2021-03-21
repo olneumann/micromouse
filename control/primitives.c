@@ -19,6 +19,9 @@
 #include "../drivers/serial_uart.h"
 #endif
 
+// import from manager/pathplanning?
+#define CELL_DIMENSION  0.16f
+
 #include "primitives.h"
 
 /*
@@ -30,6 +33,7 @@
 void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
 {
     int32_t target_dist = start_um + (int32_t)(delta_dist_m * 1e6);
+    setSetpointDeltaSide(0.0f);
     
     if (delta_dist_m > 0.0f)
     {
@@ -47,15 +51,28 @@ void targetTurn(float delta_angle_deg, float speed_ms)
 {
     if (delta_angle_deg > 0.0f)
     {
+        LED_IND1 = LEDON;
         setSetpointTurnAngle(delta_angle_deg, speed_ms);
         toggleTurnControl(true);
         while (getDiffAngle() < delta_angle_deg);
         toggleTurnControl(false);
+        LED_IND1 = LEDOFF;
     }
     else if (delta_angle_deg < 0.0f)
     {
-        
+        LED_IND2 = LEDON;
+        setSetpointTurnAngle(delta_angle_deg, -speed_ms);
+        toggleTurnControl(true);
+        while (getDiffAngle() > delta_angle_deg);
+        toggleTurnControl(false);
+        LED_IND2 = LEDOFF;
     }
+}
+
+void targetStop(void)
+{
+    setSetpointLinearVelocity(0.0f);
+    resetSlidingSetpointVelocity();
 }
 
 /*
@@ -71,21 +88,47 @@ void moveForward(void)
     toggleSideControl(true);
     toggleFrontControl(false);
     
-    targetStraight(getDistance(), 0.4f, 0.2f*MAX_SPEED_MS);
-    
-    toggleSideControl(false);
-    
-    // ToDo: Transition into next action, blending?
+    targetStraight(getDistance(), CELL_DIMENSION, getSpeedLimit());
 }
 
-void moveSide(void)
+void moveBackward(void)
+{
+    toggleMotorControl(true);
+    toggleSideControl(true);
+    toggleFrontControl(false);
+    
+    targetStraight(getDistance(), -CELL_DIMENSION, getSpeedLimit());
+}
+
+void moveSide(float angle)
 {
     toggleMotorControl(true);
     toggleSideControl(false);
     toggleFrontControl(false);
 
-    targetTurn(180.0f, 0.1f*MAX_SPEED_MS);
+    targetTurn(angle, getSpeedLimit());
+}
 
+void moveStop(void)
+{
+    toggleMotorControl(false);
+    toggleSideControl(false);
+    toggleFrontControl(false);
+    toggleTurnControl(false);
     
-    // ToDo: Transition into next action, blending?
+    targetStop();
+}
+
+void move(primitives_e primitive)
+{
+    if (primitive == MOVE_FRONT)
+        moveForward();
+    else if (primitive == MOVE_LEFT)
+        moveSide(-90.0f);
+    else if (primitive == MOVE_RIGHT)
+        moveSide(90.0f);
+    else if (primitive == MOVE_BACK)
+        moveBackward();
+    else if (primitive == MOVE_END)
+        moveStop();   
 }

@@ -8,8 +8,9 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
  
-#define motorLeftDir      1
-#define motorRightDir    -1
+#define MAX_SPEED_MS    0.62f
+#define MOTOR_DIR_L     1
+#define MOTOR_DIR_R    -1
 
 /**
  * \brief Initilizes motor pwm signal generation

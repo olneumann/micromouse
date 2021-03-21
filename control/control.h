@@ -18,12 +18,16 @@ void toggleTurnControl(bool state);
 float getInput(int ctrl);
 float getSetpoint(int ctrl);
 
+void setSpeedLimit(float speed_ms);
+float getSpeedLimit(void);
+
 void setSetpointLinearVelocity(float speed_ms);
 void setSetpointAngularVelocity(float speed_ms);
 void setSetpointTurnAngle(float angle, float speed_ms);
 void setSetpointDeltaSide(float delta);
 
-void updateSetpointVelocity(void);
+void updateSlidingSetpointVelocity(void);
+void resetSlidingSetpointVelocity(void);
 void motorControl(void);
 
 #ifdef CONTROL_DEBUG

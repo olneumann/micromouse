@@ -70,7 +70,7 @@ void driveRight(float percent)
     if (percent > 1.0f) percent = 1.0f;
     if (percent < -1.0f) percent = -1.0f;
     
-    percent = (float)motorRightDir * percent;
+    percent = (float)MOTOR_DIR_R * percent;
     if (percent > 0) 
     {
         /* -- Forward --
@@ -103,6 +103,7 @@ void driveRight(float percent)
         P1OVDCONbits.POUT1L = 0;                // PH -> static (low)
         P1OVDCONbits.POVD1H = 0;                
         P1OVDCONbits.POUT1H = 0;                // PWM -> static (low)
+        setDC(0.0f, &P1DC1, P1TPER);
     }
     else
     {
@@ -117,7 +118,7 @@ void driveRight(float percent)
  */
 void driveLeft(float percent)
 {
-    percent = (float)motorLeftDir * percent;
+    percent = (float)MOTOR_DIR_L * percent;
     if (percent > 0) 
     {
         /* -- Forward --
@@ -150,6 +151,7 @@ void driveLeft(float percent)
         P1OVDCONbits.POUT2L = 0;                // PH -> static (low)
         P1OVDCONbits.POVD2H = 0;                
         P1OVDCONbits.POUT2H = 0;                // PWM -> static (low)
+        setDC(0.0f, &P1DC2, P1TPER);
     }
     else
     {
