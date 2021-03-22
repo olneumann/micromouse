@@ -5,27 +5,36 @@
  * Created on 17. März 2021, 14:46
  */
 
+
+//PID control for motors
+
 #ifndef PIDCONTROL_H
 #define	PIDCONTROL_H
+
+
+#include "encoder.h"
+#include "motor.h"
+
+
 
 
 typedef struct {
 
     /* controller gains */
-    float kp;
-    float ki;
-    float kd;
+    float kp=0.0199;
+    float ki=0.0223;
+    float kd=0.0042;
 
     /* derivative low pass filter timer constant*/
-    float tau;
+    float tau=0.0040;
     
     /*output limits - maximum and minimum values PWM*/
-    float PWMmin;
-    float PWMmax;
+    float outmin;
+    float outmax;
     
     /*integratorlimits*/
-    float LimitMinInt;
-    float LimitMaxInt;    
+    float MinInt;
+    float MaxInt;    
     
     /*sample time in seconds*/
     float T;

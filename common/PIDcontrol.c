@@ -1,5 +1,10 @@
 #include "PIDcontrol.h"
 
+
+
+
+
+
 void PID_Init(param_pid *pid) {
 
 	/* Clear controller variables */
@@ -13,41 +18,66 @@ void PID_Init(param_pid *pid) {
 
 }
 
-float PID_update(param_pid *pid, float d_vel, float m_vel) { //d_vel is desired velocity of the motor
 
-	/*
-	* Error signal
-	*/
+    float m_vel_l = getVelocityLeft();
+    float m_vel_r = getVelocityRight();
+
+
+    //int32_t getDistanceLeft(void);
+    //int32_t getDistanceRight(void);
+    //for later
+
+
+
+
+
+
+
+
+
+
+
+float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
+
+
+    float max_vel;
+    float d_vel;
+    float m_vel= (m_vel_l+m_vel_l)/2;       //average velocity of both motors
+    float out_vel_left;
+    float out_vel_right;
+    float pwm_left, pwm_right;
+    
     float error = d_vel - m_vel;
     
 
-	/*
-	* Proportional
+    
+    
+    //PID ALGORITHM
+	
+    /*
+	Proportional
 	*/
     float proportional = pid->kp * error;
-
-
-	/*
+    
+    /*
 	* Integral
 	*/
     pid->integrator += 0.5f * pid->ki * pid->T * (error + pid->preverror);
 
 	/* Anti-wind-up via integrator clamping */
-    if (pid->integrator > pid->LimitMaxInt) {
+    if (pid->integrator > pid->MaxInt) {
 
-        pid->integrator = pid->LimitMaxInt;
+        pid->integrator = pid->MaxInt;
 
-    } else if (pid->integrator < pid->LimitMinInt) {
+    } else if (pid->integrator < pid->MinInt) {
 
-        pid->integrator = pid->LimitMinInt;
+        pid->integrator = pid->MinInt;
 
     }
-
-
+    
 	/*
 	* Derivative (band-limited differentiator)
-	*/
-		
+	*/		
     pid->differentiator = -(2.0f * pid->kd * (m_vel - pid->prev_m)	//derivative on measurement -
                         + (2.0f * pid->tau - pid->T) * pid->differentiator)
                         / (2.0f * pid->tau + pid->T);
@@ -58,13 +88,13 @@ float PID_update(param_pid *pid, float d_vel, float m_vel) { //d_vel is desired 
 	*/
     pid->out = proportional + pid->integrator + pid->differentiator;
 
-    if (pid->out > pid->PWMmax) {
+    if (pid->out > pid->outmax) {
 
-        pid->out = pid->PWMmax;
+        pid->out = pid->outmax;
 
-    } else if (pid->out < pid->PWMmin) {
+    } else if (pid->out < pid->outmin) {
 
-        pid->out = pid->PWMmax;
+        pid->out = pid->outmax;
 
     }
 
@@ -74,6 +104,18 @@ float PID_update(param_pid *pid, float d_vel, float m_vel) { //d_vel is desired 
 
 	/* Return controller output */
     return pid->out;
+    
+    out_vel_left=pid->out;
+    out_vel_right=pid->out;
+    
+    /*output of velocity for the motor as PWM*/
+   
+        pwm_left    =   out_vel_left/max_vel;
+        pwm_right   =   out_vel_right/max_vel;
 
+        
+        
+        driveLeft(pwm_left);
+        driveRight(pwm_right);
 }
 

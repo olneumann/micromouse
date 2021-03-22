@@ -10,6 +10,10 @@
 
 #include <stdio.h>
 
+#include "action.h"
+#include "motor.h"
+#include "encoder.h"
+
 void action_init();
 
 void action_forward();

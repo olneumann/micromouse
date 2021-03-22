@@ -9,7 +9,7 @@
 #include <stddef.h>
 
 #include "../common/defines.h"
-#include "../common/maths.h"
+#include "../common/macths.h"
 #include "../control/primitives.h"
 
 #include "pid.h"
