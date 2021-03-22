@@ -23,9 +23,9 @@
 VL53L0X_Dev_t dev[SENSOR_COUNT];    // dev[0] = L; dev[1] = F; dev[2] = R
 VL53L0X_Dev_t *pDev = dev;          
 
-static volatile uint16_t RANGE_L[4];
-static volatile uint16_t RANGE_F[4];
-static volatile uint16_t RANGE_R[4];
+static uint16_t RANGE_L[4];
+static uint16_t RANGE_F[4];
+static uint16_t RANGE_R[4];
 
 /*
  * Description:
@@ -311,7 +311,7 @@ float getRangeRight(void)
     return RANGE_R[0]; //filter(&RANGE_R[0]);
 }
 
-VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
+static inline VL53L0X_Error getRangingSample(VL53L0X_Dev_t *pDev, volatile uint16_t *pData)
 {
     VL53L0X_RangingMeasurementData_t RangingData;
     VL53L0X_RangingMeasurementData_t *pRangingData = &RangingData;

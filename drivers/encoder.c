@@ -21,17 +21,14 @@
 #define MAX_CNT_PER_TURN    (float)3694.25
 #define UM_PER_CNT          (float)(PERIMETER_WHEEL_UM/MAX_CNT_PER_REV)
 
-static volatile int32_t DISTANCE_UM_L;      // overflow in 2,147 km
-static volatile int32_t DISTANCE_UM_R;      // binary drift (loop closure?)
-
-static volatile int16_t ANGLE_TICK_L;
-static volatile int16_t ANGLE_TICK_R;
-
-static volatile int16_t DIFF_CNT_L;
-static volatile int16_t DIFF_CNT_R;
-
-static volatile float VELOCITY_L;
-static volatile float VELOCITY_R;
+static int32_t DISTANCE_UM_L;      // overflow in 2,147 km
+static int32_t DISTANCE_UM_R;      // binary drift (loop closure?)
+static int16_t ANGLE_TICK_L;
+static int16_t ANGLE_TICK_R;
+static int16_t DIFF_CNT_L;
+static int16_t DIFF_CNT_R;
+static float VELOCITY_L;
+static float VELOCITY_R;
 
 int32_t getDistanceLeft(void)
 {
@@ -84,7 +81,7 @@ int16_t getAngleDiffTick(void)
     return ANGLE_TICK_L - ANGLE_TICK_R;
 }
 
-float ticksToAngle(int16_t ticks)
+static inline float ticksToAngle(int16_t ticks)
 {
     return (float)ticks/MAX_CNT_PER_TURN * 180.0f;
 }
@@ -94,7 +91,7 @@ float getDiffAngle(void)
     return ticksToAngle(getAngleDiffTick());
 }
 
-int16_t getCounterDiff(uint16_t now, uint16_t prev)
+static inline int16_t getCounterDiff(uint16_t now, uint16_t prev)
 {
     int16_t diff = now - prev;
     

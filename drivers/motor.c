@@ -34,7 +34,7 @@ void pwmParams(int pwm_freq_khz, volatile uint16_t* pTCON, volatile uint16_t* pP
     } while(i < 4); 
 }
 
-void setDC(float DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
+static inline void setDC(float DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
 {
     double dPxDCy = DC * (double)(PxTPER<<1); // times 2, 'cause shift in register   
     *pPxDCy = (uint16_t)dPxDCy;

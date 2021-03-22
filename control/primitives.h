@@ -13,6 +13,7 @@ typedef enum {
 	MOVE_FRONT,
 	MOVE_LEFT,
 	MOVE_RIGHT,
+    MOVE_TURN,
 	MOVE_BACK,
 	MOVE_ITEM_COUNT,
 } primitives_e;

@@ -25,6 +25,7 @@ void setSetpointLinearVelocity(float speed_ms);
 void setSetpointAngularVelocity(float speed_ms);
 void setSetpointTurnAngle(float angle, float speed_ms);
 void setSetpointDeltaSide(float delta);
+void setSetpointFrontDistance(float distance);
 
 void updateSlidingSetpointVelocity(void);
 void resetSlidingSetpointVelocity(void);
@@ -33,7 +34,7 @@ void motorControl(void);
 #ifdef CONTROL_DEBUG
 float getInput(int ctrl);
 void setSetpoint(int ctrl, float val);
-float convDC(float pidsum, int ctrl);
+static inline float convDC(float pidsum, int ctrl);
 #endif
 
 #endif	/* CONTROL_H */

@@ -25,7 +25,7 @@ int i2cInit(i2c_config_t *config)
     return status;
 }
 
-int waitACK(void)
+static inline int waitACK(void)
 {
     while(I2C1STATbits.TBF);                // Transmit in progress, I2CxTRN is full
     while(I2C1STATbits.TRSTAT);             // Wait for and verify ACK from the slave
@@ -38,7 +38,7 @@ int waitACK(void)
     return 0;
 }
 
-void sendACK(void)
+static inline void sendACK(void)
 {
     I2C1CONbits.ACKEN = 1;                  // Send master ACK
     while(I2C1CONbits.ACKEN);               // Wait for complete

@@ -11,6 +11,7 @@
 
 #include "../dspic/board.h"
 #include "../drivers/encoder.h"
+#include "../drivers/motor.h"
 #include "../control/control.h"
 
 #ifdef PRIMITIVES_DEBUG
@@ -19,8 +20,8 @@
 #include "../drivers/serial_uart.h"
 #endif
 
-// import from manager/pathplanning?
-#define CELL_DIMENSION  0.16f
+#define MIN_DIST_FRONT  20.0f   // in mm
+#define CELL_DIMENSION  2.0f   // in m -> import from manager/pathplanning?
 
 #include "primitives.h"
 
@@ -34,6 +35,7 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
 {
     int32_t target_dist = start_um + (int32_t)(delta_dist_m * 1e6);
     setSetpointDeltaSide(0.0f);
+    setSetpointFrontDistance(MIN_DIST_FRONT);
     
     if (delta_dist_m > 0.0f)
     {
@@ -49,6 +51,9 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
 
 void targetTurn(float delta_angle_deg, float speed_ms)
 {
+    setSetpointDeltaSide(0.0f);
+    setSetpointFrontDistance(MIN_DIST_FRONT);
+            
     if (delta_angle_deg > 0.0f)
     {
         LED_IND1 = LEDON;
@@ -88,14 +93,18 @@ void moveForward(void)
     toggleSideControl(true);
     toggleFrontControl(false);
     
+    setSpeedLimit(0.5f * MAX_SPEED_MS);
+    
     targetStraight(getDistance(), CELL_DIMENSION, getSpeedLimit());
 }
 
 void moveBackward(void)
 {
     toggleMotorControl(true);
-    toggleSideControl(true);
+    toggleSideControl(false);   // ToDo!!
     toggleFrontControl(false);
+    
+    setSpeedLimit(0.4f * MAX_SPEED_MS);
     
     targetStraight(getDistance(), -CELL_DIMENSION, getSpeedLimit());
 }
@@ -106,6 +115,8 @@ void moveSide(float angle)
     toggleSideControl(false);
     toggleFrontControl(false);
 
+    setSpeedLimit(0.3f * MAX_SPEED_MS);
+    
     targetTurn(angle, getSpeedLimit());
 }
 
@@ -127,6 +138,8 @@ void move(primitives_e primitive)
         moveSide(-90.0f);
     else if (primitive == MOVE_RIGHT)
         moveSide(90.0f);
+    else if (primitive == MOVE_TURN)
+        moveSide(180.0f);    
     else if (primitive == MOVE_BACK)
         moveBackward();
     else if (primitive == MOVE_END)
