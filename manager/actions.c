@@ -4,7 +4,7 @@ void move_one_cell_towards(direction d) {
     state mouse_state = get_mouse_state();
     turn_towards(d);
     position cell = what_is_the_position_after_moving_one_step_in_the_direction(mouse_state.p, d);
-#ifndef DISCOVERY_SIMULATION
+#if !DISCOVERY_SIMULATION
     move(MOVE_FRONT); //TODO move
 #endif
     set_mouse_state(cell, d);
@@ -13,7 +13,7 @@ void move_one_cell_towards(direction d) {
 void turn_left_inplace_90(direction towards) {
     logger.info("turn left 90 %d\n");
 
-#ifndef DISCOVERY_SIMULATION
+#if !DISCOVERY_SIMULATION
     move(MOVE_LEFT); //TODO turn_left_inplace_90
 #endif
 
@@ -24,7 +24,7 @@ void turn_left_inplace_90(direction towards) {
 void turn_right_inplace_90(direction towards) {
     logger.info("turn right 90 %d\n");
 
-#ifndef DISCOVERY_SIMULATION
+#if !DISCOVERY_SIMULATION
     move(MOVE_RIGHT); //TODO turn_right_inplace_90
 #endif
 
@@ -34,7 +34,7 @@ void turn_right_inplace_90(direction towards) {
 void turn_inplace_180(direction towards) {
     logger.info("turn back 180 %d\n");
 
-#ifndef DISCOVERY_SIMULATION
+#if !DISCOVERY_SIMULATION
     move(MOVE_TURN); //TODO turn_inplace_180
 #endif
 

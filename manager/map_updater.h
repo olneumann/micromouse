@@ -16,6 +16,7 @@ static volatile walls_around_t walls_around = {False, False, False, False};
 extern position goal_cells[];
 
 #if !DISCOVERY_SIMULATION
+#include "../drivers/ranging.h"
 distance get_front_sensor_range_data(void);
 distance get_right_sensor_range_data(void);
 distance get_left_sensor_range_data(void);

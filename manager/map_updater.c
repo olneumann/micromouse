@@ -114,17 +114,17 @@ uint8_t manhattan_distance_uint16_t(position a, position b) {
 #if !DISCOVERY_SIMULATION
 distance get_front_sensor_range_data() {
     logger.info("sensor data front\n");
-    return 0;
+    return getRangeFront() * 10.;
 }
 
 distance get_right_sensor_range_data() {
     logger.info("sensor data right\n");
-    return 0;
+    return getRangeRight() * 10.;
 }
 
 distance get_left_sensor_range_data() {
     logger.info("sensor data left\n");
 
-    return 0;
+    return getRangeLeft() * 10.;
 }
 #endif

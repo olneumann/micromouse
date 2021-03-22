@@ -31,9 +31,8 @@ void init_finisher() {
 void start_finisher() {
     action* current_action = chain_of_actions_of_the_shortest_path;
     while (current_action) {
-
-#ifndef DISCOVERY_SIMULATION
-        move(current_action->action_primitive_id);
+#if !DISCOVERY_SIMULATION
+move(current_action->action_primitive_id);
 #endif
         logger.info("ACTION >>>> %d (%d %d):(%d %d) ori = %d\n",
                     current_action->action_primitive_id,
