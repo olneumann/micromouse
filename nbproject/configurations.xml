@@ -14,6 +14,7 @@
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pid.h</itemPath>
         <itemPath>control/primitives.h</itemPath>
+        <itemPath>control/control.h</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
@@ -50,6 +51,7 @@
       </logicalFolder>
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.h</itemPath>
+        <itemPath>io/hmi.h</itemPath>
       </logicalFolder>
       <itemPath>platform.h</itemPath>
     </logicalFolder>
@@ -69,6 +71,7 @@
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pid.c</itemPath>
         <itemPath>control/primitives.c</itemPath>
+        <itemPath>control/control.c</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
@@ -99,6 +102,7 @@
       </logicalFolder>
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.c</itemPath>
+        <itemPath>io/hmi.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
@@ -276,7 +280,7 @@
         <property key="generic-16-bit" value="false"/>
         <property key="legacy-libc" value="true"/>
         <property key="mpreserve-all" value="false"/>
-        <property key="oXC16glb-macros" value=""/>
+        <property key="oXC16glb-macros" value="SIMULATOR"/>
         <property key="omit-pack-options" value="1"/>
         <property key="output-file-format" value="elf"/>
         <property key="preserve-all" value="false"/>
@@ -823,10 +827,10 @@
         <property key="oXC16gcc-name-text-sec" value=""/>
         <property key="oXC16gcc-near-chars" value="false"/>
         <property key="oXC16gcc-no-isr-warn" value="false"/>
-        <property key="oXC16gcc-sfr-warn" value="false"/>
+        <property key="oXC16gcc-sfr-warn" value="true"/>
         <property key="oXC16gcc-smar-io-lvl" value="1"/>
         <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="1"/>
+        <property key="optimization-level" value="2"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>

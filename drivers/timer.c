@@ -72,8 +72,8 @@ void timerInit(void)
     timerParams(RANGING_UPDATE_PERIODE_MS, &T3CON, &TMR3, &PR3);    
         
     // interrupt params
-    IPC0bits.T1IP = 4;      // prios
-    IPC1bits.T2IP = 4;      
+    IPC0bits.T1IP = 6;      // prios
+    IPC1bits.T2IP = 5;      
     IPC2bits.T3IP = 4;
     
     IFS0bits.T1IF = 0;      // reset both flags
@@ -89,8 +89,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
 {
     /* Clear Timer1 interrupt flag */
     IFS0bits.T1IF = 0;
-    debug();
-    //control_loop(CONTROL_LOOP_FREQ_HZ);
+    control_loop(CONTROL_LOOP_FREQ_HZ);
     
     static int watchdog = 0;
     watchdog += CONTROL_LOOP_PERIODE_MS;
@@ -112,5 +111,6 @@ void __attribute__((__interrupt__,no_auto_psv)) _T3Interrupt(void)
 {
     /* Clear Timer3 interrupt flag */
     IFS0bits.T3IF = 0;
+    debug();
     //ranging_loop(RANGING_UPDATE_FREQ_HZ);
 }

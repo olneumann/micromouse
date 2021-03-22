@@ -1,5 +1,5 @@
 /*
- * File:   pathplanning.h
+ * File:   primitives.h
  * Author: oliver
  *
  * Created on 2. Januar 2021, 17:00
@@ -8,7 +8,16 @@
 #ifndef PRIMITIVES_H
 #define	PRIMITIVES_H
 
-void move_forward(void);
-void move_side(void);
+typedef enum {
+	MOVE_END,
+	MOVE_FRONT,
+	MOVE_LEFT,
+	MOVE_RIGHT,
+    MOVE_TURN,
+	MOVE_BACK,
+	MOVE_ITEM_COUNT,
+} primitives_e;
 
-#endif /* PATHPLANNING_H */
+void move(primitives_e primitive);
+
+#endif /* PRIMITIVES_H */

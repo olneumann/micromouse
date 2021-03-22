@@ -13,6 +13,8 @@
 
 #include "motor.h"
 
+#define MAX_VELOCITY_MS 0.626f
+
 void pwmParams(int pwm_freq_khz, volatile uint16_t* pTCON, volatile uint16_t* pPiTPER)
 {
     long double ticks = FCY / (pwm_freq_khz * 1e3); 
@@ -32,7 +34,7 @@ void pwmParams(int pwm_freq_khz, volatile uint16_t* pTCON, volatile uint16_t* pP
     } while(i < 4); 
 }
 
-void setDC(float DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
+static inline void setDC(float DC, volatile uint16_t* pPxDCy, uint16_t PxTPER)
 {
     double dPxDCy = DC * (double)(PxTPER<<1); // times 2, 'cause shift in register   
     *pPxDCy = (uint16_t)dPxDCy;
@@ -65,7 +67,10 @@ void motorInit(uint16_t kfpwm)
  */
 void driveRight(float percent)
 {
-    percent = (float)motorRightDir * percent;
+    if (percent > 1.0f) percent = 1.0f;
+    if (percent < -1.0f) percent = -1.0f;
+    
+    percent = (float)MOTOR_DIR_R * percent;
     if (percent > 0) 
     {
         /* -- Forward --
@@ -98,6 +103,7 @@ void driveRight(float percent)
         P1OVDCONbits.POUT1L = 0;                // PH -> static (low)
         P1OVDCONbits.POVD1H = 0;                
         P1OVDCONbits.POUT1H = 0;                // PWM -> static (low)
+        setDC(0.0f, &P1DC1, P1TPER);
     }
     else
     {
@@ -112,7 +118,7 @@ void driveRight(float percent)
  */
 void driveLeft(float percent)
 {
-    percent = (float)motorLeftDir * percent;
+    percent = (float)MOTOR_DIR_L * percent;
     if (percent > 0) 
     {
         /* -- Forward --
@@ -145,6 +151,7 @@ void driveLeft(float percent)
         P1OVDCONbits.POUT2L = 0;                // PH -> static (low)
         P1OVDCONbits.POVD2H = 0;                
         P1OVDCONbits.POUT2H = 0;                // PWM -> static (low)
+        setDC(0.0f, &P1DC2, P1TPER);
     }
     else
     {

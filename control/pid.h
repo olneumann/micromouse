@@ -14,16 +14,19 @@
 #include "../common/defines.h"
 
 typedef enum {
-    PID_L_MOTOR,
-    PID_R_MOTOR,
+    PID_VELO_MOTOR_LEFT,
+    PID_VELO_MOTOR_RIGHT,
+    PID_DIST_SENSOR_SIDE,
+    PID_DIST_SENSOR_FRONT,
+    PID_ROBOT_TURN_ANGLE,
     PID_ITEM_COUNT
 } pidIndex_e;
 
 typedef struct pidf_s {
-    uint8_t P;
-    uint8_t I;
-    uint8_t D;
-    uint16_t F;
+    float P;
+    float I;
+    float D;
+    float F;
 } pidf_t;
 
 typedef struct pidCoefficient_s {
@@ -38,27 +41,29 @@ typedef struct pidProfile_s {
 } pidProfile_t;
 
 typedef struct pidRuntime_s {
-    float dT;
+    uint16_t dT;
     float pidFreq;
     float iLim;
+    float outMax[PID_ITEM_COUNT];
+    float outMin[PID_ITEM_COUNT];
     float prevPidSetpoint[PID_ITEM_COUNT];
     float prevPidInput[PID_ITEM_COUNT];
     pidCoefficient_t pidCoef[PID_ITEM_COUNT];
 } pidRuntime_t;
 
-typedef struct pidMotorData_s {
+typedef struct pidData_s {
     float P;
     float I;
     float D;
     float F;
     float Sum;
-} pidMotorData_t;
+} pidData_t;
 
 extern pidRuntime_t pidRuntime;
-extern pidMotorData_t pidData[PID_ITEM_COUNT];
+extern pidData_t pidData[PID_ITEM_COUNT];
 
 void pidProfileInit();
-void pidInit(uint32_t pidLooptime);
-void pidController(timeUs_t currentTimeUs);
+void pidInit(uint16_t pidLooptime);
+void pidController(void);
 
 #endif	/* PID_H */
