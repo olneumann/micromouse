@@ -3,9 +3,9 @@
 //
 
 #include "manager.h"
-int manager_main() {
+int main() {
     loggerInit();
     init_manager();
-    start_discovery();
+    start_manager();
     return 0;
 }

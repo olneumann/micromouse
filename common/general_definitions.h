@@ -31,8 +31,6 @@ typedef struct {
     uint8_t y;
 } position;
 
-uint8_t manhattan_distance_uint16_t(position a, position b);
-direction get_sight_direction_of_sensor(ranging_sensor);
 
 typedef struct {
     position p;

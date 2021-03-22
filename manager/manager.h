@@ -11,6 +11,7 @@
 
 #include "map_updater.h"
 #include "discovery.h"
+#include "inference.h"
 #include "mouse_state.h"
 
 #if DISCOVERY_SIMULATION
@@ -19,16 +20,8 @@
 
 void init_manager(void);
 
-void init_inference(void);
-
-void start_inference(inference_mode mode);
-
-void start_discovery();
+void start_manager();
 
 #include "actions.h"
-
-Action *decide_next_action(void);
-
-void start_action(Action*);
 
 #endif //MANAGER_H

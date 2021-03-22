@@ -54,10 +54,10 @@ void print_dijkstra_distances(void){
     }
     printf("\n");
 }
-void print_shortest_path(void){
-    position the_found_goal_cell, goal_cell, state_cell= get_start_cell(), proceeding_cell;
+position get_the_goal_cell_with_the_shortest_path(){
     int i;
     uint32_t max_local_dijkstra_distance = UINT32_MAX, dijkstra_distance;
+    position the_found_goal_cell, goal_cell;
     for(i=0;i<NUMBER_GOAL_CELL;i++){
         goal_cell = goal_cells[i];
         dijkstra_distance = dijkstra_distances[goal_cell.x][goal_cell.y];
@@ -66,9 +66,32 @@ void print_shortest_path(void){
             max_local_dijkstra_distance = dijkstra_distance;
         }
     }
-    proceeding_cell = the_found_goal_cell;
-    logger.info("Found goal : (%d, %d)",the_found_goal_cell.x,the_found_goal_cell.y);
+    return the_found_goal_cell;
+}
+path* get_shortest_path(){
+    path * the_shortest_path = (path*) malloc(sizeof(path));
+    position start_cell= get_start_cell(), the_found_goal_cell=get_the_goal_cell_with_the_shortest_path(), proceeding_cell;
 
+    logger.info("Found goal : (%d, %d)",the_found_goal_cell.x,the_found_goal_cell.y);
+    proceeding_cell = the_found_goal_cell;
+    the_shortest_path->cell = the_found_goal_cell;
+    the_shortest_path->next = NULL;
+    while(!is_cells_the_same(start_cell, proceeding_cell)){
+        proceeding_cell = previous_cells[proceeding_cell.x][proceeding_cell.y];
+        the_shortest_path->previous = (path*) malloc(sizeof(path));
+        the_shortest_path->previous->next = the_shortest_path;
+        the_shortest_path = the_shortest_path->previous;
+        the_shortest_path->cell = proceeding_cell;
+        logger.info("<-- (%d, %d) ",proceeding_cell.x,proceeding_cell.y);
+    }
+    the_shortest_path->previous = NULL;
+    logger.info("\n");
+    return the_shortest_path;
+}
+void print_shortest_path(void){
+    position state_cell= get_start_cell(), the_found_goal_cell=get_the_goal_cell_with_the_shortest_path(), proceeding_cell;
+    logger.info("Found goal : (%d, %d)",the_found_goal_cell.x,the_found_goal_cell.y);
+    proceeding_cell = the_found_goal_cell;
     while(!is_cells_the_same(state_cell,proceeding_cell)){
         proceeding_cell = previous_cells[proceeding_cell.x][proceeding_cell.y];
         logger.info("<-- (%d, %d) ",proceeding_cell.x,proceeding_cell.y);

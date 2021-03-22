@@ -29,40 +29,88 @@ walls_around_t reset_around_walls() {
     return walls_around;
 }
 
-void update_map(void){
-    state mouse_state = get_mouse_state();
-    switch (mouse_state.d) {
-        case East:
-            get_first_seen_wall(East, get_front_sensor_range_data()); // front sensor
-            get_first_seen_wall(South, get_right_sensor_range_data()); // right sensor
-            get_first_seen_wall(North, get_left_sensor_range_data()); // left sensor
+direction get_direction_btw_start_and_end_cell(position start, position end) {
+    logger.info(" get_direction ==> (%d, %d,) ( %d %d) \n", start.x, start.y, end.x, end.y);
 
-            break;
+    if (start.x > end.x && start.y == end.y) {
+        return West;
+    } else if (start.x < end.x && start.y == end.y) {
+        return East;
+    } else if (start.x == end.x && start.y < end.y) {
+        return North;
+    } else if (start.x == end.x && start.y > end.y) {
+        return South;
+    } else if (start.x == end.x && start.y == end.y) {
+        return get_mouse_state().d;
+    } else return -1;
+}
+position what_is_the_position_after_moving_one_step_in_the_direction(position pos, direction d) {
+    switch (d) {
         case West:
-            get_first_seen_wall(West,get_front_sensor_range_data()); // front sensor
-            get_first_seen_wall(North,get_right_sensor_range_data()); // right sensor
-            get_first_seen_wall(South,get_left_sensor_range_data()); // left sensor
-
-            break;
+            pos.x -= 1;
+            return pos;
+        case East:
+            pos.x += 1;
+            return pos;
         case North:
-            get_first_seen_wall(North,get_front_sensor_range_data()); // front sensor
-            get_first_seen_wall(East,get_right_sensor_range_data()); // right sensor
-            get_first_seen_wall(West,get_left_sensor_range_data()); // left sensor
-            break;
+            pos.y += 1;
+            return pos;
         case South:
-            get_first_seen_wall(South,get_front_sensor_range_data()); // front sensor
-            get_first_seen_wall(West,get_right_sensor_range_data()); // right sensor
-            get_first_seen_wall(East,get_left_sensor_range_data()); // left sensor
-            break;
+            pos.y -= 1;
+            return pos;
         default:
-            break;
+            return pos;
     }
+
 }
 
+direction get_sight_direction_of_sensor(ranging_sensor sensor) {
+    state mouse_state = get_mouse_state();
+    switch (sensor) {
+        case Front_Sensor:
+            return mouse_state.d;
+        case Right_Sensor:
+            switch (mouse_state.d) {
+                case West:
+                    return North;
+                case East:
+                    return South;
+                case North:
+                    return East;
+                case South:
+                    return West;
+                default:
+                    return -1;
+            }
+            break;
+        case Left_Sensor:
+            switch (mouse_state.d) {
+                case West:
+                    return South;
+                case East:
+                    return North;
+                case North:
+                    return West;
+                case South:
+                    return East;
+                default:
+                    return -1;
+
+            }
+        default:
+            return -1;
+    }
+}
 bool is_cells_the_same(position a, position b) {
     if (a.x == b.x && a.y == b.y) return True;
     return False;
 }
+
+uint8_t manhattan_distance_uint16_t(position a, position b) {
+    logger.info(" manhattan ==> (%d, %d,) vs ( %d %d) \n", a.x, a.y, b.x, b.y);
+    return (uint8_t) abs(a.x - b.x) + abs(a.y - b.y);
+}
+
 #if !DISCOVERY_SIMULATION
 distance get_front_sensor_range_data() {
     logger.info("sensor data front\n");

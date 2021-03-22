@@ -18,6 +18,6 @@ int simulation_main() {
     print_visited_cells();
     set_the_map_2();
     init_simulation();
-    run_discovery_algo();
+    start_explorer();
     return 0;
 }

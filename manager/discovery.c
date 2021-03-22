@@ -29,6 +29,7 @@ void print_visited_cells(void) {
 
 }
 
+
 position get_the_cell_by_the_wall_related_to_mouse_orientation(position wall) {
     state mouse_state = get_mouse_state();
     uint8_t mouse_x = mouse_state.p.x * 2 + 1, mouse_y = mouse_state.p.y * 2 + 1, wall_x = wall.x, wall_y = wall.y;
@@ -59,47 +60,6 @@ position get_the_cell_by_the_wall_related_to_mouse_orientation(position wall) {
 
     return cell;
 }
-
-direction get_direction_btw_start_and_end_cells(position start, position end) {
-    logger.info(" get_direction ==> (%d, %d,) ( %d %d) \n", start.x, start.y, end.x, end.y);
-
-    if (start.x > end.x && start.y == end.y) {
-        return West;
-    } else if (start.x < end.x && start.y == end.y) {
-        return East;
-    } else if (start.x == end.x && start.y < end.y) {
-        return North;
-    } else if (start.x == end.x && start.y > end.y) {
-        return South;
-    } else if (start.x == end.x && start.y == end.y) {
-        return get_mouse_state().d;
-    } else return -1;
-}
-
-position get_the_most_distant_cell_for_2_walls(position r_wall, position l_wall) {
-    uint8_t ultimate_visits = 255;
-    position the_cell, r_cell, l_cell;
-    uint8_t visits;
-
-    r_cell = get_the_cell_by_the_wall_related_to_mouse_orientation(r_wall);
-    logger.info(" l_cell ==> (%d, %d) \n", r_cell.x, r_cell.y);
-    visits = get_visits(r_cell);
-    if (visits < ultimate_visits) {
-        ultimate_visits = visits;
-        the_cell = r_cell;
-    }
-
-    l_cell = get_the_cell_by_the_wall_related_to_mouse_orientation(l_wall);
-    logger.info(" l_cell ==> (%d, %d) \n", l_cell.x, l_cell.y);
-    visits = get_visits(l_cell);
-    if (visits < ultimate_visits) {
-        ultimate_visits = visits;
-        the_cell = l_cell;
-    }
-    logger.info(" a cell to go ==> (%d, %d) \n", the_cell.x, the_cell.y);
-    return the_cell;
-}
-
 direction get_opposite_direction(direction d) {
     switch (d) {
         case East:
@@ -151,10 +111,6 @@ void print_missions(mission *mission_tail) {
 }
 
 
-void turn_towards_the_direction(direction d) {
-    logger.info("turn towards %d\n",d);
-    turn_towards(d);
-}
 bool goal_cell_found(){
 
     bool is_same = 0;
@@ -174,20 +130,19 @@ void process_mission(mission *current_mission) {
     state mouse_state = get_mouse_state(), previous_mouse_state;
     walls_around_t mouse_walls_around;
     mission *found_mission_fork;
-    uint8_t step;
     print_missions(current_mission);
     logger.info("\nmission to direction %d from (%d, %d) \n\n",
            current_mission->d,
            current_mission->start.x,
            current_mission->start.y);
     logger.info("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
-    turn_towards_the_direction(current_mission->d);
+    turn_towards(current_mission->d);
     mouse_walls_around = reset_around_walls();
-
+    print_walls_around();
     while (!mouse_walls_around.front) {
         logger.info(" -----------------------\n");
         previous_mouse_state = mouse_state;
-        move_to_one_cell_in_direction(current_mission->d);
+        move_one_cell_towards(current_mission->d);
         shorten_the_path_for_current_cell(previous_mouse_state);
         mouse_state = get_mouse_state();
         logger.info("move to 1 (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
@@ -238,7 +193,6 @@ void process_mission(mission *current_mission) {
 
         logger.info(" --------------end of a step -----------------------\n");
         print_visited_cells();
-        if (step++ == 6)exit(0);
     }
 
     logger.info(" --------------end of a mission -----------------------\n");
@@ -285,7 +239,7 @@ void process_fork_missions(mission *mission_to_fork) {
             logger.info(" -----------preparation of a fork mission------------\n");
 
             for (step = 0; step < number_of_steps; step++) { // move to the start position of the fork mission
-                move_to_one_cell_in_direction(mission_to_fork->d);
+                move_one_cell_towards(mission_to_fork->d);
                 mouse_state = get_mouse_state();
                 logger.info("move to 2 (%d, %d ) ultimate target is (%d,%d) \n", mouse_state.p.x, mouse_state.p.y,
                        fork_mission->start.x, fork_mission->start.y);
@@ -305,10 +259,10 @@ void process_fork_missions(mission *mission_to_fork) {
     logger.info(" -----------complete the undo mission after %d  fork missions direction %d from (%d, %d) ------------\n",
            number_of_steps, mission_to_fork->d, mission_to_fork->start.x,
            mission_to_fork->start.y);
-    turn_towards_the_direction(mission_to_fork->d);
+    turn_towards(mission_to_fork->d);
     mouse_walls_around = reset_around_walls();
     while (!mouse_walls_around.front) { // move to the start position of the fork mission
-        move_to_one_cell_in_direction(mission_to_fork->d);
+        move_one_cell_towards(mission_to_fork->d);
         mouse_state = get_mouse_state();
         logger.info("move to 3 (%d, %d )\n", mouse_state.p.x, mouse_state.p.y);
         set_visited(mouse_state.p);
@@ -334,7 +288,7 @@ mission *add_a_mission(mission *parent, ranging_sensor sensor) {//search for und
 }
 
 
-void run_discovery_algo(void) {
+void start_explorer(void) {
     mission *first_mission = create_a_mission(NULL, get_mouse_state().d, get_mouse_state().p);
     set_visited(get_mouse_state().p);
     process_mission(first_mission);

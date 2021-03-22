@@ -41,5 +41,13 @@ void print_walls_around();
 
 bool is_cells_the_same(position,position);
 
+position get_the_cell_by_the_wall_related_to_mouse_orientation(position wall);
 
+position what_is_the_position_after_moving_one_step_in_the_direction(position pos, direction d);
+
+direction get_sight_direction_of_sensor(ranging_sensor);
+
+direction get_direction_btw_start_and_end_cell(position start, position end);
+
+uint8_t manhattan_distance_uint16_t(position a, position b);
 #endif

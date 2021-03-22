@@ -8,6 +8,7 @@
 #include "../common/general_parameters.h"
 #include "../common/general_definitions.h"
 #include "../manager/mouse_state.h"
+#include "../manager/map_updater.h"
 #include "simulation_maps.h"
 
 #if DISCOVERY_SIMULATION
