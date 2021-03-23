@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #include "map_updater.h"
 
 position goal_cells[] = {{GOAL_CELL_1_X,GOAL_CELL_1_Y}
@@ -23,9 +25,9 @@ walls_around_t reset_around_walls() {
     double r_distance = get_right_sensor_range_data();
     double l_distance = get_left_sensor_range_data();
     logger.info("f dist : %f ,r dist : %f ,l dist : %f \n", f_distance, r_distance, l_distance);
-    walls_around.front = f_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
-    walls_around.right = r_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
-    walls_around.left = l_distance > IS_THAT_A_WALL_THRESHOLD ? False : True;
+    walls_around.front = f_distance > IS_THAT_A_WALL_THRESHOLD ? false : true;
+    walls_around.right = r_distance > IS_THAT_A_WALL_THRESHOLD ? false : true;
+    walls_around.left = l_distance > IS_THAT_A_WALL_THRESHOLD ? false : true;
     return walls_around;
 }
 
@@ -102,8 +104,8 @@ direction get_sight_direction_of_sensor(ranging_sensor sensor) {
     }
 }
 bool is_cells_the_same(position a, position b) {
-    if (a.x == b.x && a.y == b.y) return True;
-    return False;
+    if (a.x == b.x && a.y == b.y) return true;
+    return false;
 }
 
 uint8_t manhattan_distance_uint16_t(position a, position b) {

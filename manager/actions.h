@@ -1,10 +1,12 @@
 #ifndef ACTIONS_H
 #define	ACTIONS_H
-#include "../common/general_definitions.h"
-#include "../common/general_parameters.h"
+
+#include "../manager/manager_parameters.h"
+#include "../manager/manager_definitions.h"
+#include "../control/primitives.h"
+
 #include "shortest_path.h"
 #include "map_updater.h"
-#include "../control/primitives.h"
 
 struct action {
     primitives_e action_primitive_id;

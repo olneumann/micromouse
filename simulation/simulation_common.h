@@ -5,8 +5,8 @@
 #ifndef MM_SIMULATION_COMMON_H
 #define MM_SIMULATION_COMMON_H
 
-#include "../common/general_parameters.h"
-#include "../common/general_definitions.h"
+#include "../manager/manager_parameters.h"
+#include "../manager/manager_definitions.h"
 #include "../manager/mouse_state.h"
 #include "../manager/map_updater.h"
 #include "simulation_maps.h"
@@ -24,6 +24,5 @@ distance get_left_sensor_range_data(void);
 
 distance SIMULATION_get_distance_to_the_wall(position, ranging_sensor);
 distance get_gaussian_noise(distance);
-
 
 #endif //MM_SIMULATION_COMMON_H

@@ -1,11 +1,14 @@
 #include "manager.h"
 
-void init_manager() {
+void init_manager() 
+{
     state mouse_state = get_mouse_state();
     logger.info("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);
 }
+
 void start_discovery() {
     init_shortest_path_utils();
+    
 #if (DISCOVERY_SIMULATION==1)
     simulation_main();
 #else
@@ -15,12 +18,5 @@ void start_discovery() {
 
 void start_inference() {
     init_finisher();
-    // TODO mouse should wait a button press here !
     start_finisher();
 }
-
-void start_manager(){
-    start_discovery();
-    start_inference();
-}
-

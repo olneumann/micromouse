@@ -11,8 +11,9 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
+    
 #include "__logger__.h"
-#include "general_parameters.h"
+#include "../manager/manager_parameters.h"
 
 #if (RUNNING_ON_MICROPROCESSOR)
 #include "../drivers/serial_uart.h"

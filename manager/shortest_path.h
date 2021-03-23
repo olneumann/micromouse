@@ -4,8 +4,8 @@
 
 #ifndef MM_SHORTEST_PATH_H
 #define MM_SHORTEST_PATH_H
-#include "../common/general_definitions.h"
-#include "../common/general_parameters.h"
+#include "../manager/manager_parameters.h"
+#include "../manager/manager_definitions.h"
 #include "../common/logger.h"
 #include "mouse_state.h"
 #include "map_updater.h"

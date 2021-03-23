@@ -5,8 +5,8 @@
 #ifndef MM_INFERENCE_H
 #define MM_INFERENCE_H
 
-#include "../common/general_parameters.h"
-#include "../common/general_definitions.h"
+#include "../manager/manager_parameters.h"
+#include "../manager/manager_definitions.h"
 
 #include "shortest_path.h"
 #include "map_updater.h"
@@ -14,4 +14,5 @@
 
 void init_finisher();
 void start_finisher();
+
 #endif //MM_INFERENCE_H

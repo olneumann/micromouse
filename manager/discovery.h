@@ -4,18 +4,18 @@
 #ifndef MM_DISCOVERY_H
 #define MM_DISCOVERY_H
 
-#include "../common/general_parameters.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "../common/logger.h"
+#include "../manager/manager_parameters.h"
+
 #if (DISCOVERY_SIMULATION==1)
 #include "../simulation/simulation_common.h"
 #endif
 
-#include "../common/logger.h"
 #include "mouse_state.h"
 #include "map_updater.h"
 #include "shortest_path.h"

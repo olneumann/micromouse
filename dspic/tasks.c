@@ -14,6 +14,7 @@
 #include "../common/defines.h"
 #include "../drivers/encoder.h"
 #include "../control/control.h"
+#include "../manager/manager.h"
 
 #ifdef VL53L0X_DEBUG
 #include "../drivers/ranging.h"
@@ -113,7 +114,12 @@ void taskControl(uint16_t freq)
     if (i == update_rate) i = 0;
 }
 
-void taskRanging(uint16_t freq)
+void taskDiscovery(void)
 {
-    // do we need it in the end?
+    start_discovery();
+}
+
+void taskInference(void)
+{
+    start_inference();
 }

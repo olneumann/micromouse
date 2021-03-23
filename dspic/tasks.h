@@ -16,6 +16,8 @@ void taskTest(void);
 void taskEncoder(uint16_t freq);
 void taskRanging(uint16_t freq);
 void taskControl(uint16_t freq);
+void taskDiscovery(void);
+void taskInference(void);
 
 #ifdef PRIMITIVES_DEBUG
 extern bool runFlag;

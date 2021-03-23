@@ -25,7 +25,7 @@ void encoder_loop(uint16_t freq);
 void ranging_loop(uint16_t freq);
 
 void explore(void);
-void fast_run(void);
+void inference(void);
 
 #endif	/* CORE_H */
 

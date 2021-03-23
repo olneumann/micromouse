@@ -10,6 +10,7 @@
 #include <stddef.h>
 
 #include "board.h"
+#include "../common/logger.h"
 #include "../dspic/core.h"
 #include "../io/serial.h"
 #include "../drivers/timer.h"
@@ -19,7 +20,7 @@
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
 #include "../control/pid.h"
-#include "../common/logger.h"
+#include "../manager/manager.h"
 
 #include "init.h"
 
@@ -27,7 +28,8 @@ void init(void)
 {
     boardInit();
     serialInit();
-      
+    loggerInit();
+    
     /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
     //adcInit();
     
@@ -58,6 +60,8 @@ void init(void)
     
     timerInit(); 
     enableTimer();
+   
+    init_manager();
 }
     
   

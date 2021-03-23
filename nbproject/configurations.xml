@@ -53,6 +53,23 @@
         <itemPath>io/serial.h</itemPath>
         <itemPath>io/hmi.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="manager" displayName="manager" projectFiles="true">
+        <itemPath>manager/manager.h</itemPath>
+        <itemPath>manager/actions.h</itemPath>
+        <itemPath>manager/solver.h</itemPath>
+        <itemPath>manager/mouse_state.h</itemPath>
+        <itemPath>manager/shortest_path.h</itemPath>
+        <itemPath>manager/inference.h</itemPath>
+        <itemPath>manager/map_updater.h</itemPath>
+        <itemPath>manager/discovery.h</itemPath>
+        <itemPath>manager/manager_definitions.h</itemPath>
+        <itemPath>manager/manager_parameters.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="simulation" displayName="simulation" projectFiles="true">
+        <itemPath>simulation/simulation_main.h</itemPath>
+        <itemPath>simulation/simulation_common.h</itemPath>
+        <itemPath>simulation/simulation_maps.h</itemPath>
+      </logicalFolder>
       <itemPath>platform.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -104,6 +121,21 @@
         <itemPath>io/serial.c</itemPath>
         <itemPath>io/hmi.c</itemPath>
       </logicalFolder>
+      <logicalFolder name="manager" displayName="manager" projectFiles="true">
+        <itemPath>manager/actions.c</itemPath>
+        <itemPath>manager/discovery.c</itemPath>
+        <itemPath>manager/solver.c</itemPath>
+        <itemPath>manager/shortest_path.c</itemPath>
+        <itemPath>manager/manager.c</itemPath>
+        <itemPath>manager/map_updater.c</itemPath>
+        <itemPath>manager/mouse_state.c</itemPath>
+        <itemPath>manager/inference.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="simulation" displayName="simulation" projectFiles="true">
+        <itemPath>simulation/simulation_common.c</itemPath>
+        <itemPath>simulation/simulation_maps.c</itemPath>
+        <itemPath>simulation/simulation_main.c</itemPath>
+      </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -118,6 +150,8 @@
     <Elem>drivers</Elem>
     <Elem>dspic</Elem>
     <Elem>io</Elem>
+    <Elem>manager</Elem>
+    <Elem>simulation</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -1451,6 +1485,8 @@
         <property key="memories.programmemory.ranges" value="0-157ff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/run/media/oliver/Workbench/Dokumente/Workspace/C/micromouse/debug/pickit/pickit_ptg"/>
         <property key="programmerToGoImageName" value="pickit_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
