@@ -3,6 +3,7 @@
 //
 
 #include "mouse_state.h"
+
 position get_start_cell() {
     return (position) {START_POSITION_X, START_POSITION_Y};
 }
@@ -15,7 +16,6 @@ void set_mouse_state(position cell,direction d){
     MOUSE_STATE.p.y = cell.y;
     MOUSE_STATE.d = d;
 }
-
 
 state get_mouse_state() {
     return MOUSE_STATE;

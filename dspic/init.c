@@ -14,8 +14,6 @@
 #include "../dspic/core.h"
 #include "../io/serial.h"
 #include "../drivers/timer.h"
-#include "../drivers/dma.h"
-#include "../drivers/adc.h"
 #include "../drivers/motor.h"
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
@@ -54,14 +52,16 @@ void init(void)
     
     /* 
      * Main loop:
-     * Generates task calls for control (pid), sensing (range, encoder)
+     * Generates task calls for control (pid), sensing (range, encoder). 
+     * Finally, the manager is called to do an exploration phase and then infere
+     * the final path to the goal position.
      * 
      */
     
     timerInit(); 
     enableTimer();
    
-    init_manager();
+    initManager();
 }
     
   

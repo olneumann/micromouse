@@ -18,7 +18,7 @@
 #include "../simulation/simulation_main.h"
 #endif
 
-void init_manager(void);
+void initManager(void);
 void start_discovery(void);
 void start_inference(void);
 

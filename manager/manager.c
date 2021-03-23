@@ -1,6 +1,6 @@
 #include "manager.h"
 
-void init_manager() 
+void initManager() 
 {
     state mouse_state = get_mouse_state();
     logger.info("mouse state (%d %d) dir : %d\n", mouse_state.p.x, mouse_state.p.y, mouse_state.d);

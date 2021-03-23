@@ -2,6 +2,9 @@
 // Created by root on 3/9/21.
 //
 
+#include <stdint.h>
+#include <stddef.h>
+
 #include "shortest_path.h"
 
 uint8_t straight_forward_chain_distance = MAX_DIJKSTRA_DISTANCE;
