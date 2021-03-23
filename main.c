@@ -25,9 +25,9 @@ int main(void)
 void run(void)
 {
     while (true) {
-        explore();
+        //explore();
         
-        if (BTN) inference();
+        //if (BTN) inference();
     }
 }
 

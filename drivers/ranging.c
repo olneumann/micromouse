@@ -215,21 +215,11 @@ VL53L0X_Error rangingInit(uint16_t kfscl)
 
 #ifdef VL53L0X_HIGH_SPEED
         /*
-         * High-Speed-Mode: Enable Sigma/Signal check and set rate limits.
-         *                  Timing Budget in us.
+         * High-Speed-Mode: Change timing budget in us.
+         *                  
          */
-        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetLimitCheckEnable(&pDev[i],
-        		VL53L0X_CHECKENABLE_SIGMA_FINAL_RANGE, 1);
-        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetLimitCheckEnable(&pDev[i],
-        		VL53L0X_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE, 1);
-        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetLimitCheckValue(&pDev[i],
-        		VL53L0X_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE, 
-                (FixPoint1616_t)(0.25*65536));
-        if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetLimitCheckValue(&pDev[i],
-        		VL53L0X_CHECKENABLE_SIGMA_FINAL_RANGE, 
-                (FixPoint1616_t)(32*65536));			
         if(Status == VL53L0X_ERROR_NONE) Status = VL53L0X_SetMeasurementTimingBudgetMicroSeconds(&pDev[i],
-        		20000); // down to 8 ms possible?
+        		20000); 
 #endif    
     }
     

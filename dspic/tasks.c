@@ -16,7 +16,7 @@
 #include "../control/control.h"
 #include "../manager/manager.h"
 
-#ifdef VL53L0X_DEBUG
+#if defined VL53L0X_DEBUG || defined VL53L0X_HIGH_SPEED_DEBUG
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
 #include "../drivers/serial_i2c.h"
@@ -50,7 +50,15 @@ void taskTest(void)
     
     sprintf(str, "%d\n", val);   
     uartWrite(str,0);  
-#endif   
+#endif
+#ifdef VL53L0X_HIGH_SPEED_DEBUG
+    char str[30];
+    sprintf(str, "[L %-.3f][F %-.3f][R %-.3f]\n",
+            getRangeLeft(),
+            getRangeFront(),
+            getRangeRight());
+    uartWrite(str,0);
+#endif
 #ifdef CONTROL_DEBUG
     static float m = 0.5f;
     setSetpointLinearVelocity(m*MAX_SPEED_MS);    

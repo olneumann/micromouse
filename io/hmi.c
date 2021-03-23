@@ -19,6 +19,8 @@
 
 void userCommand(char *cmd, int *pval) 
 {
+#ifdef PRIMITIVES_DEBUG
     if(strcmp(cmd, "run") && *pval == 42) runFlag = true;
+#endif
 }
 
