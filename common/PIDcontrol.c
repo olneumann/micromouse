@@ -19,29 +19,12 @@ void PID_Init(param_pid *pid) {
 }
 
 
+
+float PID_update(param_pid *pid, float d_vel) { //d_vel is desired velocity of the motor
+
     float m_vel_l = getVelocityLeft();
     float m_vel_r = getVelocityRight();
-
-
-    //int32_t getDistanceLeft(void);
-    //int32_t getDistanceRight(void);
-    //for later
-
-
-
-
-
-
-
-
-
-
-
-float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
-
-
-    float max_vel;
-    float d_vel;
+    float max_vel=21.0487;
     float m_vel= (m_vel_l+m_vel_l)/2;       //average velocity of both motors
     float out_vel_left;
     float out_vel_right;
@@ -49,10 +32,15 @@ float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
     
     float error = d_vel - m_vel;
     
-
+    /*lane control parameters*/
+    float lane;
+    float r_left = getRangeLeft(void);
+    float r_right = getRangeRight(void);
+    float vel_lane_left;
+    float vel_lane_right;
     
     
-    //PID ALGORITHM
+    /*PID ALGORITHM*/
 	
     /*
 	Proportional
@@ -108,10 +96,31 @@ float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
     out_vel_left=pid->out;
     out_vel_right=pid->out;
     
-    /*output of velocity for the motor as PWM*/
+    /*PID ALGORITHM END*/
+    
+    /*lane keeping (needs tuning)*/
+    
+    if (( r_left >10 ) && (r_right < 10 ) ){ 
+			out_vel_left = 0;
+			out_vel_right = 0.01;
+
+		}
+
+	if (( r_left < 10 ) && (r_right > 10 ) ){ 
+			out_vel_left = 0.01;
+			out_vel_right = 0;
+
+		}
+    else {
+        out_vel_left=0;
+        out_vel_right=0;
+    }
+
+    
+    /*output of velocity for the motor as PWM (percent)*/
    
-        pwm_left    =   out_vel_left/max_vel;
-        pwm_right   =   out_vel_right/max_vel;
+        pwm_left    =   out_vel_left/max_vel + out_vel_left;
+        pwm_right   =   out_vel_right/max_vel + out_vel_right;
 
         
         
