@@ -4,7 +4,6 @@
 
 
 
-
 void PID_Init(param_pid *pid) {
 
 	/* Clear controller variables */
@@ -100,7 +99,7 @@ float PID_update(param_pid *pid, float d_vel) { //d_vel is desired velocity of t
     
     /*lane keeping (needs tuning)*/
     
-    if (( r_left >10 ) && (r_right < 10 ) ){ 
+    if (( r_left > 10 ) && (r_right < 10 ) ){ 
 			out_vel_left = 0;
 			out_vel_right = 0.01;
 
