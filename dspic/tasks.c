@@ -90,15 +90,6 @@ void taskTest(void)
         move(MOVE_FRONT);
         move(MOVE_TURN);
         move(MOVE_FRONT);
-        move(MOVE_TURN);
-        move(MOVE_FRONT);
-        move(MOVE_TURN);
-        move(MOVE_FRONT);
-        move(MOVE_TURN);
-        move(MOVE_LEFT);
-        move(MOVE_RIGHT);
-        move(MOVE_RIGHT);
-        move(MOVE_LEFT);
         move(MOVE_END);
 
         runFlag = false;

@@ -28,7 +28,7 @@ int timerParams(uint16_t _ms, volatile uint16_t* pTiCON, volatile uint16_t* pTMR
 {
     int err = -1;
     
-    long double ticks = _ms * 1e-3 * FCY; 
+    long double ticks = (long double)FCY * _ms / 1e3; 
     int iTCKPS[4] = {1,8,64,256};                   // (00 | 01 | 10 | 11)
     char maskTCKPS[4] = {0x00,0x10,0x20,0x30};      // mask for setting 2 bits (xxxx.xxxx xx--.xxxx)
     int i = 0;
