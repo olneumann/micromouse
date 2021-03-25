@@ -1,3 +1,10 @@
+/*
+ * File:   map_updater.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
+
 #ifndef MAP_UPDATER_H
 #define MAP_UPDATER_H
 

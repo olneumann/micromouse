@@ -1,3 +1,12 @@
+/*
+ * File:   actions.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
+
+#include "../control/primitives.h"
+
 #include "actions.h"
 
 void move_one_cell_towards(direction d) {

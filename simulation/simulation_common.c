@@ -1,6 +1,9 @@
-//
-// Created by root on 3/3/21.
-//
+/*
+ * File:   simulation_common.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #include "simulation_common.h"
 

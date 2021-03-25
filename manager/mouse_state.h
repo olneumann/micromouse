@@ -1,9 +1,13 @@
-//
-// Created by root on 3/13/21.
-//
+/*
+ * File:   mouse_state.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #ifndef MM_MOUSE_STATE_H
 #define MM_MOUSE_STATE_H
+
 #include "../manager/manager_parameters.h"
 #include "../manager/manager_definitions.h"
 

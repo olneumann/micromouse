@@ -1,6 +1,9 @@
-//
-// Created by root on 3/13/21.
-//
+/*
+ * File:   mouse_state.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #include "mouse_state.h"
 

@@ -1,6 +1,9 @@
-//
-// Created by root on 2/28/21.
-//
+/*
+ * File:   manager_definitions.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #ifndef MM_GENERAL_DEFINITIONS_H
 #define MM_GENERAL_DEFINITIONS_H

@@ -1,9 +1,13 @@
-//
-// Created by root on 3/9/21.
-//
+/*
+ * File:   shortest_path.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #ifndef MM_SHORTEST_PATH_H
 #define MM_SHORTEST_PATH_H
+
 #include "../manager/manager_parameters.h"
 #include "../manager/manager_definitions.h"
 #include "../common/logger.h"
@@ -28,4 +32,5 @@ void shorten_the_path_for_current_cell(state);
 position get_the_goal_cell_with_the_shortest_path();
 void print_shortest_path(void);
 void print_dijkstra_distances(void);
+
 #endif //MM_SHORTEST_PATH_H

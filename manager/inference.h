@@ -1,6 +1,9 @@
-//
-// Created by root on 3/22/21.
-//
+/*
+ * File:   inference.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #ifndef MM_INFERENCE_H
 #define MM_INFERENCE_H

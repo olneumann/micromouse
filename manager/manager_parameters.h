@@ -1,6 +1,9 @@
-//
-// Created by root on 2/28/21.
-//
+/*
+ * File:   manager_parameters.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #ifndef MM_GENERAL_PARAMETERS_H
 #define MM_GENERAL_PARAMETERS_H
@@ -43,6 +46,5 @@
 #define SENSOR_SIDE_RIGHT_ID 1
 #define SENSOR_FRONT_ID 2
 #define NUM_SENSOR 3
-
 
 #endif //MM_GENERAL_PARAMETERS_H

@@ -1,6 +1,9 @@
-//
-// Created by root on 3/9/21.
-//
+/*
+ * File:   shortest_path.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #include <stdint.h>
 #include <stddef.h>

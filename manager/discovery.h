@@ -1,6 +1,10 @@
-//
-// Created by root on 3/4/21.
-//
+/*
+ * File:   discovery.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
+
 #ifndef MM_DISCOVERY_H
 #define MM_DISCOVERY_H
 
@@ -31,6 +35,7 @@ struct mission {
     struct mission * parent;
     struct mission * fork_missions[MAZE_SIZE];
 };
+
 typedef struct mission mission;
 direction get_opposite_direction(direction);
 mission *create_a_mission(mission*, direction, position);

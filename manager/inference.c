@@ -1,6 +1,10 @@
-//
-// Created by root on 3/22/21.
-//
+/*
+ * File:   inference.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
+
 #include "inference.h"
 action* chain_of_actions_of_the_shortest_path;
 void print_actions(action *head_action) {

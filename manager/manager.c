@@ -1,3 +1,11 @@
+/*
+ * File:   manager.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
+
+#include "discovery.h"
 #include "manager.h"
 
 void initManager() 

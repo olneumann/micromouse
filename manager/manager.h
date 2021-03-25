@@ -1,3 +1,10 @@
+/*
+ * File:   manager.h
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
+
 #ifndef MANAGER_H
 #define MANAGER_H
 

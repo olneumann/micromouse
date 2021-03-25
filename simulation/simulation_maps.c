@@ -1,6 +1,9 @@
-//
-// Created by root on 3/7/21.
-//
+/*
+ * File:   simulation_maps.c
+ * Author: yigit
+ *
+ * Created on 2. March 2021, 17:00
+ */
 
 #include "simulation_maps.h"
 static volatile bool walls[MAZE_WALL_SIZE][MAZE_WALL_SIZE];
