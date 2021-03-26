@@ -129,26 +129,18 @@ void __attribute__((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
         const char c = U1RXREG;
         ring_buffer_put(rbd, &c);  
                 
-        // Format of commands: ![CMD]<val> 
-        if (HMI && c == '!') 
+        /* Format of commands: ![CMD]<val> */
+        if (HMI && c == '!') ring_buffer_flush(0, &rbd);
+        else if (HMI && c == '>')       // wait till '>' end of val
         {
-            ring_buffer_flush(0, &rbd);
-        }
-        else if (HMI && c == '>')       // wait till '>' end of key-value
-        {
-            char cmd[3];
-            int val;
+            char cmd[3]; int val;
             sscanf(rbmem, "%3s,<%d>", cmd, &val);
-            
             userCommand(cmd, &val);
         }
     }
     
     /* Must clear the overrun error to keep UART receiving */
-    if(U1STAbits.OERR == 1)
-    {
-        U1STAbits.OERR = 0;
-    }
+    if(U1STAbits.OERR == 1) U1STAbits.OERR = 0;
 }
 
 void __attribute__((__interrupt__,no_auto_psv)) _U1TXInterrupt(void)
