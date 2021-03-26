@@ -1,4 +1,4 @@
-
+#include "action.h"
 
 
 int d_vel_left;
@@ -15,7 +15,7 @@ void action_init(){
     motorInit();
     d_vel_left=0;
     d_vel_right=0;
-    
+    PID_Init();
     
     
 }
@@ -24,11 +24,10 @@ void action_init(){
 
 void action_forward(){
     
-    percent_right=0.5;
-    percent_left=0.5;
+    set_d_vel_left(10);
+    set_d_vel_right(10);
     
-    driveRight(percent_right);
-    driveLeft(percent_left);
+ 
     
     
     
@@ -36,39 +35,34 @@ void action_forward(){
 
 void action_backward(){
     
-    percent_right=-0.5;
-    percent_left=-0.5;
-    driveRight(percent_right);
-    driveLeft(percent_left);
+    set_d_vel_left(-10);
+    set_d_vel_right(-10);
+    
     
     
 }
 
 void action_right(){
     
-    percent_right=-0.5;
-    percent_left=0.5;
-    driveRight(percent_right);
-    driveLeft(percent_left);
+    set_d_vel_left(-10);
+    set_d_vel_right(10);
     
     
 }
 
 void action_left(){
     
-    percent_right=0.5;
-    percent_left=-0.5;
-    driveRight(percent_right);
-    driveLeft(percent_left);
+    set_d_vel_left(10);
+    set_d_vel_right(-10);
+    
     
     
                    }
 void action_stop(){
     
-    percent_right=0;
-    percent_left=0;
-    driveRight(percent_right);
-    driveLeft(percent_left);
+    set_d_vel_left(0);
+    set_d_vel_right(0);
+   
     
     
                    }

@@ -73,6 +73,7 @@
         <itemPath>control/primitives.c</itemPath>
         <itemPath>common/PIDcontrol.c</itemPath>
         <itemPath>common/action.c</itemPath>
+        <itemPath>common/newfile.c</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">

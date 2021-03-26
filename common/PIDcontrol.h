@@ -14,7 +14,7 @@
 #include "../drivers/ranging.h"
 #include "../drivers/encoder.h"
 #include "../drivers/motor.h"
-
+#include "action.h"
 
 
 typedef struct {
@@ -37,17 +37,32 @@ typedef struct {
     
     /*sample time in seconds*/
     float T;
+   
     /*controller memory*/
-    float integrator;
-    float preverror; //previous error
-    float differentiator;
-    float prev_m; //previous measurement
+    
+    float integrator_l;
+    float integrator_r;
+    float preverror_l;
+    float preverror_r;
+    //previous error
+    float differentiator_l;
+    float differentiator_r;
+    float prev_m_l;
+    float prev_m_r;//previous measurement
     
     /*controller output*/
-    float out;
+    float out_l;
+    float out_r;
 } param_pid;
 
 void PID_Init(param_pid *pid); /*resets function*/
-float PID_Update (param_pid *pid, float d_vel, float m_vel); /*output function*/
+float PID_Update (param_pid *pid); /*output function*/
+
+
+void get_d_vel_right (void);
+void get_d_vel_left (void);
+void set_d_vel_left (float desired_l);
+void set_d_vel_right (float desired_r);
+
 
 #endif
