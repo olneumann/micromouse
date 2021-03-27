@@ -20,10 +20,12 @@
 #include "../drivers/serial_uart.h"
 #endif
 
-#define MIN_DIST_FRONT  20.0f   // in mm
-#define CELL_DIMENSION  2.0f   // in m -> import from manager/pathplanning?
+#include "../manager/manager_parameters.h"
 
 #include "primitives.h"
+
+#define MIN_DIST_FRONT_MM   20.0f                   // in mm
+#define CELL_SIZE_M         A_CELL_SIZE / 10.0f     // cm to m
 
 /*
  * Description: Low-Level kinematic primitives; incorp. dynamics of the 
@@ -35,7 +37,7 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
 {
     int32_t target_dist = start_um + (int32_t)(delta_dist_m * 1e6);
     setSetpointDeltaSide(0.0f);
-    setSetpointFrontDistance(MIN_DIST_FRONT);
+    setSetpointFrontDistance(MIN_DIST_FRONT_MM);
     
     if (delta_dist_m > 0.0f)
     {
@@ -52,7 +54,7 @@ void targetStraight(int32_t start_um, float delta_dist_m, float speed_ms)
 void targetTurn(float delta_angle_deg, float speed_ms)
 {
     setSetpointDeltaSide(0.0f);
-    setSetpointFrontDistance(MIN_DIST_FRONT);
+    setSetpointFrontDistance(MIN_DIST_FRONT_MM);
             
     if (delta_angle_deg > 0.0f)
     {
@@ -95,7 +97,7 @@ void moveForward(void)
     
     setSpeedLimit(0.5f * MAX_SPEED_MS);
     
-    targetStraight(getDistance(), CELL_DIMENSION, getSpeedLimit());
+    targetStraight(getDistance(), CELL_SIZE_M, getSpeedLimit());
 }
 
 void moveBackward(void)
@@ -106,7 +108,7 @@ void moveBackward(void)
     
     setSpeedLimit(0.4f * MAX_SPEED_MS);
     
-    targetStraight(getDistance(), -CELL_DIMENSION, getSpeedLimit());
+    targetStraight(getDistance(), -CELL_SIZE_M, getSpeedLimit());
 }
 
 void moveSide(float angle)
