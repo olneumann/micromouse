@@ -47,8 +47,8 @@ void pidController(timeUs_t currentTimeUs)
     
     for (int ctrl = 0; ctrl < PID_ITEM_COUNT; ctrl++)
     {
-        PidSetpoint[ctrl] = get_desired_val(ctrl);
-        PidInput[ctrl] = get_input_val(ctrl);
+        PidSetpoint[ctrl] = 0.0f; //get_desired_val(ctrl);
+        PidInput[ctrl] = 0.0f; // get_input_val();
         
         // Proportional component
         float errRate = PidSetpoint[ctrl] - PidInput[ctrl];
