@@ -1,14 +1,20 @@
 /*
- * File:   pathplanning.h
- * Author: oliver
+ * File:   primitives.h
+ * Author: lucia
  *
- * Created on 2. Januar 2021, 17:00
+ * Created on 19. März 2021, 18:49
  */
 
 #ifndef PRIMITIVES_H
 #define	PRIMITIVES_H
 
+float get_desired_val(int ctrl);
+float get_input_val(int ctrl);
+void stop(void);
+void turn_left(void);
+void turn_right(void);
+void turn_around(void);
 void move_forward(void);
-void move_side(void);
+void move_backward(void);
 
-#endif /* PATHPLANNING_H */
+#endif /* PRIMITIVES_H */
