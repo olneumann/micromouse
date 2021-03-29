@@ -16,5 +16,6 @@ void turn_right(void);
 void turn_around(void);
 void move_forward(void);
 void move_backward(void);
+void move_distance(int distance);
 
 #endif /* PRIMITIVES_H */

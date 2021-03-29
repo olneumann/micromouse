@@ -71,12 +71,21 @@ void stop(void)
     motor_right = 0.0f;
 }
 
-void move_straight(bool forward)
+void move_straight(bool forward, int distance)
 {
     motor_left = forward ? VEL_FW : VEL_BW;
     motor_right = forward ? VEL_FW : VEL_BW;
     
-    // 1st scenario: Mouse currently not enclosed by both sides and should move 
+    // 1st scenario: Mouse should travel given distance (distance is given
+    //               if != -1) without checking environment
+    if (distance != -1)
+    {
+        int tmp_distance = (int) 0.5f * (getDistanceLeft()+getDistanceRight());
+        // continue on straight
+        while (tmp_distance + distance >
+                (int) 0.5f * (getDistanceLeft()+getDistanceRight()));
+    }
+    // 2nd scenario: Mouse currently not enclosed by both sides and should move 
     //               to the next/previous cell
     if (getRangeLeft() + getRangeRight() > 160)
     {
@@ -129,10 +138,15 @@ void turn_around(void)
 
 void move_forward(void)
 {
-    move_straight(true);
+    move_straight(true, -1);
 }
 
 void move_backward(void)
 {
-    move_straight(false);
+    move_straight(false, -1);
+}
+
+void move_distance(int distance) // distance in um
+{
+    move_straight(distance>0 ? true : false, distance);
 }
