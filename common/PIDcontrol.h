@@ -11,6 +11,8 @@
 #ifndef PIDCONTROL_H
 #define	PIDCONTROL_H
 
+
+#include <stdbool.h>
 #include "../drivers/ranging.h"
 #include "../drivers/encoder.h"
 #include "../drivers/motor.h"
@@ -58,6 +60,9 @@ typedef struct {
 void PID_Init(param_pid *pid); /*resets function*/
 float PID_Update (param_pid *pid); /*output function*/
 
+
+void control_on(void);
+void control_off(void);
 
 void get_d_vel_right (void);
 void get_d_vel_left (void);

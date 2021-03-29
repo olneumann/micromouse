@@ -1,8 +1,7 @@
 #include "PIDcontrol.h"
 
 
-
-
+static volatile bool control_signal;
 
 void PID_Init(param_pid *pid) {
 
@@ -24,6 +23,16 @@ void PID_Init(param_pid *pid) {
 	pid->out_r = 0.0f;
 
 }
+    /*enabling and disabling motor control*/
+    void control_on(void){
+        control_signal=true;
+    }
+    void control_off(void){
+        control_signal=false;
+    }
+    
+
+
     /*setting desired velocities in m/s*/
     void set_d_vel_left (float desired_l){
         d_vel_left = desired_l;
@@ -59,7 +68,8 @@ float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
     float vel_lane_left;
     float vel_lane_right;
     
-    
+    if (control_signal==false)
+        return;
     
     /*desired velocities using readings + lane keeping velocity*/
     
