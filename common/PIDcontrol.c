@@ -47,14 +47,13 @@ void PID_Init(param_pid *pid) {
 float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
     float m_vel_l = getVelocityLeft();
     float m_vel_r = getVelocityRight();
-    float max_vel=21.0487;     
+   
     float out_vel_left;
     float out_vel_right;
-    float pwm_left;
-    float pwm_right;
+
     
     /*lane control parameters*/
-    float lane;
+
     float r_left = getRangeLeft(void);
     float r_right = getRangeRight(void);
     float vel_lane_left;
@@ -62,9 +61,33 @@ float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
     
     
     
-    /*desired velocities readings*/
-    float d_vel_l = get_d_vel_left();
-    float d_vel_r = get_d_vel_right();
+    /*desired velocities using readings + lane keeping velocity*/
+    
+    
+    if ((r_right < 10 ) ){ 
+			vel_lane_left = 0;
+			vel_lane_right = 2;
+
+		}
+
+	if (( r_left < 10 )  ){ 
+			vel_lane_left = 2;
+			vel_lane_right = 0;
+
+		}
+    
+    else {
+        vel_lane_left=0;
+        vel_lane_right=0;
+    }
+
+    
+    
+    float d_vel_l = get_d_vel_left() + vel_lane_left;
+    float d_vel_r = get_d_vel_right() + vel_lane_right;
+    
+    
+    
     
     /*error left and right*/
     float error_l = d_vel_l - m_vel_l;
@@ -164,40 +187,12 @@ float PID_update(param_pid *pid) { //d_vel is desired velocity of the motor
     
     /*PID ALGORITHM END*/
     
-    /*lane keeping (needs tuning)*/
-    /*lane keepng best in desired */
-    if (( r_left > 10 ) && (r_right < 10 ) ){ 
-			out_vel_left = 0;
-			out_vel_right = 0.01;
-
-		}
-
-	if (( r_left < 10 ) && (r_right > 10 ) ){ 
-			out_vel_left = 0.01;
-			out_vel_right = 0;
-
-		}
-    else {
-        out_vel_left=0;
-        out_vel_right=0;
-    }
-
     
-    /*output of velocity for the motor as PWM (percent)*/
+    /*output u of PID for the motor as PWM (percent)*/
    
-        pwm_left    =   out_vel_left/max_vel + out_vel_left;
-        pwm_right   =   out_vel_right/max_vel + out_vel_right;
+
         
-        
-        if (pwm_left > 1 ) {
-           pwm_left=1;
-        }
-        if (pwm_right > 1){
-            pwm_right=1;
-        }
-        
-        
-        driveLeft(pwm_left);
-        driveRight(pwm_right);
+        driveLeft(out_vel_left  );
+        driveRight(out_vel_right);
 }
 

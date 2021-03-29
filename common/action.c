@@ -8,8 +8,6 @@ float percent_right;    //desired percentage to drive right motor
 //use encoder counter
 
 
-//change placeholders to pid input
-
 void action_init(){
     
     motorInit();

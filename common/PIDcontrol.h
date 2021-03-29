@@ -28,8 +28,8 @@ typedef struct {
     float tau=0.0040;
     
     /*output limits - maximum and minimum values PWM*/
-    float outmin;
-    float outmax;
+    float outmin=-1;
+    float outmax=1;
     
     /*integratorlimits*/
     float MinInt;
