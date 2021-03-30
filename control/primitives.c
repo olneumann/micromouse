@@ -87,17 +87,19 @@ void move_straight(bool forward, int distance)
     }
     // 2nd scenario: Mouse currently not enclosed by both sides and should move 
     //               to the next/previous cell
-    if (getRangeLeft() + getRangeRight() > 160)
+    else if (getRangeLeft() + getRangeRight() > 160)
     {
         int tmp_distance = (int) 0.5f * (getDistanceLeft()+getDistanceRight());
         // continue on straight
         while (tmp_distance + (forward ? 1 : -1) * CELL_SIZE > // next cell not reached
                 (int) 0.5f * (getDistanceLeft()+getDistanceRight())
                 && (!forward || getRangeFront() > DIST_FRONT)); // not the end
+        while (getRangeLeft() + getRangeRight() < 160 && // enclosed on either side
+                (!forward || getRangeFront() > DIST_FRONT)); // not the end
         if (getRangeFront() > DIST_FRONT) // at the end emergency stop
             stop();
     }
-    // 2nd scenario: Mouse currently enclosed by both sides and should move forward
+    // 3rd scenario: Mouse currently enclosed by both sides and should move forward
     //               until not longer enclosed
     else
     {
