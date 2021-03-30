@@ -1,14 +1,14 @@
 #include "action.h"
 
 
-#define one_cell 20; // once cell distance (16cm) 
-#define turn_distance 20; // distance when mouse turns
+#define one_cell 2000; // once cell distance (16cm) 
+#define turn_distance 2000; // distance when mouse turns
 
 
 int d_vel_left;
 int d_vel_right;
 //use encoder counter
-float d_distance;
+
 enum move_type move;
 
 
@@ -18,9 +18,9 @@ void action_init(void){
     motorInit();
     d_vel_left=0;
     d_vel_right=0;
-    PID_Init();
+ 
     
-    
+    move = stop;
 }
 
 
@@ -126,17 +126,5 @@ control_on(void);
 
 }
 
-
-
-void action_stop(void){
-    control_on(void);
-    set_d_vel_left(0);
-    set_d_vel_right(0);
-    d_distance=0;
-    
-    move = stop;
-    
-    
-                   }
 
 

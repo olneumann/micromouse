@@ -35,15 +35,11 @@ void action_forward(void);
 
 void action_backward(void);
 
-void action_right(void);
+void action_turn_left(void);
 
-void action_left(void);
+void action_turn_right(void);
 
-void action_stop(void);
-
-
-
-void move_distance_front(int32_t start, float distance, float speed);
+void action_turn_around(void);
 
 
 
