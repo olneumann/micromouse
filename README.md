@@ -1,5 +1,5 @@
 # Micromouse
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Latest version](https://img.shields.io/github/v/release/olneumann/micromouse?include_prereleases)](https://github.com/olneumann/micromouse/releases) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 This repository was created during a university practical course. The task was to design an educational racing-robot from scratch. 
 
