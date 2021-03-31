@@ -10,13 +10,31 @@
 #include <stdbool.h>
 
 #include "../dspic/board.h"
+#include "../dspic/core.h"
 #include "../common/defines.h"
 #include "../drivers/encoder.h"
+#include "../control/control.h"
+#include "../manager/manager.h"
+
+#if defined VL53L0X_DEBUG || defined VL53L0X_HIGH_SPEED_DEBUG
 #include "../drivers/ranging.h"
 #include "../drivers/serial_uart.h"
 #include "../drivers/serial_i2c.h"
-#include "../drivers/motor.h"
+#endif
+#ifdef CONTROL_DEBUG
 #include "../control/pid.h"
+#include "../control/primitives.h"
+#include "../drivers/ranging.h"
+#include "../drivers/serial_uart.h"
+#endif
+#ifdef PRIMITIVES_DEBUG
+#include "../control/pid.h"
+#include "../control/primitives.h"
+#include "../drivers/ranging.h"
+#include "../drivers/serial_uart.h"
+
+bool runFlag = false;
+#endif
 
 #include "tasks.h"
 
@@ -33,20 +51,50 @@ void taskTest(void)
     sprintf(str, "%d\n", val);   
     uartWrite(str,0);  
 #endif
+#ifdef VL53L0X_HIGH_SPEED_DEBUG
+    char str[30];
+    sprintf(str, "[L %-.3f][F %-.3f][R %-.3f]\n",
+            getRangeLeft(),
+            getRangeFront(),
+            getRangeRight());
+    uartWrite(str,0);
+#endif
+#ifdef CONTROL_DEBUG
+    static float m = 0.5f;
+    setSetpointLinearVelocity(m*MAX_SPEED_MS);    
+    setSetpointDeltaSide(0.0f);
     
-    char str[100];
-    float range_l = getRangeLeft();
-    float range_f = getRangeFront();
-    float velo_l = getVelocityLeft();
-    float velo_r = getVelocityRight();
+    if (BTN)
+    {
+        m += 0.1f;
+        if (m > 0.95f) m = 0.1f;
+    }
+        
+    toggleMotorControl(true);
+    toggleSideControl(true);
+            
     
-    sprintf(str, "R: [%-.1f][%-.1f][%-.1f]\nV: [%-.3f][%-.3f]\n", 
-            range_l,range_f,0.0f,
-            velo_l,velo_r);   
-    uartWrite(str,0);  
-    
-    driveLeft(0);
-    driveRight(0);
+    char str[100];   
+    sprintf(str, "[IN %-.3f][R %-.3f][L %-.3f] [SUM %-.3f] [VL %-.3f] [VR %-.3f]\n", 
+            getInput(PID_DIST_SENSOR_SIDE),
+            getRangeRight(),
+            getRangeLeft(),
+            pidData[PID_DIST_SENSOR_SIDE].Sum,
+            getLinearVelocityLeft(),
+            getLinearVelocityRight());
+    uartWrite(str,0);
+#endif
+#ifdef PRIMITIVES_DEBUG
+    if (runFlag)
+    {
+        move(MOVE_FRONT);
+        move(MOVE_TURN);
+        move(MOVE_FRONT);
+        move(MOVE_END);
+
+        runFlag = false;
+    }   
+#endif    
 }
 
 void taskEncoder(uint16_t freq)
@@ -54,15 +102,23 @@ void taskEncoder(uint16_t freq)
     updateEncoderReadings(freq);
 }
 
-void taskRanging(uint16_t freq)
-{
-    // do we need it in the end?
-}
-
 void taskControl(uint16_t freq)
 {
-    //timeUs_t currentTimeUs;
-    //pidController(currentTimeUs);
-    //writeMotors();
+    int update_rate = SETPOINT_UPDATE_RATE;    
+    static int i = 0;
+    if (i == 0) updateSlidingSetpointVelocity();
+    motorControl();
+    
+    i++;
+    if (i == update_rate) i = 0;
 }
 
+void taskDiscovery(void)
+{
+    start_discovery();
+}
+
+void taskInference(void)
+{
+    start_inference();
+}

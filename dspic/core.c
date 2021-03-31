@@ -28,17 +28,12 @@ void encoder_loop(uint16_t freq)
     taskEncoder(freq);
 }
 
-void ranging_loop(uint16_t freq)
-{
-    taskRanging(freq);
-}
-
 void explore(void)
 {
-    // exploration phase
+    taskDiscovery();
 }
 
-void fast_run(void)
+void inference(void)
 {
-    // final fast run
+    taskInference();
 }

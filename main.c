@@ -25,7 +25,9 @@ int main(void)
 void run(void)
 {
     while (true) {
-        // explore() and then fast_run()
+        //explore();
+        
+        //if (BTN) inference();
     }
 }
 

@@ -10,6 +10,13 @@
 
 #include "xc.h"
 
+/* Debug */
+//#define VL53L0X_DEBUG
+//#define VL53L0X_DEBUG_LOG
+//#define VL53L0X_HIGH_SPEED_DEBUG
+//#define CONTROL_DEBUG
+//#define PRIMITIVES_DEBUG
+
 /* Frequencies */
 #define FOSC        (62500000UL)
 #define FCY         (FOSC/2)  

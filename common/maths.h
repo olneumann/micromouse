@@ -8,6 +8,8 @@
 #ifndef MATHS_H
 #define	MATHS_H
 
+#define M_PI (float)3.14159
+
 #define MIN(a,b) \
   __extension__ ({ __typeof__ (a) _a = (a); \
   __typeof__ (b) _b = (b); \

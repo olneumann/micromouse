@@ -14,6 +14,7 @@
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pid.h</itemPath>
         <itemPath>control/primitives.h</itemPath>
+        <itemPath>control/control.h</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
@@ -50,6 +51,24 @@
       </logicalFolder>
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.h</itemPath>
+        <itemPath>io/hmi.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="manager" displayName="manager" projectFiles="true">
+        <itemPath>manager/manager.h</itemPath>
+        <itemPath>manager/actions.h</itemPath>
+        <itemPath>manager/solver.h</itemPath>
+        <itemPath>manager/mouse_state.h</itemPath>
+        <itemPath>manager/shortest_path.h</itemPath>
+        <itemPath>manager/inference.h</itemPath>
+        <itemPath>manager/map_updater.h</itemPath>
+        <itemPath>manager/discovery.h</itemPath>
+        <itemPath>manager/manager_definitions.h</itemPath>
+        <itemPath>manager/manager_parameters.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="simulation" displayName="simulation" projectFiles="true">
+        <itemPath>simulation/simulation_main.h</itemPath>
+        <itemPath>simulation/simulation_common.h</itemPath>
+        <itemPath>simulation/simulation_maps.h</itemPath>
       </logicalFolder>
       <itemPath>platform.h</itemPath>
     </logicalFolder>
@@ -69,6 +88,7 @@
       <logicalFolder name="control" displayName="control" projectFiles="true">
         <itemPath>control/pid.c</itemPath>
         <itemPath>control/primitives.c</itemPath>
+        <itemPath>control/control.c</itemPath>
       </logicalFolder>
       <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
         <logicalFolder name="vl53l0x" displayName="vl53l0x" projectFiles="true">
@@ -99,6 +119,22 @@
       </logicalFolder>
       <logicalFolder name="io" displayName="io" projectFiles="true">
         <itemPath>io/serial.c</itemPath>
+        <itemPath>io/hmi.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="manager" displayName="manager" projectFiles="true">
+        <itemPath>manager/actions.c</itemPath>
+        <itemPath>manager/discovery.c</itemPath>
+        <itemPath>manager/solver.c</itemPath>
+        <itemPath>manager/shortest_path.c</itemPath>
+        <itemPath>manager/manager.c</itemPath>
+        <itemPath>manager/map_updater.c</itemPath>
+        <itemPath>manager/mouse_state.c</itemPath>
+        <itemPath>manager/inference.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="simulation" displayName="simulation" projectFiles="true">
+        <itemPath>simulation/simulation_common.c</itemPath>
+        <itemPath>simulation/simulation_maps.c</itemPath>
+        <itemPath>simulation/simulation_main.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
@@ -114,6 +150,8 @@
     <Elem>drivers</Elem>
     <Elem>dspic</Elem>
     <Elem>io</Elem>
+    <Elem>manager</Elem>
+    <Elem>simulation</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -161,7 +199,7 @@
       <C30>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>
-        <property key="data-model" value="default"/>
+        <property key="data-model" value="small-data"/>
         <property key="disable-instruction-scheduling" value="false"/>
         <property key="enable-all-warnings" value="true"/>
         <property key="enable-ansi-std" value="false"/>
@@ -174,7 +212,7 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories" value=""/>
-        <property key="isolate-each-function" value="false"/>
+        <property key="isolate-each-function" value="true"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
         <property key="oXC16gcc-cnsts-mauxflash" value="false"/>
@@ -258,7 +296,7 @@
         <property key="oXC16ld-nostdlib" value="false"/>
         <property key="oXC16ld-stackguard" value="16"/>
         <property key="preprocessor-macros" value=""/>
-        <property key="remove-unused-sections" value="false"/>
+        <property key="remove-unused-sections" value="true"/>
         <property key="report-memory-usage" value="true"/>
         <property key="secure-eeprom" value="no_eeprom"/>
         <property key="secure-flash" value="no_flash"/>
@@ -276,7 +314,7 @@
         <property key="generic-16-bit" value="false"/>
         <property key="legacy-libc" value="true"/>
         <property key="mpreserve-all" value="false"/>
-        <property key="oXC16glb-macros" value=""/>
+        <property key="oXC16glb-macros" value="SIMULATOR"/>
         <property key="omit-pack-options" value="1"/>
         <property key="output-file-format" value="elf"/>
         <property key="preserve-all" value="false"/>
@@ -797,7 +835,7 @@
       <C30>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>
-        <property key="data-model" value="default"/>
+        <property key="data-model" value="small-data"/>
         <property key="disable-instruction-scheduling" value="false"/>
         <property key="enable-all-warnings" value="true"/>
         <property key="enable-ansi-std" value="false"/>
@@ -810,7 +848,7 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories" value=""/>
-        <property key="isolate-each-function" value="false"/>
+        <property key="isolate-each-function" value="true"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
         <property key="oXC16gcc-cnsts-mauxflash" value="false"/>
@@ -823,10 +861,10 @@
         <property key="oXC16gcc-name-text-sec" value=""/>
         <property key="oXC16gcc-near-chars" value="false"/>
         <property key="oXC16gcc-no-isr-warn" value="false"/>
-        <property key="oXC16gcc-sfr-warn" value="false"/>
+        <property key="oXC16gcc-sfr-warn" value="true"/>
         <property key="oXC16gcc-smar-io-lvl" value="1"/>
         <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="1"/>
+        <property key="optimization-level" value="2"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>
@@ -894,7 +932,7 @@
         <property key="oXC16ld-nostdlib" value="false"/>
         <property key="oXC16ld-stackguard" value="16"/>
         <property key="preprocessor-macros" value=""/>
-        <property key="remove-unused-sections" value="false"/>
+        <property key="remove-unused-sections" value="true"/>
         <property key="report-memory-usage" value="true"/>
         <property key="secure-eeprom" value="no_eeprom"/>
         <property key="secure-flash" value="no_flash"/>

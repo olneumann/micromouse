@@ -28,7 +28,7 @@ int timerParams(uint16_t _ms, volatile uint16_t* pTiCON, volatile uint16_t* pTMR
 {
     int err = -1;
     
-    long double ticks = _ms * 1e-3 * FCY; 
+    long double ticks = (long double)FCY * _ms / 1e3; 
     int iTCKPS[4] = {1,8,64,256};                   // (00 | 01 | 10 | 11)
     char maskTCKPS[4] = {0x00,0x10,0x20,0x30};      // mask for setting 2 bits (xxxx.xxxx xx--.xxxx)
     int i = 0;
@@ -72,8 +72,8 @@ void timerInit(void)
     timerParams(RANGING_UPDATE_PERIODE_MS, &T3CON, &TMR3, &PR3);    
         
     // interrupt params
-    IPC0bits.T1IP = 4;      // prios
-    IPC1bits.T2IP = 4;      
+    IPC0bits.T1IP = 6;      // prios
+    IPC1bits.T2IP = 5;      
     IPC2bits.T3IP = 4;
     
     IFS0bits.T1IF = 0;      // reset both flags
@@ -89,8 +89,7 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
 {
     /* Clear Timer1 interrupt flag */
     IFS0bits.T1IF = 0;
-    debug();
-    //control_loop(CONTROL_LOOP_FREQ_HZ);
+    control_loop(CONTROL_LOOP_FREQ_HZ);
     
     static int watchdog = 0;
     watchdog += CONTROL_LOOP_PERIODE_MS;
@@ -112,5 +111,6 @@ void __attribute__((__interrupt__,no_auto_psv)) _T3Interrupt(void)
 {
     /* Clear Timer3 interrupt flag */
     IFS0bits.T3IF = 0;
+    debug();
     //ranging_loop(RANGING_UPDATE_FREQ_HZ);
 }

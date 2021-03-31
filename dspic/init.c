@@ -10,14 +10,15 @@
 #include <stddef.h>
 
 #include "board.h"
+#include "../common/logger.h"
+#include "../dspic/core.h"
 #include "../io/serial.h"
 #include "../drivers/timer.h"
-#include "../drivers/dma.h"
-#include "../drivers/adc.h"
 #include "../drivers/motor.h"
 #include "../drivers/encoder.h"
 #include "../drivers/ranging.h"
-#include "../common/logger.h"
+#include "../control/pid.h"
+#include "../manager/manager.h"
 
 #include "init.h"
 
@@ -25,7 +26,8 @@ void init(void)
 {
     boardInit();
     serialInit();
-      
+    loggerInit();
+    
     /* TODO: (if no dc/dc converter) setup analog pin for sensing battery voltage */
     //adcInit();
     
@@ -39,17 +41,27 @@ void init(void)
     
     motorInit(20);
     qeiInit();
+    
+    pidProfileInit();
+    pidInit(CONTROL_LOOP_PERIODE_MS);
+    
+#ifndef SIMULATOR
     rangingInit(200);
     enableRanging();
+#endif
     
     /* 
      * Main loop:
-     * Generates task calls for control (pid), sensing (range, encoder)
+     * Generates task calls for control (pid), sensing (range, encoder). 
+     * Finally, the manager is called to do an exploration phase and then infere
+     * the final path to the goal position.
      * 
      */
     
     timerInit(); 
     enableTimer();
+   
+    initManager();
 }
     
   

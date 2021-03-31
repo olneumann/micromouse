@@ -13,6 +13,12 @@ extern "C" {
 #endif
     
 #include "__logger__.h"
+#include "../manager/manager_parameters.h"
+
+#if (RUNNING_ON_MICROPROCESSOR)
+#include "../drivers/serial_uart.h"
+#endif
+
 /**
  * init a logger and return it
  * @return logger struct
