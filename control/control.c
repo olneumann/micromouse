@@ -150,7 +150,7 @@ void updateSlidingSetpointVelocity(void)
     * Description: Updates the input setpoint velocity of the motor pid control.
     *              Doing turns or staying in the middle of the path is implemented in a
     *              way that deviations (calculated via secondary pid-controllers) changes
-    *              the ideal inear setpoint velocity value for driving straight. A global
+    *              the ideal linear setpoint velocity value for driving straight. A global
     *              SPEED_LIMIT value restricts the output of the sliding setpoint value.
     * 
     */

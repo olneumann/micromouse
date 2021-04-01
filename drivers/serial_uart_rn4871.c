@@ -56,7 +56,7 @@ void setBTmode(bt_mode_t mode)
          * If the user intends to provide data or commands via UART in the Low-Power mode, 
          * then the UART_RX_IND pin must be pulled low and the user needs 
          * to wait for at least five milliseconds before sending the data. 
-         * Pulling the UART_RX_IND pin low allows the
+         * Pulling the UART_RX_IND pin low resumes the normal operation mode.
          */
         
         UART_RX_IND = 0;
